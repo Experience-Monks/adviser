@@ -1,0 +1,4 @@
+{
+  "extends": ["jam3", "plugin:jest/recommended"],
+  "plugins": ["jest"]
+}
