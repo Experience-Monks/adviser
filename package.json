@@ -63,5 +63,11 @@
       "pre-push": "echo 'Pre-push checks...' && npm run test-ci",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "dependencies": {
+    "debug": "4.1.1",
+    "lodash": "4.17.11",
+    "mkdirp": "0.5.1",
+    "optionator": "0.8.2"
   }
 }
