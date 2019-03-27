@@ -18,6 +18,8 @@ class CLIEngine {
 
     this.config = new Config(this.options.cwd, this.options.configFile);
   }
+
+  empty() {}
 }
 
 module.exports = CLIEngine;

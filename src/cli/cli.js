@@ -34,7 +34,7 @@ class CLI {
       const engineOptions = this.prepareEngineOptions(currentOptions);
       const engine = new CLIEngine(engineOptions);
 
-      logger.info(engine);
+      engine.empty();
 
       if (currentOptions.quiet) {
         debug('Quiet mode enabled - filtering out warnings');

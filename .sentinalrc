@@ -1,6 +1,15 @@
 {
-  "plugins": [],
-  "extends": [],
-  "rules": {},
-  "settings": {}
+  "plugins": ["plugin1", "plugin2"],
+  "extends": ["extend1", "extend2"],
+  "rules": {
+    "exampleWarnRule": "warm",
+    "exampleErrorRule": "error",
+    "exampleOffRule": "off",
+    "exampleFullWarnRule": ["warn", {}],
+    "exampleFullErrorRule": ["warn", {}]
+  },
+  "settings": {
+    "plugin1": {},
+    "plugin2": {}
+  }
 }

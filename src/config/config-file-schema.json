@@ -2,6 +2,17 @@
   "title": "Sentinal Config File Schema",
   "description": "Use to validate user's sentinal configuration files",
   "type": "object",
+  "definitions": {
+    "rule-str": {
+      "type": "string",
+      "enum": ["off", "warn", "error"]
+    },
+    "rule-num": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 2
+    }
+  },
   "properties": {
     "plugins": {
       "type": ["array"],
@@ -16,6 +27,28 @@
       }
     },
     "settings": { "type": "object" },
-    "rules": { "type": "object" }
+    "rules": {
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "anyOf": [
+            { "$ref": "#/definitions/rule-str" },
+            { "$ref": "#/definitions/rule-num" },
+            {
+              "type": ["array"],
+              "items": [
+                {
+                  "anyOf": [{ "$ref": "#/definitions/rule-str" }, { "$ref": "#/definitions/rule-num" }]
+                },
+                {
+                  "type": "object"
+                }
+              ],
+              "additionalItems": false
+            }
+          ]
+        }
+      }
+    }
   }
 }
