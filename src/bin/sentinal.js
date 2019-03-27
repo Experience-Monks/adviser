@@ -3,21 +3,25 @@
 /**
  * @fileoverview CLI that is run via the sentinal command.
  *
- * Inspired on ESLint's architecture
  */
 
 'use strict';
 
 const uncaughtExceptionHandler = require('./uncaughtExceptionHandler');
-const cli = require('../cli');
+const cli = require('../cli/cli');
+const logger = require('../utils/logger');
 
-// TODO: Use here yargs-parser or an alternative
-const init = process.argv.indexOf('--init') > -1;
+const isInitEnabled = process.argv.indexOf('--init') > -1;
+const isDebugEnabled = process.argv.indexOf('--debug') > -1;
+
+if (isDebugEnabled) {
+  require('debug').enable('sentinal:*');
+}
 
 process.once('uncaughtException', uncaughtExceptionHandler);
 
-if (init) {
-  // TODO: Create init procedure
+if (isInitEnabled) {
+  logger.info('TODO: [In Progress] Create init procedure');
 } else {
   process.exitCode = cli.execute(process.argv);
 }

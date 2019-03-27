@@ -1,0 +1,21 @@
+{
+  "title": "Sentinal Config File Schema",
+  "description": "Use to validate user's sentinal configuration files",
+  "type": "object",
+  "properties": {
+    "plugins": {
+      "type": ["array"],
+      "items": {
+        "type": "string"
+      }
+    },
+    "extends": {
+      "type": ["array"],
+      "items": {
+        "type": "string"
+      }
+    },
+    "settings": { "type": "object" },
+    "rules": { "type": "object" }
+  }
+}

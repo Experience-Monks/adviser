@@ -7,15 +7,16 @@
 'use strict';
 
 const debug = require('debug')('sentinal:cli-engine');
-const logger = require('../utils/logger');
 
-const defaultOptions = {};
+const defaultOptions = require('./default-engine-options');
+const Config = require('../config/config');
 
 class CLIEngine {
   constructor(providedOptions) {
-    const options = Object.assign({}, defaultOptions, { cwd: process.cwd() }, providedOptions);
-    logger(options);
     debug('Running CLI Engine');
+    this.options = Object.assign({}, defaultOptions, { cwd: process.cwd() }, providedOptions);
+
+    this.config = new Config(this.options.cwd, this.options.configFile);
   }
 }
 

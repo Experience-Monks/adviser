@@ -1,7 +1,6 @@
 /**
  * @fileoverview Wrapper for native console
  *
- * Inspired on ESLint's architecture
  */
 
 'use strict';

@@ -65,6 +65,8 @@
     }
   },
   "dependencies": {
+    "ajv": "6.10.0",
+    "cosmiconfig": "5.1.0",
     "debug": "4.1.1",
     "lodash": "4.17.11",
     "mkdirp": "0.5.1",

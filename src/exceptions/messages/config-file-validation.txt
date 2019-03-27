@@ -1,0 +1,5 @@
+Sentinal couldn't parse the configuration file in <%= path %>.
+
+The following errors were found:
+<%= errors %>
+If you think you need more help, please open an issue in the GitHub Repository
