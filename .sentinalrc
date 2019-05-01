@@ -2,7 +2,7 @@
   "plugins": ["plugin1", "plugin2"],
   "extends": ["extend1", "extend2"],
   "rules": {
-    "exampleWarnRule": "warm",
+    "exampleWarnRule": "warn",
     "exampleErrorRule": "error",
     "exampleOffRule": "off",
     "exampleFullWarnRule": ["warn", {}],

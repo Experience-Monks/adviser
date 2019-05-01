@@ -1,0 +1,14 @@
+{
+  "name": "example-package",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Iran Reyes <iranreyesfleitas@gmail.com> (http://www.iranreyes.com)",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^1.2.1"
+  }
+}

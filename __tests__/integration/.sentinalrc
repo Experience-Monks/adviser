@@ -1,0 +1,6 @@
+{
+  "plugins": ["audit-npm"],
+  "rules": {
+    "audit-npm/min-vulnerabilities-allowed": ["error", { "level": "high" }]
+  }
+}
