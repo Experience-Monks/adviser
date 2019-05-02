@@ -8,8 +8,8 @@
 const path = require('path');
 const cosmiconfig = require('cosmiconfig');
 
-const ConfigFileNotFoundError = require('../exceptions/configFileNotFoundError');
-const ConfigFilePathNotFoundError = require('../exceptions/configFilePathNotFoundError');
+const ConfigFileNotFoundError = require('../errors/exceptions/config-file-not-found-error');
+const ConfigFilePathNotFoundError = require('../errors/exceptions/config-file-path-not-found-error');
 
 const ConfigValidator = require('./config-validator');
 const Plugins = require('./plugins');
@@ -27,8 +27,6 @@ class Config {
     } else {
       foundConfigFile = this.searchConfigFile(currentDirectory);
     }
-
-    // logger.info(foundConfigFile.config);
 
     const configValidator = new ConfigValidator(foundConfigFile.config, foundConfigFile.filepath);
     configValidator.validate();
@@ -57,13 +55,9 @@ class Config {
             qualifiedRuleId,
             rule
           });
-
-          // this.rules.define(qualifiedRuleId, rule);
         });
       }
     });
-
-    // console.log(this.pluginRules);
 
     if (foundConfigFile.config.rules) {
       Object.keys(foundConfigFile.config.rules).forEach(ruleName => {

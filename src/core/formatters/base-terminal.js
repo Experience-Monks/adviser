@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Base Terminal formatter
+ *
+ */
+
 'use strict';
 
 const lodash = require('lodash');
@@ -15,7 +20,12 @@ function pluralize(word, count) {
   return count === 1 ? word : `${word}s`;
 }
 
-function stylish(results) {
+/**
+ * Creates a result output for the terminal
+ * @param {Object} results
+ * @returns {String} Summary output
+ */
+function baseTerminal(results) {
   let output = '\n';
   let errorCount = 0;
   let warningCount = 0;
@@ -79,4 +89,4 @@ function stylish(results) {
   return total > 0 ? output : '';
 }
 
-module.exports = stylish;
+module.exports = baseTerminal;

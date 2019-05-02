@@ -7,7 +7,7 @@
 
 const Ajv = require('ajv');
 
-const ConfigFileValidationError = require('../exceptions/configFileValidationError');
+const ConfigFileValidationError = require('../errors/exceptions/config-file-validation-error');
 const configFileSchema = require('./config-file-schema.json');
 
 class ConfigValidator {
@@ -27,9 +27,6 @@ class ConfigValidator {
 
   validate() {
     this.validateConfigSchema();
-    // Load Plugins - validate if they exist
-    // Load Extends - validate if they exist and merge
-    // TODO: validate Rules (global format, call plugin for custom validation)
   }
 
   validateConfigSchema() {

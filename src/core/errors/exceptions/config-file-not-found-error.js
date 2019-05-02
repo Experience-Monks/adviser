@@ -5,7 +5,7 @@
 
 'use strict';
 
-const messages = require('./messages');
+const messages = require('../messages');
 
 const DEFAULT_ERROR_MESSAGE = 'No Sentinal configuration found.';
 

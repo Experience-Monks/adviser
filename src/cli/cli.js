@@ -1,17 +1,21 @@
 /**
- * @fileoverview CLI Options parser
+ * @fileoverview Parses the CLI parameters options
  *
- * Parses the parameters options
  */
 
 'use strict';
 
 const debug = require('debug')('sentinal:cli');
 
-const CLIEngine = require('./cli-engine');
+const Engine = require('../core/engine');
 const options = require('./options');
 const logger = require('../utils/logger');
 
+/**
+ * CLI Entry point and option parser class
+ *
+ * @class CLI
+ */
 class CLI {
   execute(args, text) {
     let currentOptions;
@@ -32,7 +36,7 @@ class CLI {
       debug('Sentinal running on files');
 
       const engineOptions = this.prepareEngineOptions(currentOptions);
-      const engine = new CLIEngine(engineOptions);
+      const engine = new Engine(engineOptions);
 
       engine.run();
 

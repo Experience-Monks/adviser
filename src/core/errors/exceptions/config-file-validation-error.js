@@ -5,7 +5,7 @@
 
 'use strict';
 
-const messages = require('./messages');
+const messages = require('../messages');
 
 class ConfigFileValidationError extends Error {
   constructor(message, path, errors) {

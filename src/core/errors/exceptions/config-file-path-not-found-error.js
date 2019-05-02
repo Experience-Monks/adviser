@@ -5,8 +5,8 @@
 
 'use strict';
 
-const ConfigFileNotFoundError = require('./configFileNotFoundError');
-const messages = require('./messages');
+const ConfigFileNotFoundError = require('./config-file-not-found-error');
+const messages = require('../messages');
 
 class ConfigFilePathNotFoundError extends ConfigFileNotFoundError {
   constructor(path = null) {

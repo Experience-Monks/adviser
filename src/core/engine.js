@@ -1,21 +1,20 @@
 /**
- * @fileoverview Main CLI object
+ * @fileoverview Sentinal engine core
  *
- * Inspired on ESLint's architecture
  */
 
 'use strict';
 
-const debug = require('debug')('sentinal:cli-engine');
+const debug = require('debug')('sentinal:engine');
 
 const logger = require('../utils/logger');
 
 const defaultOptions = require('./default-engine-options');
-const Config = require('../config/config');
+const Config = require('./config/config');
 
-class CLIEngine {
+class Engine {
   constructor(providedOptions) {
-    debug('Running CLI Engine');
+    debug('Running engine');
     this.options = Object.assign({}, defaultOptions, { cwd: process.cwd() }, providedOptions);
 
     this.config = new Config(this.options.cwd, this.options.configFile);
@@ -50,8 +49,8 @@ class CLIEngine {
   }
 
   getFormatter(format) {
-    const formatName = 'stylish';
-    const formatterPath = `../formatters/${formatName}`;
+    const formatName = 'base-terminal';
+    const formatterPath = `./formatters/${formatName}`;
 
     try {
       return require(formatterPath);
@@ -83,4 +82,4 @@ class CLIEngine {
   }
 }
 
-module.exports = CLIEngine;
+module.exports = Engine;

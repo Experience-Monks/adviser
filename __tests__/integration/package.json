@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "sentinal": "node ./node_modules/sentinal/src/bin/sentinal -c .sentinalrc"
+    "sentinal": "node ./node_modules/sentinal/src/cli/bin/sentinal -c .sentinalrc"
   },
   "dependencies": {
     "sentinal-plugin-audit-npm": "0.0.1",
