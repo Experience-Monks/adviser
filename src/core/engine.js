@@ -8,7 +8,6 @@
 const debug = require('debug')('sentinal:engine');
 
 const logger = require('../utils/logger');
-
 const defaultOptions = require('./default-engine-options');
 const Config = require('./config/config');
 
@@ -25,6 +24,7 @@ class Engine {
   run() {
     // TODO: Make it running in parallel
     this.config.rules.getAllLoadedRules().forEach(rule => {
+      // TODO: Define a better structure sandbox (ruleContext)
       const ruleContext = {
         options: rule.settings,
         dirname: this.options.cwd,
@@ -48,8 +48,7 @@ class Engine {
     this._rawIssues.push(context);
   }
 
-  getFormatter(format) {
-    const formatName = 'base-terminal';
+  getFormatter(formatName) {
     const formatterPath = `./formatters/${formatName}`;
 
     try {
@@ -60,7 +59,7 @@ class Engine {
   }
 
   printResults() {
-    const formatter = this.getFormatter();
+    const formatter = this.getFormatter(this.options.outputFormat);
 
     const output = formatter(this._rawIssues);
 

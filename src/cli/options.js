@@ -1,7 +1,6 @@
 /**
  * @fileoverview Options configuration for optionator.
  *
- * Inspired on ESLint's architecture
  */
 
 'use strict';
@@ -45,7 +44,7 @@ module.exports = optionator({
       option: 'format',
       alias: 'f',
       type: 'String',
-      default: 'stylish',
+      default: 'base',
       description: 'Use a specific output format'
     },
     {

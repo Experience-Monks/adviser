@@ -25,7 +25,7 @@ function pluralize(word, count) {
  * @param {Object} results
  * @returns {String} Summary output
  */
-function baseTerminal(results) {
+function base(results) {
   let output = '\n';
   let errorCount = 0;
   let warningCount = 0;
@@ -89,4 +89,4 @@ function baseTerminal(results) {
   return total > 0 ? output : '';
 }
 
-module.exports = baseTerminal;
+module.exports = base;

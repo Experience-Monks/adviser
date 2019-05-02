@@ -5,26 +5,29 @@
 
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const lodash = require('lodash');
-
 const logger = require('../../utils/logger');
+const globalContext = require('../global-context');
+const templateLoader = require('./template-loader');
 
 /**
- * Load a templated message or stream the error to the terminal
+ * Handles error exceptions output
  *
  * @param {Error} NodeJS Error Object
  */
 function errorHandler(exceptionError) {
   if (typeof exceptionError.messageTemplate === 'string' && exceptionError.messageTemplate.length > 0) {
-    const template = lodash.template(
-      fs.readFileSync(path.resolve(__dirname, `./messages/${exceptionError.messageTemplate}.txt`), 'utf-8')
-    );
-    const pkg = require('../../../package.json');
+    templateLoader.setTemplateId(exceptionError.messageTemplate);
+    const packageVersion = globalContext.getVersion();
 
-    logger.error('\nOops! Something went wrong! :(');
-    logger.error(`\nSentinal: v${pkg.version}\n${template(exceptionError.data || {})}`);
+    if (templateLoader.exist()) {
+      const template = templateLoader.load();
+
+      logger.error('\nOops! Something went wrong! :(');
+      logger.error(`\nSentinal: v${packageVersion}\n${template(exceptionError.data || {})}`);
+    } else {
+      logger.error('\nOops! Something went wrong! :(');
+      logger.error(`\nSentinal: v${packageVersion}\nThe error template doesn't exist`);
+    }
   } else {
     logger.error(exceptionError.stack);
   }

@@ -1,6 +1,6 @@
 'use strict';
 
-const logger = require('../../src-refactor/utils/logger');
+const logger = require('../../src/utils/logger');
 
 describe('Print expected message', () => {
   test('Check if it prints a number', () => {

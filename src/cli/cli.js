@@ -10,6 +10,7 @@ const debug = require('debug')('sentinal:cli');
 const Engine = require('../core/engine');
 const options = require('./options');
 const logger = require('../utils/logger');
+const globalContext = require('../core/global-context');
 
 /**
  * CLI Entry point and option parser class
@@ -17,7 +18,12 @@ const logger = require('../utils/logger');
  * @class CLI
  */
 class CLI {
-  execute(args, text) {
+  /**
+   * Execute CLI logic based on parameters
+   *
+   * @param {Array} args Process.argv output
+   */
+  execute(args) {
     let currentOptions;
 
     try {
@@ -29,19 +35,20 @@ class CLI {
     }
 
     if (currentOptions.version) {
-      logger.info(`v${require('../../package.json').version}`);
+      logger.info(`v${globalContext.getVersion()}`);
     } else if (currentOptions.help) {
       logger.info(options.generateHelp());
     } else {
-      debug('Sentinal running on files');
+      debug('Sentinal running the engine');
 
-      const engineOptions = this.prepareEngineOptions(currentOptions);
+      const engineOptions = this._prepareEngineOptions(currentOptions);
       const engine = new Engine(engineOptions);
 
       engine.run();
 
       if (currentOptions.quiet) {
         debug('Quiet mode enabled - filtering out warnings');
+        // TODO: To be build
       }
 
       return 2;
@@ -50,7 +57,12 @@ class CLI {
     return 0;
   }
 
-  prepareEngineOptions(cliOptions) {
+  /**
+   * Create the engine options object
+   *
+   * @param {Object} cliOptions
+   */
+  _prepareEngineOptions(cliOptions) {
     const engineOptions = {
       outputFormat: cliOptions.format
     };
