@@ -1,8 +1,8 @@
 'use strict';
 
 const logger = require('../../src/utils/logger');
-const templateLoader = require('../../src/core/errors/template-loader');
-const errorHandler = require('../../src/core/errors/error-handler');
+const TemplateLoader = require('../../src/core/errors/template-loader');
+const ErrorHandler = require('../../src/core/errors/error-handler');
 
 const errorProcessExitCode = 2;
 
@@ -12,7 +12,8 @@ describe('Print expected message', () => {
 
     logger.error = jest.fn();
 
-    errorHandler(sampleError);
+    const errorHandler = new ErrorHandler();
+    errorHandler.onError(sampleError);
 
     expect(logger.error.mock.calls.length).toBe(1);
     expect(process.exitCode).toBe(errorProcessExitCode);
@@ -29,7 +30,9 @@ describe('Print expected message', () => {
 
     logger.error = jest.fn(storeLog.bind(this));
 
-    errorHandler(sampleError);
+    const templateLoader = new TemplateLoader();
+    const errorHandler = new ErrorHandler(templateLoader);
+    errorHandler.onError(sampleError);
 
     expect(logger.error.mock.calls.length).toBe(2);
     expect(output).toEqual(expect.stringContaining(`The error template doesn't exist`));
@@ -41,6 +44,8 @@ describe('Print expected message', () => {
 
     const sampleError = new Error();
     sampleError.messageTemplate = 'test';
+
+    const templateLoader = new TemplateLoader();
 
     templateLoader.setTemplateId('test');
     templateLoader.exist = jest.fn(() => {
@@ -55,7 +60,8 @@ describe('Print expected message', () => {
 
     logger.error = jest.fn(storeLog.bind(this));
 
-    errorHandler(sampleError);
+    const errorHandler = new ErrorHandler(templateLoader);
+    errorHandler.onError(sampleError);
 
     expect(logger.error.mock.calls.length).toBe(2);
     expect(output).toEqual(expect.stringContaining(templateCopy));

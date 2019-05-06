@@ -7,5 +7,6 @@
 module.exports = {
   configFile: null,
   outputDirectory: null,
-  outputFormat: 'stylish'
+  outputFormat: 'base',
+  cwd: process.cwd()
 };

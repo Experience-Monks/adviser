@@ -6,80 +6,49 @@
 'use strict';
 
 const path = require('path');
+const fs = require('fs');
 const cosmiconfig = require('cosmiconfig');
 
 const ConfigFileNotFoundError = require('../errors/exceptions/config-file-not-found-error');
 const ConfigFilePathNotFoundError = require('../errors/exceptions/config-file-path-not-found-error');
+const ConfigFileValidationError = require('../errors/exceptions/config-file-validation-error');
 
-const ConfigValidator = require('./config-validator');
-const Plugins = require('./plugins');
-const Rules = require('./rules');
+const configFileSchema = require('./data/config-file-schema.json');
+const SchemaValidator = require('./schema-validator');
 
 const MODULE_NAME = 'sentinal';
 
 class Config {
-  constructor(currentDirectory, configFilePath) {
-    this._configFileExplorer = cosmiconfig(MODULE_NAME);
-    let foundConfigFile = null;
+  constructor(filePath = null, fileExplorer = null) {
+    this._config = null;
 
-    if (configFilePath) {
-      foundConfigFile = this.loadConfigFileFromPath(configFilePath);
-    } else {
-      foundConfigFile = this.searchConfigFile(currentDirectory);
-    }
+    // this._configFileExplorer = fileExplorer ? fileExplorer : cosmiconfig(MODULE_NAME);
 
-    const configValidator = new ConfigValidator(foundConfigFile.config, foundConfigFile.filepath);
-    configValidator.validate();
-
-    this.plugins = new Plugins(currentDirectory);
-
-    // Load the plugins
-    if (foundConfigFile.config.plugins) {
-      this.plugins.loadAll(foundConfigFile.config.plugins);
-    }
-
-    this.rules = new Rules();
-    this.pluginRules = [];
-
-    // Load the rules defined in the plugins
-    Object.keys(this.plugins.getAll()).forEach(pluginName => {
-      const plugin = this.plugins.get(pluginName);
-      if (plugin.rules) {
-        Object.keys(plugin.rules).forEach(ruleId => {
-          const qualifiedRuleId = `${pluginName}/${ruleId}`;
-          const rule = plugin.rules[ruleId];
-
-          this.pluginRules.push({
-            pluginName,
-            ruleId,
-            qualifiedRuleId,
-            rule
-          });
-        });
-      }
-    });
-
-    if (foundConfigFile.config.rules) {
-      Object.keys(foundConfigFile.config.rules).forEach(ruleName => {
-        // Validate the rules than don't belong
-        const normalizedRuleName = ruleName.indexOf('sentinal-plugin') < 0 ? `sentinal-plugin-${ruleName}` : ruleName;
-        const pluginRule = this.pluginRules.find(pluginRule => pluginRule.qualifiedRuleId === normalizedRuleName);
-
-        if (!pluginRule) {
-          throw new Error(`The rule ${ruleName} was not found`);
-        }
-
-        // TODO: Validate the rules matches with the rule schema
-
-        // Define the rule
-        this.rules.define(pluginRule.qualifiedRuleId, pluginRule.rule, foundConfigFile.config.rules[ruleName]);
-      });
-    }
+    // if(filePath) {
+    //   if(fs.stat(filePath))
+    // }
   }
 
-  loadConfigFileFromPath(exactPath) {
+  getPlugins() {
+    if (this._config && this._config.config) {
+      return this._config.config.plugins;
+    }
+
+    return [];
+  }
+
+  /**
+   * Load Configuration file from path
+   *
+   * @param {Path} exactPath
+   * @returns
+   * @memberof Config
+   */
+  load(exactPath) {
     try {
-      return this._configFileExplorer.loadSync(exactPath);
+      console.log(this._configFileExplorer);
+
+      this._config = this._configFileExplorer.loadSync(exactPath);
     } catch (error) {
       let targetDirectory = error.path;
       if (!targetDirectory) {
@@ -88,19 +57,48 @@ class Config {
 
       throw new ConfigFilePathNotFoundError(targetDirectory);
     }
+
+    return this._validateSchema(this._config.config, this._config.filepath);
   }
 
-  searchConfigFile(initialPath) {
+  /**
+   * Search for a config file in a directory
+   *
+   * @param {Path} directory
+   * @returns
+   * @memberof Config
+   */
+  search(directory) {
     try {
-      return this._configFileExplorer.searchSync(initialPath);
+      this._config = this._configFileExplorer.searchSync(directory);
     } catch (error) {
       let targetDirectory = error.path;
       if (!targetDirectory) {
-        targetDirectory = path.resolve(initialPath);
+        targetDirectory = path.resolve(directory);
       }
 
       throw new ConfigFileNotFoundError(null, targetDirectory);
     }
+
+    return this._validateSchema(this._config.config, this._config.filepath);
+  }
+
+  /**
+   * Is the loaded config file valid
+   *
+   * @param {Sentinal Config File} config
+   * @param {Path} configFilePath
+   * @memberof Config
+   */
+  _validateSchema(config, configFilePath) {
+    const schemaValidator = new SchemaValidator(configFileSchema, config);
+
+    if (!schemaValidator.isValid()) {
+      const schemaErrors = schemaValidator.getOutputFormattedErrors();
+      throw new ConfigFileValidationError('Invalid Sentinal Configuration file', configFilePath, schemaErrors);
+    }
+
+    return config;
   }
 }
 

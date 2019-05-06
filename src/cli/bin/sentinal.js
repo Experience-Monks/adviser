@@ -7,7 +7,8 @@
 
 'use strict';
 
-const errorHandler = require('../../core/errors/error-handler');
+const ErrorHandler = require('../../core/errors/error-handler');
+const TemplateLoader = require('../../core/errors/template-loader');
 const cli = require('../cli');
 const logger = require('../../utils/logger');
 
@@ -18,10 +19,12 @@ if (isDebugEnabled) {
   require('debug').enable('sentinal:*');
 }
 
-process.once('uncaughtException', errorHandler);
+const templateLoader = new TemplateLoader();
+const errorHandler = new ErrorHandler(templateLoader);
+process.once('uncaughtException', errorHandler.onError);
 
 if (isInitEnabled) {
-  logger.info('TODO: [In Progress] Create init procedure');
+  logger.info('TODO: Create init procedure');
 } else {
   process.exitCode = cli.execute(process.argv);
 }

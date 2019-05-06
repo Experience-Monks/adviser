@@ -7,6 +7,7 @@
 
 const debug = require('debug')('sentinal:cli');
 
+const Config = require('../core/config/config');
 const Engine = require('../core/engine');
 const options = require('./options');
 const logger = require('../utils/logger');
@@ -42,7 +43,10 @@ class CLI {
       debug('Sentinal running the engine');
 
       const engineOptions = this._prepareEngineOptions(currentOptions);
-      const engine = new Engine(engineOptions);
+
+      const config = new Config(engineOptions.cwd, engineOptions.configFile);
+
+      const engine = new Engine(config, engineOptions);
 
       engine.run();
 
@@ -64,7 +68,8 @@ class CLI {
    */
   _prepareEngineOptions(cliOptions) {
     const engineOptions = {
-      outputFormat: cliOptions.format
+      outputFormat: cliOptions.format,
+      cwd: process.cwd()
     };
 
     cliOptions.config && (engineOptions['configFile'] = cliOptions.config);

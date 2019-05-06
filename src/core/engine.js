@@ -9,21 +9,21 @@ const debug = require('debug')('sentinal:engine');
 
 const logger = require('../utils/logger');
 const defaultOptions = require('./default-engine-options');
-const Config = require('./config/config');
 
 class Engine {
-  constructor(providedOptions) {
+  constructor(configInstance, options) {
     debug('Running engine');
-    this.options = Object.assign({}, defaultOptions, { cwd: process.cwd() }, providedOptions);
+    this.options = Object.assign({}, defaultOptions, options);
+    this.config = configInstance;
 
-    this.config = new Config(this.options.cwd, this.options.configFile);
+    // this.config = new Config(this.options.cwd, this.options.configFile);
 
     this._rawIssues = [];
   }
 
   run() {
     // TODO: Make it running in parallel
-    this.config.rules.getAllLoadedRules().forEach(rule => {
+    this.config.rules.getAll().forEach(rule => {
       // TODO: Define a better structure sandbox (ruleContext)
       const ruleContext = {
         options: rule.settings,

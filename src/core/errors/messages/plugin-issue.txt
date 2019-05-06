@@ -1,0 +1,5 @@
+Sentinal had issues loading the plugin <%= pluginName %>.
+
+<%= error %>
+
+Call sentinal with the --debug flag to see more details, If you think you need more help, please open an issue in the GitHub Repository

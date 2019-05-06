@@ -5,8 +5,14 @@
     "exampleWarnRule": "warn",
     "exampleErrorRule": "error",
     "exampleOffRule": "off",
+    "scope/exampleWarnRule": "warn",
+    "exampleNumberWarnRule": 1,
+    "exampleNumberErrorRule": 2,
+    "exampleNumberOffRule": 0,
     "exampleFullWarnRule": ["warn", {}],
-    "exampleFullErrorRule": ["warn", {}]
+    "exampleFullErrorRule": ["error", {}],
+    "exampleFullNumberWarnRule": [1, {}],
+    "exampleFullNumberErrorRule": [2, {}]
   },
   "settings": {
     "plugin1": {},

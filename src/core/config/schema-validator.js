@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sentinal Config file Validator.
+ * @fileoverview Sentinal Config file Schema Validator.
  *
  */
 
@@ -7,13 +7,15 @@
 
 const Ajv = require('ajv');
 
-const ConfigFileValidationError = require('../errors/exceptions/config-file-validation-error');
-const configFileSchema = require('./config-file-schema.json');
-
-class ConfigValidator {
-  constructor(config, configFilePath) {
+/**
+ * Validates the config file schema
+ *
+ * @class SchemaValidator
+ */
+class SchemaValidator {
+  constructor(schema, config) {
     this.config = config;
-    this.configFilePath = configFilePath;
+    this.schema = schema;
 
     this.ajv = new Ajv({
       meta: false,
@@ -25,19 +27,44 @@ class ConfigValidator {
     });
   }
 
-  validate() {
-    this.validateConfigSchema();
+  /**
+   * Is the config file valid based on the schema
+   *
+   * @returns Boolean
+   * @memberof SchemaValidator
+   */
+  isValid() {
+    return this.ajv.validate(this.schema, this.config);
   }
 
-  validateConfigSchema() {
-    var valid = this.ajv.validate(configFileSchema, this.config);
-    if (!valid) {
-      const formattedErrors = this.formatSchemaErrors(this.ajv.errors);
-      throw new ConfigFileValidationError('Invalid Sentinal Configuration file', this.configFilePath, formattedErrors);
-    }
+  /**
+   * Get raw errors from the schema validation process
+   *
+   * @returns String
+   * @memberof SchemaValidator
+   */
+  getSchemaErrors() {
+    return this.ajv.errors;
   }
 
-  formatSchemaErrors(errors) {
+  /**
+   * Get formatted errors for output
+   *
+   * @returns String
+   * @memberof SchemaValidator
+   */
+  getOutputFormattedErrors() {
+    return this.formatSchemaErrors(this.ajv.errors);
+  }
+
+  /**
+   * Parse schema validation errors and produces a string output
+   *
+   * @param {AJV Error Instance} errors
+   * @returns {String}
+   * @memberof SchemaValidator
+   */
+  _formatSchemaErrors(errors) {
     const filteredRules = [];
 
     return errors
@@ -84,4 +111,4 @@ class ConfigValidator {
   }
 }
 
-module.exports = ConfigValidator;
+module.exports = SchemaValidator;

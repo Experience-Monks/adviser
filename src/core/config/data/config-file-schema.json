@@ -18,7 +18,9 @@
       "type": ["array"],
       "items": {
         "type": "string"
-      }
+      },
+      "minItems": 1,
+      "uniqueItems": true
     },
     "extends": {
       "type": ["array"],
@@ -29,6 +31,7 @@
     "settings": { "type": "object" },
     "rules": {
       "type": "object",
+      "minProperties": 1,
       "patternProperties": {
         ".*": {
           "anyOf": [
@@ -50,5 +53,6 @@
         }
       }
     }
-  }
+  },
+  "required": ["plugins", "rules"]
 }

@@ -2,33 +2,89 @@
 
 const debug = require('debug')('sentinal:plugins');
 
-class Plugins {
-  /**
-   * Creates the plugins context
-   * @param {Environments} environmentContext - env context
-   * @param {function(string, Rule): void} defineRule - Callback for when a plugin is defined which introduces rules
-   */
-  constructor(currentDirectory) {
-    this.currentDirectory = currentDirectory;
+const PluginError = require('../errors/exceptions/plugin-error');
 
-    this._plugins = Object.create(null);
+/**
+ * CRUD for the plugins
+ *
+ * @class Plugins
+ */
+class Plugins {
+  constructor() {
+    this._pluginScope = 'sentinal-plugin-';
+    this._plugins = {};
+  }
+
+  /**
+   * Add plugin to the instance
+   *
+   * @param {String} pluginId
+   * @param {Object} plugin
+   * @memberof Plugins
+   */
+  add(pluginId, plugin) {
+    if (!pluginId) return;
+
+    const normalizePluginId = this._normalizePluginId(pluginId);
+    this._plugins[normalizePluginId] = plugin;
+
+    debug(`Plugin ${normalizePluginId} added`);
   }
 
   /**
    * Gets a plugin with the given name.
-   * @param {string} pluginName The name of the plugin to retrieve.
+   * @param {string} pluginId The name of the plugin to retrieve.
    * @returns {Object} The plugin or null if not loaded.
+   * @memberof Plugins
    */
-  get(pluginName) {
-    return this._plugins[pluginName] || null;
+  get(pluginId) {
+    const normalizePluginId = this._normalizePluginId(pluginId);
+    return this._plugins[normalizePluginId] || null;
   }
 
   /**
    * Returns all plugins that are loaded.
    * @returns {Object} The plugins cache.
+   * @memberof Plugins
    */
   getAll() {
-    return this._plugins;
+    const allPlugins = new Map();
+
+    Object.keys(this._plugins).forEach(pluginName => {
+      const plugin = this.get(pluginName);
+
+      allPlugins.set(pluginName, plugin);
+    });
+    return allPlugins;
+  }
+
+  /**
+   * Return all the rules defined in the plugins
+   *
+   * @returns {Map} Rules
+   * @memberof Plugins
+   */
+  getAllRules() {
+    const allRules = new Map();
+
+    Object.keys(this._plugins).forEach(pluginName => {
+      const plugin = this.get(pluginName);
+
+      if (plugin.rules) {
+        Object.keys(plugin.rules).forEach(ruleId => {
+          const qualifiedRuleId = `${pluginName}/${ruleId}`;
+          const rule = plugin.rules[ruleId];
+
+          allRules.set(qualifiedRuleId, {
+            pluginName,
+            ruleId,
+            qualifiedRuleId,
+            rule
+          });
+        });
+      }
+    });
+    return allRules;
   }
 
   /**
@@ -36,60 +92,80 @@ class Plugins {
    * @param {string[]} pluginNames An array of plugins names.
    * @returns {void}
    * @throws {Error} If a plugin cannot be loaded.
-   * @throws {Error} If "plugins" in config is not an array
    */
-  loadAll(pluginNames) {
-    // if "plugins" in config is not an array, throw an error so user can fix their config.
-    if (!Array.isArray(pluginNames)) {
-      const pluginNotArrayMessage = 'Sentinal configuration error: "plugins" value must be an array';
-
-      debug(`${pluginNotArrayMessage}: ${JSON.stringify(pluginNames)}`);
-
-      throw new Error(pluginNotArrayMessage); // TODO: Change Error Instance to a custom error with message
-    }
-
-    // load each plugin by name
-    pluginNames.forEach(this.load, this);
+  loadAll(pluginIds) {
+    pluginIds.forEach(this.load, this);
   }
 
-  load(pluginName) {
-    const normalizePluginName = this.normalizePluginName(pluginName);
-    let plugin = null;
+  /**
+   * Loads a plugin
+   *
+   * @param {String} pluginId
+   * @param {Path} directory
+   * @memberof Plugins
+   */
+  load(pluginId, directory) {
+    const normalizePluginId = this._normalizePluginId(pluginId);
 
-    if (normalizePluginName.match(/\s+/u)) {
-      throw new Error(`Whitespace found in plugin name '${pluginName}'`); // TODO: Change for custom Error object
+    if (normalizePluginId.match(/\s+/u)) {
+      debug(`Failed to load plugin ${normalizePluginId}.`);
+      throw new PluginError('Invalid plugin name', normalizePluginId, 'Whitespace found in the plugin name');
     }
 
-    if (!this._plugins[normalizePluginName]) {
+    if (!this._plugins[normalizePluginId]) {
+      const plugin = this._loadFromDirectory(normalizePluginId, directory);
+      this.add(pluginId, plugin);
+    }
+  }
+
+  /**
+   * Resolves and try to load a plugin
+   *
+   * @param {String} pluginId
+   * @param {Path} directory
+   * @returns
+   * @memberof Plugins
+   */
+  _loadFromDirectory(pluginId, directory) {
+    try {
+      const pluginPath = require.resolve(pluginId, { paths: [directory] });
+      return require(pluginPath);
+    } catch (pluginLoadErr) {
       try {
-        const pluginPath = require.resolve(normalizePluginName, { paths: [this.currentDirectory] });
-        plugin = require(pluginPath);
-      } catch (pluginLoadErr) {
-        try {
-          require.resolve(normalizePluginName);
-        } catch (missingPluginErr) {
-          // If the plugin can't be resolved, display the missing plugin error (usually a config or install error)
-          debug(`Failed to load plugin ${normalizePluginName}.`);
+        require.resolve(pluginId);
+      } catch (missingPluginErr) {
+        // If the plugin can't be resolved, display the missing plugin error (usually a config or install error)
+        debug(`Failed to load plugin ${pluginId}.`);
 
-          throw new Error(`Failed to load plugin ${pluginName}: ${missingPluginErr.message}`); // TODO: Change by custom Error
-        }
-
-        // Otherwise, the plugin exists and is throwing on module load for some reason, so print the stack trace.
-        throw pluginLoadErr;
+        throw new PluginError(
+          `Failed to load plugin ${pluginId}`,
+          pluginId,
+          `The plugin was not found, review if the name is right or is installed`
+        );
       }
 
-      this.define(pluginName, plugin);
+      // Otherwise, the plugin exists and is throwing on module load for some reason, so print the stack trace.
+      throw new PluginError(
+        `Failed to load plugin ${pluginId}`,
+        pluginId,
+        `There was an issue loading the plugin, trace: \n ${pluginLoadErr.message}`
+      );
     }
   }
 
-  define(pluginName, plugin) {
-    const normalizePluginName = this.normalizePluginName(pluginName);
+  /**
+   * Add Plugin Scope if doesn't exist from the plugin Id
+   *
+   * @param {String} pluginId
+   * @returns
+   * @memberof Plugins
+   */
+  _normalizePluginId(pluginId) {
+    if (pluginId.indexOf(this._pluginScope) < 0) {
+      return `${this._pluginScope}${pluginId}`.toLowerCase();
+    }
 
-    this._plugins[normalizePluginName] = plugin;
-  }
-
-  normalizePluginName(pluginName) {
-    return `sentinal-plugin-${pluginName}`.toLowerCase();
+    return pluginId.toLowerCase();
   }
 }
 
