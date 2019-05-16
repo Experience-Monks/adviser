@@ -5,6 +5,8 @@
 
 'use strict';
 
+const debug = require('debug')('sentinal:schema-validator');
+
 const Ajv = require('ajv');
 
 /**
@@ -34,7 +36,9 @@ class SchemaValidator {
    * @memberof SchemaValidator
    */
   isValid() {
-    return this.ajv.validate(this.schema, this.config);
+    const isValid = this.ajv.validate(this.schema, this.config);
+    debug(`Schema validation is ${!isValid && 'not'} valid`);
+    return isValid;
   }
 
   /**
@@ -54,7 +58,7 @@ class SchemaValidator {
    * @memberof SchemaValidator
    */
   getOutputFormattedErrors() {
-    return this.formatSchemaErrors(this.ajv.errors);
+    return this._formatSchemaErrors(this.ajv.errors);
   }
 
   /**

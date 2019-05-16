@@ -1,12 +1,14 @@
 'use strict';
 
-const Plugins = require('../../src/core/config/plugins');
+const plugins = require('../../src/core/config/plugins');
 const PluginError = require('../../src/core/errors/exceptions/plugin-error');
 
 describe('Plugins', () => {
-  test('Add empty plugin', () => {
-    const plugins = new Plugins();
+  beforeEach(() => {
+    plugins.reset();
+  });
 
+  test('Add empty plugin', () => {
     const ruleName = '';
     expect(() => {
       plugins.add(ruleName, {}, {});
@@ -14,8 +16,6 @@ describe('Plugins', () => {
   });
 
   test('Add and get plugin', () => {
-    const plugins = new Plugins();
-
     const pluginName = 'security-audit';
 
     plugins.add(pluginName, {});
@@ -23,8 +23,6 @@ describe('Plugins', () => {
   });
 
   test('Get many plugins', () => {
-    const plugins = new Plugins();
-
     for (let index = 0; index < 5; index++) {
       plugins.add(`warning-min-test-${index}`, {}, {});
     }
@@ -33,23 +31,18 @@ describe('Plugins', () => {
   });
 
   test('Get short Plugin ID', () => {
-    const plugins = new Plugins();
-
     const pluginName = 'security-audit';
 
     expect(plugins._normalizePluginId(pluginName)).toBe(`${plugins._pluginScope}${pluginName}`);
   });
 
   test('Get short Rule ID with scope', () => {
-    const plugins = new Plugins();
-
     const pluginName = 'sentinal-plugin-security-audit';
 
     expect(plugins._normalizePluginId(pluginName)).toBe(pluginName);
   });
 
   test('Load plugin with whitespaces', () => {
-    const plugins = new Plugins();
     function load() {
       plugins.load(pluginName, '');
     }
@@ -61,7 +54,6 @@ describe('Plugins', () => {
   });
 
   test('Load plugin with invalid location', () => {
-    const plugins = new Plugins();
     function load() {
       plugins.load(pluginName, '');
     }
@@ -74,7 +66,6 @@ describe('Plugins', () => {
 
   test('Load plugin', () => {
     const pluginName = 'sentinal-plugin-security-audit';
-    const plugins = new Plugins();
 
     plugins._loadFromDirectory = jest.fn(() => {
       return {
@@ -92,7 +83,6 @@ describe('Plugins', () => {
   test('Get all the rules', () => {
     const pluginNameFirst = 'sentinal-plugin-security-audit';
     const pluginNameSecond = 'sentinal-plugin-security-audit-second';
-    const plugins = new Plugins();
 
     plugins._loadFromDirectory = jest.fn(() => {
       return {

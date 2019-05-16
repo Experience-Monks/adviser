@@ -8,6 +8,7 @@
 const path = require('path');
 const fs = require('fs');
 const cosmiconfig = require('cosmiconfig');
+const debug = require('debug')('sentinal:config');
 
 const ConfigFileNotFoundError = require('../errors/exceptions/config-file-not-found-error');
 const ConfigFilePathNotFoundError = require('../errors/exceptions/config-file-path-not-found-error');
@@ -22,19 +23,45 @@ class Config {
   constructor(filePath = null, fileExplorer = null) {
     this._config = null;
 
-    // this._configFileExplorer = fileExplorer ? fileExplorer : cosmiconfig(MODULE_NAME);
+    this._configFileExplorer = fileExplorer || cosmiconfig(MODULE_NAME);
 
-    // if(filePath) {
-    //   if(fs.stat(filePath))
-    // }
+    if (filePath) {
+      const filePathInfo = fs.statSync(filePath);
+
+      if (filePathInfo.isDirectory()) {
+        this.search(filePath);
+      } else {
+        this.load(filePath);
+      }
+    }
   }
 
+  /**
+   * Return the plugins defined in the config file
+   *
+   * @returns {Array}
+   * @memberof Config
+   */
   getPlugins() {
     if (this._config && this._config.config) {
       return this._config.config.plugins;
     }
 
     return [];
+  }
+
+  /**
+   * Return the rules defined in the config file
+   *
+   * @returns {Array}
+   * @memberof Config
+   */
+  getRules() {
+    if (this._config && this._config.config) {
+      return this._config.config.rules;
+    }
+
+    return {};
   }
 
   /**
@@ -46,8 +73,6 @@ class Config {
    */
   load(exactPath) {
     try {
-      console.log(this._configFileExplorer);
-
       this._config = this._configFileExplorer.loadSync(exactPath);
     } catch (error) {
       let targetDirectory = error.path;
@@ -91,6 +116,7 @@ class Config {
    * @memberof Config
    */
   _validateSchema(config, configFilePath) {
+    debug(`Config file loaded, validating schema`);
     const schemaValidator = new SchemaValidator(configFileSchema, config);
 
     if (!schemaValidator.isValid()) {

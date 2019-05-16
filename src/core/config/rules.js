@@ -1,7 +1,11 @@
 'use strict';
 
 const debug = require('debug')('sentinal:rules');
+const is = require('@sindresorhus/is');
+
 const SeverityEnum = require('./severity');
+
+const InvalidRuleError = require('../errors/exceptions/invalid-rule-error');
 
 /**
  * CRUD for the rules
@@ -25,6 +29,14 @@ class Rules {
    */
   add(ruleId, rule, ruleSetting) {
     if (!ruleId) return;
+
+    if (!rule || !rule.create || !is.function(rule.create)) {
+      throw new InvalidRuleError(
+        'Rule definition is invalid',
+        ruleId,
+        `The rule defined in the config file is invalid, check the plugin source code`
+      );
+    }
 
     const normalizedRuleId = this._normalizeRuleId(ruleId);
     const normalizedSettings = this._normalizeSettings(ruleSetting);
@@ -60,6 +72,15 @@ class Rules {
       allRules.set(name, rule);
     });
     return allRules;
+  }
+
+  /**
+   * Destroy all the loaded rules
+   *
+   * @memberof Plugins
+   */
+  reset() {
+    this._rules = {};
   }
 
   /**
@@ -119,4 +140,4 @@ class Rules {
   }
 }
 
-module.exports = Rules;
+module.exports = new Rules();

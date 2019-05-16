@@ -1,11 +1,14 @@
 'use strict';
 
-const Rules = require('../../src/core/config/rules');
+const rules = require('../../src/core/config/rules');
+const InvalidRuleError = require('../../src/core/errors/exceptions/invalid-rule-error');
 
 describe('Rules', () => {
-  test('Add empty rule', () => {
-    const rules = new Rules();
+  beforeEach(() => {
+    rules.reset();
+  });
 
+  test('Add empty rule', () => {
     const ruleName = '';
     expect(() => {
       rules.add(ruleName, {}, {});
@@ -13,43 +16,44 @@ describe('Rules', () => {
   });
 
   test('Add and get rule', () => {
-    const rules = new Rules();
-
     const ruleName = 'warning-min-test';
 
-    rules.add(ruleName, {}, {});
+    rules.add(ruleName, { create: () => {} }, {});
     expect(rules.get(ruleName)).toBeDefined();
   });
 
-  test('Get many rules', () => {
-    const rules = new Rules();
+  test('Add rule with invalid definition', () => {
+    const ruleName = 'warning-min-test';
 
+    function add() {
+      rules.add(ruleName, { test: {} }, {});
+    }
+
+    expect(add).toThrow(InvalidRuleError);
+    expect(add).toThrow('Rule definition is invalid');
+  });
+
+  test('Get many rules', () => {
     for (let index = 0; index < 5; index++) {
-      rules.add(`warning-min-test-${index}`, {}, {});
+      rules.add(`warning-min-test-${index}`, { create: () => {} }, {});
     }
 
     expect(rules.getAll().size).toBe(5);
   });
 
   test('Get Raw Rule ID without scope', () => {
-    const rules = new Rules();
-
     const ruleName = 'warning-min-test';
 
     expect(rules._normalizeRuleId(ruleName)).toBe(`${rules._ruleScope}${ruleName}`);
   });
 
   test('Get Raw Rule ID with scope', () => {
-    const rules = new Rules();
-
     const ruleName = 'sentinal-plugin-warning-min-test';
 
     expect(rules._normalizeRuleId(ruleName)).toBe(ruleName);
   });
 
   test('Severity is normalized correctly', () => {
-    const rules = new Rules();
-
     expect(rules._normalizeSeverity(0)).toBe('off');
     expect(rules._normalizeSeverity('off')).toBe('off');
     expect(rules._normalizeSeverity(1)).toBe('warn');
@@ -59,8 +63,6 @@ describe('Rules', () => {
   });
 
   test('Empty settings are only including severity', () => {
-    const rules = new Rules();
-
     const settingWarn = 'warn';
     const settingNumeric = 1;
 
@@ -74,8 +76,6 @@ describe('Rules', () => {
   });
 
   test('Settings with options are parsed correctly', () => {
-    const rules = new Rules();
-
     const settingWarn = ['warn', { 'test-a': 'test', 'test-b': 'test' }];
 
     expect(rules._normalizeSettings(settingWarn)).toMatchObject({

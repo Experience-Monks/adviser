@@ -1,4 +1,4 @@
-Sentinal had issues loading the plugin <%= pluginName %>.
+Sentinal had issues loading the rule <%= ruleName %>.
 
 <%= error %>
 

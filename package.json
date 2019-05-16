@@ -70,6 +70,7 @@
     }
   },
   "dependencies": {
+    "@sindresorhus/is": "0.17.0",
     "ajv": "6.10.0",
     "cosmiconfig": "5.2.0",
     "debug": "4.1.1",

@@ -93,8 +93,8 @@ class Plugins {
    * @returns {void}
    * @throws {Error} If a plugin cannot be loaded.
    */
-  loadAll(pluginIds) {
-    pluginIds.forEach(this.load, this);
+  loadAll(pluginIds, directory) {
+    pluginIds.forEach(this.load, this, directory);
   }
 
   /**
@@ -116,6 +116,15 @@ class Plugins {
       const plugin = this._loadFromDirectory(normalizePluginId, directory);
       this.add(pluginId, plugin);
     }
+  }
+
+  /**
+   * Destroy all the loaded plugins
+   *
+   * @memberof Plugins
+   */
+  reset() {
+    this._plugins = {};
   }
 
   /**
@@ -169,4 +178,4 @@ class Plugins {
   }
 }
 
-module.exports = Plugins;
+module.exports = new Plugins();
