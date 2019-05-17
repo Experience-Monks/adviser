@@ -94,7 +94,7 @@ class Plugins {
    * @throws {Error} If a plugin cannot be loaded.
    */
   loadAll(pluginIds, directory) {
-    pluginIds.forEach(this.load, this, directory);
+    pluginIds.forEach(this.load.bind(this, pluginIds, directory));
   }
 
   /**
