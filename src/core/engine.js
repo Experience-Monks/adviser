@@ -31,26 +31,27 @@ class Engine {
   }
 
   run() {
-    // TODO: Make it running in parallel
-    this.config.rules.getAll().forEach(rule => {
-      // TODO: Define a better structure sandbox (ruleContext)
-      const ruleContext = {
-        options: rule.settings,
-        dirname: this.options.cwd,
-        report: params => {
-          const context = {
-            pluginName: 'audit-npm',
-            severity: this.normalizeSeverity(rule.settings.severity),
-            ruleName: 'min-vulnerabilities-allowed',
-            params
-          };
-          this.processRuleOutput(context);
-        }
-      };
-      rule.create(ruleContext);
-    });
+    console.log(this.rules.getAll());
 
-    this.printResults();
+    // // TODO: Make it running in parallel
+    // this.config.rules.getAll().forEach(rule => {
+    //   // TODO: Define a better structure sandbox (ruleContext)
+    //   const ruleContext = {
+    //     options: rule.settings,
+    //     dirname: this.options.cwd,
+    //     report: params => {
+    //       const context = {
+    //         pluginName: 'audit-npm',
+    //         severity: this.normalizeSeverity(rule.settings.severity),
+    //         ruleName: 'min-vulnerabilities-allowed',
+    //         params
+    //       };
+    //       this.processRuleOutput(context);
+    //     }
+    //   };
+    //   rule.create(ruleContext);
+    // });
+    // this.printResults();
   }
 
   _loadRules() {
@@ -59,15 +60,16 @@ class Engine {
 
     // Load the rules
     const configRules = this.config.getRules();
-    Object.keys(configRules).forEach(ruleName => {
-      const pluginName = this._getPluginNameFromRule(ruleName);
+    Object.keys(configRules).forEach(fullRuleName => {
+      const pluginName = this._getPluginNameFromRule(fullRuleName);
+      const ruleName = this._getRuleNameFromRule(fullRuleName);
 
       const plugin = this.plugins.get(pluginName);
 
       if (plugin && plugin.rules) {
         const rule = plugin.rules[ruleName];
         const ruleSettings = configRules[ruleName];
-        this.rules.add(ruleName, rule, ruleSettings);
+        this.rules.add(fullRuleName, rule, ruleSettings);
       } else {
         throw new InvalidRuleError(
           'Invalid rule structure',
@@ -89,6 +91,19 @@ class Engine {
     }
 
     return rulePluginTuple[0];
+  }
+
+  _getRuleNameFromRule(rule) {
+    const rulePluginTuple = rule.split('/');
+    if (rulePluginTuple.length !== 2) {
+      throw new InvalidRuleError(
+        'Invalid rule name',
+        rule,
+        'Invalid Rule name, make sure it follows the format [plugin name]/[rule name]'
+      );
+    }
+
+    return rulePluginTuple[1];
   }
 
   processRuleOutput(context) {
