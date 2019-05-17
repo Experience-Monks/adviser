@@ -116,9 +116,9 @@ describe('Engine - Load Rules', () => {
     plugins._loadFromDirectory = jest.fn(() => {
       return {
         rules: {
-          'test1/rule': {
+          rule: {
             create: () => {
-              console.log('test1/rule');
+              console.log('rule');
             }
           }
         }
