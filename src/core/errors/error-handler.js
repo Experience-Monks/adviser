@@ -5,6 +5,7 @@
 
 'use strict';
 
+const templateLoader = require('../../core/errors/template-loader');
 const logger = require('../../utils/logger');
 const globalContext = require('../global-context');
 
@@ -14,10 +15,6 @@ const globalContext = require('../global-context');
  * @class ErrorHandler
  */
 class ErrorHandler {
-  constructor(templateLoaderInstance) {
-    this.templateLoader = templateLoaderInstance;
-  }
-
   /**
    * Handles error exceptions output
    *
@@ -25,11 +22,11 @@ class ErrorHandler {
    */
   onError(exceptionError) {
     if (typeof exceptionError.messageTemplate === 'string' && exceptionError.messageTemplate.length > 0) {
-      this.templateLoader.setTemplateId(exceptionError.messageTemplate);
+      templateLoader.setTemplateId(exceptionError.messageTemplate);
       const packageVersion = globalContext.getVersion();
 
-      if (this.templateLoader.exist()) {
-        const template = this.templateLoader.load();
+      if (templateLoader.exist()) {
+        const template = templateLoader.load();
 
         logger.error('\nOops! Something went wrong! :(');
         logger.error(`\nSentinal: v${packageVersion}\n${template(exceptionError.data || {})}`);
@@ -45,4 +42,4 @@ class ErrorHandler {
   }
 }
 
-module.exports = ErrorHandler;
+module.exports = new ErrorHandler();

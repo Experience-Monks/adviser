@@ -7,8 +7,7 @@
 
 'use strict';
 
-const ErrorHandler = require('../../core/errors/error-handler');
-const TemplateLoader = require('../../core/errors/template-loader');
+const errorHandler = require('../../core/errors/error-handler');
 const cli = require('../cli');
 const logger = require('../../utils/logger');
 
@@ -19,8 +18,6 @@ if (isDebugEnabled) {
   require('debug').enable('sentinal:*');
 }
 
-const templateLoader = new TemplateLoader();
-const errorHandler = new ErrorHandler(templateLoader);
 process.once('uncaughtException', errorHandler.onError);
 
 if (isInitEnabled) {

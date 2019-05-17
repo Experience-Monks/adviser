@@ -41,4 +41,4 @@ class TemplateLoader {
   }
 }
 
-module.exports = TemplateLoader;
+module.exports = new TemplateLoader();
