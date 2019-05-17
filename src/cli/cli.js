@@ -44,7 +44,7 @@ class CLI {
 
       const engineOptions = this._prepareEngineOptions(currentOptions);
 
-      const config = new Config(engineOptions.cwd, engineOptions.configFile);
+      const config = new Config(engineOptions.cwd);
 
       const engine = new Engine(config, engineOptions);
 
