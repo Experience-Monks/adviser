@@ -72,6 +72,7 @@
   "dependencies": {
     "@sindresorhus/is": "0.17.0",
     "ajv": "6.10.0",
+    "async": "3.0.0",
     "cosmiconfig": "5.2.0",
     "debug": "4.1.1",
     "lodash": "4.17.11",

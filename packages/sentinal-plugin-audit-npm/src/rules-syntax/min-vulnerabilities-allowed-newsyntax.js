@@ -24,7 +24,7 @@ class MinVulnerabilityAllowed extends Sentinal.Rule {
    *
    * @memberof MinVulnerabilityAllowed
    */
-  ruleAddedPipeline() {}
+  ruleAdded() {}
 
   /**
    * Action rule method called when the engine runs the rule
@@ -58,7 +58,7 @@ MinVulnerabilityAllowed.meta = {
   category: 'Vulnerabilities',
   description: 'To be fill',
   recommended: true,
-  url: docsUrl('min-vulnerabilities-allowed'),
+  docs: docsUrl('min-vulnerabilities-allowed'),
   schema: {
     enum: ['low', 'moderate', 'high', 'critical']
   }
