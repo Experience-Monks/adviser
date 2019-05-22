@@ -1,4 +1,4 @@
-const rule = require('./nodejs/rule');
+const rule = require('./core/plugins/rule');
 
 module.exports = {
   Rule: rule

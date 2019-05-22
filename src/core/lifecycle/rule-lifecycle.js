@@ -6,8 +6,7 @@
 'use strict';
 
 const RuleLifeCycle = {
-  Instantiation: 'Instantiation',
-  RuleAdded: 'RuleAdded',
+  Init: 'Init',
   Run: 'Run',
   RuleExecutionKilled: 'RuleExecutionKilled',
   ruleExecutionEnded: 'ruleExecutionEnded'

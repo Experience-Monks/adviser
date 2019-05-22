@@ -1,43 +1,52 @@
 'use strict';
 
-// const exec = require('child_process').exec;
+const Sentinal = require('sentinal');
 
 const docsUrl = require('../utils/docsUrl');
 
-// const fakeContext = {
-//   dirname: '/Users/iranreyesfleitas/Work/intern-sentinal/packages/sentinal-plugin-audit-npm/tests/example-package',
-//   filename: 'package.json',
-//   options: {}, // Options set in the rule in the global file
-//   id: '', // rule ID
-//   report: descriptor => {
-//     const descriptorShape = {
-//       message: ''
-//     };
-//   }
-// };
+// Rule lifecycle
+// 1. Constructor (When the rule is parsed)
+// 4. ruleExecutionEnded (The execution finished without killing)
+// 4. ruleExecutionKilled (The engine killed the execution)
 
-module.exports = {
-  meta: {
-    docs: {
-      category: 'Vulnerabilities',
-      description: 'To be fill',
-      recommended: true,
-      url: docsUrl('min-vulnerabilities-allowed')
-    },
-    schema: {
-      enum: ['low', 'moderate', 'high', 'critical']
-    }
-  },
-  create: function(context) {
-    // console.log('Rule min-vulnerabilities-allowed called');
-    // exec(`npm run audit -- -d ${context.dirname}`, function(err, stdout, stderr) {
-    //   if (err) {
-    //     console.log('Error', err);
-    //   }
-    //   console.log(stdout);
-    // });
-    context.report({
-      message: `Rule min-vulnerabilities-allowed called with options ${JSON.stringify(context.options)}`
-    });
+class MinVulnerabilityAllowed extends Sentinal.Rule {
+  /**
+   * Called when the rule is parsed by the engine
+   * @param {Object} context - dirname, filename, options, ruleId
+   * @memberof MinVulnerabilityAllowed
+   */
+  constructor(context) {
+    super(context);
+  }
+
+  /**
+   * Action rule method called when the engine runs the rule
+   *
+   * @param {Object} sandbox - report method, libraries abstraction
+   * @memberof MinVulnerabilityAllowed
+   */
+  run(sandbox) {
+    // console.log('Rule runs');
+    sandbox.report({ message: 'lalalalalalal' });
+  }
+
+  /**
+   * The rule has being stopped by the engine
+   *
+   * @param {Object} feedback - timing, status (killed), detail
+   * @memberof MinVulnerabilityAllowed
+   */
+  ruleExecutionKilled(feedback) {}
+}
+
+MinVulnerabilityAllowed.meta = {
+  category: 'Vulnerabilities',
+  description: 'To be fill',
+  recommended: true,
+  docsUrl: docsUrl('min-vulnerabilities-allowed'),
+  schema: {
+    enum: ['low', 'moderate', 'high', 'critical']
   }
 };
+
+module.exports = MinVulnerabilityAllowed;

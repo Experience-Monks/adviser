@@ -6,12 +6,19 @@
 'use strict';
 
 const debug = require('debug')('sentinal:engine');
+const async = require('async');
 
 const logger = require('../utils/logger');
 const defaultOptions = require('./default-engine-options');
 
 const plugins = require('./config/plugins');
 const rules = require('./config/rules');
+
+const RuleLifeCycle = require('./lifecycle/rule-lifecycle');
+const RuleContext = require('./lifecycle/rule-context');
+const RuleSandbox = require('./lifecycle/rule-sandbox');
+const RuleFeedback = require('./lifecycle/rule-feedback');
+const RuleStatus = require('./lifecycle/rule-status');
 
 const InvalidRuleError = require('./errors/exceptions/invalid-rule-error');
 
@@ -31,27 +38,57 @@ class Engine {
   }
 
   run() {
-    console.log(this.rules.getAll());
+    async.each(
+      this.rules.getAll(),
+      (rule, callback) => {
+        this._ruleLifecyclePipeline(rule, callback);
+      },
+      error => {
+        if (error) {
+          logger.error('Some rules has failed the run');
+        } else {
+          this.printResults();
+        }
+      }
+    );
+  }
 
-    // // TODO: Make it running in parallel
-    // this.config.rules.getAll().forEach(rule => {
-    //   // TODO: Define a better structure sandbox (ruleContext)
-    //   const ruleContext = {
-    //     options: rule.settings,
-    //     dirname: this.options.cwd,
-    //     report: params => {
-    //       const context = {
-    //         pluginName: 'audit-npm',
-    //         severity: this.normalizeSeverity(rule.settings.severity),
-    //         ruleName: 'min-vulnerabilities-allowed',
-    //         params
-    //       };
-    //       this.processRuleOutput(context);
-    //     }
-    //   };
-    //   rule.create(ruleContext);
-    // });
-    // this.printResults();
+  async _ruleLifecyclePipeline(rule, callback) {
+    let instanceRule = null;
+    let phase = RuleLifeCycle.Init;
+    const instanceContext = new RuleContext(
+      rule.ruleId,
+      rule.pluginName,
+      this.options.cwd,
+      null,
+      rule.settings.options,
+      rule.settings.severity
+    );
+
+    try {
+      // 1. Init rules
+      const DefinedRule = rule.code;
+      instanceRule = new DefinedRule(instanceContext);
+
+      // 2. Run the rule
+      phase = RuleLifeCycle.Run;
+      const sandbox = new RuleSandbox(this.report.bind(this), instanceContext);
+      await instanceRule.run(sandbox);
+
+      // 3. Rule Execution Ended
+      phase = RuleLifeCycle.ruleExecutionEnded;
+      const feedback = new RuleFeedback(RuleStatus.Completed, phase);
+      instanceRule.ruleExecutionEnded(feedback);
+    } catch (error) {
+      const feedback = new RuleFeedback(RuleStatus.Failed, phase);
+      instanceRule.ruleExecutionFailed(feedback, error);
+    } finally {
+      callback();
+    }
+  }
+
+  report(ruleReport) {
+    this._rawIssues.push({ params: ruleReport.params, ...ruleReport.context });
   }
 
   _loadRules() {
@@ -68,8 +105,9 @@ class Engine {
 
       if (plugin && plugin.rules) {
         const rule = plugin.rules[ruleName];
-        const ruleSettings = configRules[ruleName];
-        this.rules.add(fullRuleName, rule, ruleSettings);
+        const ruleSettings = configRules[fullRuleName];
+
+        this.rules.add(fullRuleName, rule, ruleSettings, pluginName);
       } else {
         throw new InvalidRuleError(
           'Invalid rule structure',
@@ -128,18 +166,6 @@ class Engine {
     if (output) {
       logger.info(output);
     }
-  }
-
-  normalizeSeverity(severity) {
-    if ((severity === 'error') | 2) {
-      return 'error';
-    }
-
-    if ((severity === 'warn') | 1) {
-      return 'warn';
-    }
-
-    return 'off';
   }
 }
 

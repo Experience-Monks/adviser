@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Sentinal Plugins.
+ *
+ */
+
 'use strict';
 
 const debug = require('debug')('sentinal:plugins');
@@ -48,14 +53,7 @@ class Plugins {
    * @memberof Plugins
    */
   getAll() {
-    const allPlugins = new Map();
-
-    Object.keys(this._plugins).forEach(pluginName => {
-      const plugin = this.get(pluginName);
-
-      allPlugins.set(pluginName, plugin);
-    });
-    return allPlugins;
+    return this._plugins;
   }
 
   /**

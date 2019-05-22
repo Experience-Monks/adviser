@@ -1,8 +1,13 @@
+/**
+ * @fileoverview Sentinal Rules.
+ *
+ */
+
 'use strict';
 
 const debug = require('debug')('sentinal:rules');
-const is = require('@sindresorhus/is');
 
+const SentinalRule = require('../plugins/rule');
 const SeverityEnum = require('./severity');
 
 const InvalidRuleError = require('../errors/exceptions/invalid-rule-error');
@@ -24,13 +29,14 @@ class Rules {
    * @param {String} ruleId
    * @param {Object} rule
    * @param {String | Object} ruleSetting
+   * @param {String} pluginName
    * @memberof Rules
    * @returns {Void}
    */
-  add(ruleId, rule, ruleSetting) {
+  add(ruleId, Rule, ruleSetting, pluginName) {
     if (!ruleId) return;
 
-    if (!rule || !rule.create || !is.function(rule.create)) {
+    if (!Rule || !(Rule.prototype instanceof SentinalRule)) {
       throw new InvalidRuleError(
         'Rule definition is invalid',
         ruleId,
@@ -40,7 +46,12 @@ class Rules {
 
     const normalizedRuleId = this._normalizeRuleId(ruleId);
     const normalizedSettings = this._normalizeSettings(ruleSetting);
-    this._rules[normalizedRuleId] = Object.assign({ settings: normalizedSettings }, rule);
+    this._rules[normalizedRuleId] = {
+      settings: normalizedSettings,
+      code: Rule,
+      pluginName: pluginName,
+      ruleId: ruleId
+    };
 
     debug(`Rule ${normalizedRuleId} added`);
   }
@@ -64,14 +75,7 @@ class Rules {
    * @memberof Rules
    */
   getAll() {
-    const allRules = new Map();
-
-    Object.keys(this._rules).forEach(name => {
-      const rule = this.get(name);
-
-      allRules.set(name, rule);
-    });
-    return allRules;
+    return this._rules;
   }
 
   /**
@@ -106,16 +110,16 @@ class Rules {
    * @memberof Rules
    */
   _normalizeSettings(setting) {
-    const parsedSetting = {};
+    const parsedSetting = { severity: SeverityEnum.Off, options: {} };
     if (typeof setting === 'string' || Number.isInteger(setting)) {
-      parsedSetting['severity'] = this._normalizeSeverity(setting);
+      parsedSetting.severity = this._normalizeSeverity(setting);
     }
 
     if (Array.isArray(setting)) {
-      parsedSetting['severity'] = this._normalizeSeverity(setting[0]);
+      parsedSetting.severity = this._normalizeSeverity(setting[0]);
 
       if (setting.length >= 2) {
-        parsedSetting['options'] = setting[1];
+        parsedSetting.options = setting[1];
       }
     }
 

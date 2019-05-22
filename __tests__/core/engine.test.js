@@ -2,12 +2,16 @@
 
 const cosmiconfig = require('cosmiconfig');
 
+const SentinalRule = require('../../src/core/plugins/rule');
+
 const Config = require('../../src/core/config/config');
 const Engine = require('../../src/core/engine');
 
 const plugins = require('../../src/core/config/plugins');
 
 const InvalidRuleError = require('../../src/core/errors/exceptions/invalid-rule-error');
+
+class MockSentinalRule extends SentinalRule {}
 
 describe('Engine - Load Rules', () => {
   beforeEach(() => {
@@ -36,11 +40,7 @@ describe('Engine - Load Rules', () => {
     plugins._loadFromDirectory = jest.fn(() => {
       return {
         rules: {
-          'test2/rule': {
-            create: () => {
-              console.log('test1/rule');
-            }
-          }
+          'test2/rule': MockSentinalRule
         }
       };
     });
@@ -76,11 +76,7 @@ describe('Engine - Load Rules', () => {
     plugins._loadFromDirectory = jest.fn(() => {
       return {
         rules: {
-          'test2/rule': {
-            create: () => {
-              console.log('test1/rule');
-            }
-          }
+          'test2/rule': MockSentinalRule
         }
       };
     });
@@ -116,11 +112,7 @@ describe('Engine - Load Rules', () => {
     plugins._loadFromDirectory = jest.fn(() => {
       return {
         rules: {
-          rule: {
-            create: () => {
-              console.log('rule');
-            }
-          }
+          rule: MockSentinalRule
         }
       };
     });

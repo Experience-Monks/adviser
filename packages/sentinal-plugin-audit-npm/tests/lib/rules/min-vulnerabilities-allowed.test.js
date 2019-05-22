@@ -1,15 +1,17 @@
+const Sentinal = require('sentinal');
 const minVulnerabilitiesAllowed = require('../../../src/rules/min-vulnerabilities-allowed');
 
 describe('Rule configuration', () => {
   test('Documentation is set', () => {
-    expect(minVulnerabilitiesAllowed.meta.docs).toHaveProperty('category');
-    expect(minVulnerabilitiesAllowed.meta.docs).toHaveProperty('description');
-    expect(minVulnerabilitiesAllowed.meta.docs).toHaveProperty('url');
+    expect(minVulnerabilitiesAllowed.meta).toHaveProperty('category');
+    expect(minVulnerabilitiesAllowed.meta).toHaveProperty('description');
+    expect(minVulnerabilitiesAllowed.meta).toHaveProperty('docsUrl');
+    expect(minVulnerabilitiesAllowed.meta).toHaveProperty('schema');
   });
 });
 
-describe('Create function', () => {
-  test('Create function exists', () => {
-    expect(minVulnerabilitiesAllowed.create).toBeInstanceOf(Function);
+describe('Rule definition', () => {
+  test('Rule is extending from Sentinal Rule', () => {
+    expect(minVulnerabilitiesAllowed.prototype instanceof Sentinal.Rule).toBeTruthy();
   });
 });

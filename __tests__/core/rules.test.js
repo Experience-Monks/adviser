@@ -3,6 +3,9 @@
 const rules = require('../../src/core/config/rules');
 const InvalidRuleError = require('../../src/core/errors/exceptions/invalid-rule-error');
 
+const SentinalRule = require('../../src/core/plugins/rule');
+class MockSentinalRule extends SentinalRule {}
+
 describe('Rules', () => {
   beforeEach(() => {
     rules.reset();
@@ -18,7 +21,7 @@ describe('Rules', () => {
   test('Add and get rule', () => {
     const ruleName = 'warning-min-test';
 
-    rules.add(ruleName, { create: () => {} }, {});
+    rules.add(ruleName, MockSentinalRule, {});
     expect(rules.get(ruleName)).toBeDefined();
   });
 
@@ -35,10 +38,10 @@ describe('Rules', () => {
 
   test('Get many rules', () => {
     for (let index = 0; index < 5; index++) {
-      rules.add(`warning-min-test-${index}`, { create: () => {} }, {});
+      rules.add(`warning-min-test-${index}`, MockSentinalRule, {});
     }
 
-    expect(rules.getAll().size).toBe(5);
+    expect(Object.keys(rules.getAll()).length).toBe(5);
   });
 
   test('Get Raw Rule ID without scope', () => {

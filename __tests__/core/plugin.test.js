@@ -3,6 +3,9 @@
 const plugins = require('../../src/core/config/plugins');
 const PluginError = require('../../src/core/errors/exceptions/plugin-error');
 
+const SentinalRule = require('../../src/core/plugins/rule');
+class MockSentinalRule extends SentinalRule {}
+
 describe('Plugins', () => {
   beforeEach(() => {
     plugins.reset();
@@ -27,7 +30,7 @@ describe('Plugins', () => {
       plugins.add(`warning-min-test-${index}`, {}, {});
     }
 
-    expect(plugins.getAll().size).toBe(5);
+    expect(Object.keys(plugins.getAll()).length).toBe(5);
   });
 
   test('Get short Plugin ID', () => {
@@ -87,16 +90,8 @@ describe('Plugins', () => {
     plugins._loadFromDirectory = jest.fn(() => {
       return {
         rules: {
-          'min-vulnerabilities-allowed': {
-            create: () => {
-              console.log('min-vulnerabilities-allowed');
-            }
-          },
-          'min-vulnerabilities-allowed-1': {
-            create: () => {
-              console.log('min-vulnerabilities-allowed-1');
-            }
-          }
+          'min-vulnerabilities-allowed': MockSentinalRule,
+          'min-vulnerabilities-allowed-1': MockSentinalRule
         }
       };
     });

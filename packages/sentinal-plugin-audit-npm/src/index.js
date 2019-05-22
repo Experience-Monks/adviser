@@ -3,9 +3,8 @@
 const path = require('path');
 const requireIndex = require('requireindex');
 
-module.exports = {
-  rules: requireIndex(path.join(__dirname, '/rules')),
-  config: {
-    type: 'static'
-  }
+const plugin = {
+  rules: requireIndex(path.join(__dirname, '/rules'))
 };
+
+module.exports = plugin;

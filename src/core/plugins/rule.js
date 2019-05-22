@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Sentinal Rule Template.
+ *
+ */
+
+const metadata = require('./rule-metadata');
+
 class Rule {
   /**
    * Called when the rule is parsed by the engine
@@ -7,15 +14,6 @@ class Rule {
   constructor(context) {
     this.context = context;
     console.log('Rule::constructor', context.ruleName);
-  }
-
-  /**
-   * The rule is added to the run pipeline
-   *
-   * @memberof MinVulnerabilityAllowed
-   */
-  ruleAdded() {
-    console.log('Rule::ruleAdded', this.context.ruleName);
   }
 
   /**
@@ -53,5 +51,7 @@ class Rule {
     console.log('Rule::ruleExecutionEnded', this.context.ruleName);
   }
 }
+
+Rule.meta = { ...metadata };
 
 module.exports = Rule;
