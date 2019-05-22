@@ -14,12 +14,6 @@ const defaultOptions = require('./default-engine-options');
 const plugins = require('./config/plugins');
 const rules = require('./config/rules');
 
-const RuleLifeCycle = require('./lifecycle/rule-lifecycle');
-const RuleContext = require('./lifecycle/rule-context');
-const RuleSandbox = require('./lifecycle/rule-sandbox');
-const RuleFeedback = require('./lifecycle/rule-feedback');
-const RuleStatus = require('./lifecycle/rule-status');
-
 const InvalidRuleError = require('./errors/exceptions/invalid-rule-error');
 
 class Engine {
@@ -41,7 +35,7 @@ class Engine {
     async.each(
       this.rules.getAll(),
       (rule, callback) => {
-        this._ruleLifecyclePipeline(rule, callback);
+        rule.runLifeCycle(this.options.cwd, this.report.bind(this), callback);
       },
       error => {
         if (error) {
@@ -53,49 +47,13 @@ class Engine {
     );
   }
 
-  async _ruleLifecyclePipeline(rule, callback) {
-    let instanceRule = null;
-    let phase = RuleLifeCycle.Init;
-    const instanceContext = new RuleContext(
-      rule.ruleId,
-      rule.pluginName,
-      this.options.cwd,
-      null,
-      rule.settings.options,
-      rule.settings.severity
-    );
-
-    try {
-      // 1. Init rules
-      const DefinedRule = rule.code;
-      instanceRule = new DefinedRule(instanceContext);
-
-      // 2. Run the rule
-      phase = RuleLifeCycle.Run;
-      const sandbox = new RuleSandbox(this.report.bind(this), instanceContext);
-      await instanceRule.run(sandbox);
-
-      // 3. Rule Execution Ended
-      phase = RuleLifeCycle.ruleExecutionEnded;
-      const feedback = new RuleFeedback(RuleStatus.Completed, phase);
-      instanceRule.ruleExecutionEnded(feedback);
-    } catch (error) {
-      const feedback = new RuleFeedback(RuleStatus.Failed, phase);
-      instanceRule.ruleExecutionFailed(feedback, error);
-    } finally {
-      callback();
-    }
-  }
-
   report(ruleReport) {
     this._rawIssues.push({ params: ruleReport.params, ...ruleReport.context });
   }
 
   _loadRules() {
-    // Load the plugins
     this.plugins.loadAll(this.config.getPlugins(), this.options.cwd);
 
-    // Load the rules
     const configRules = this.config.getRules();
     Object.keys(configRules).forEach(fullRuleName => {
       const pluginName = this._getPluginNameFromRule(fullRuleName);
@@ -104,10 +62,10 @@ class Engine {
       const plugin = this.plugins.get(pluginName);
 
       if (plugin && plugin.rules) {
-        const rule = plugin.rules[ruleName];
+        const ruleCore = plugin.rules[ruleName];
         const ruleSettings = configRules[fullRuleName];
 
-        this.rules.add(fullRuleName, rule, ruleSettings, pluginName);
+        this.rules.add(ruleName, pluginName, ruleCore, ruleSettings);
       } else {
         throw new InvalidRuleError(
           'Invalid rule structure',
@@ -142,10 +100,6 @@ class Engine {
     }
 
     return rulePluginTuple[1];
-  }
-
-  processRuleOutput(context) {
-    this._rawIssues.push(context);
   }
 
   getFormatter(formatName) {

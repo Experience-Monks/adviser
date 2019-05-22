@@ -7,7 +7,7 @@
 
 const templateLoader = require('../../core/errors/template-loader');
 const logger = require('../../utils/logger');
-const globalContext = require('../global-context');
+const packageInfo = require('../../package-info');
 
 /**
  * Decide whetever load an error template or just print to the output
@@ -23,7 +23,7 @@ class ErrorHandler {
   onError(exceptionError) {
     if (typeof exceptionError.messageTemplate === 'string' && exceptionError.messageTemplate.length > 0) {
       templateLoader.setTemplateId(exceptionError.messageTemplate);
-      const packageVersion = globalContext.getVersion();
+      const packageVersion = packageInfo.getVersion();
 
       if (templateLoader.exist()) {
         const template = templateLoader.load();

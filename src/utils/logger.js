@@ -1,6 +1,5 @@
 /**
  * @fileoverview Wrapper for native console
- * @author Iran Reyes
  *
  */
 

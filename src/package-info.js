@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sentinal engine core
+ * @fileoverview Sentinal package info
  *
  */
 

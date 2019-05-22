@@ -5,6 +5,11 @@
 
 const metadata = require('./rule-metadata');
 
+/**
+ * All the rule defitions within plugins should extend from this class
+ *
+ * @class Rule
+ */
 class Rule {
   /**
    * Called when the rule is parsed by the engine

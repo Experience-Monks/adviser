@@ -26,7 +26,6 @@ class MinVulnerabilityAllowed extends Sentinal.Rule {
    * @memberof MinVulnerabilityAllowed
    */
   run(sandbox) {
-    // console.log('Rule runs');
     sandbox.report({ message: 'lalalalalalal' });
   }
 

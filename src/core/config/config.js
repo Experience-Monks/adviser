@@ -84,6 +84,7 @@ class Config {
     }
 
     return this._validateSchema(this._config.config, this._config.filepath);
+    // TODO: Validate the rules names have the format [plugin name]/[rule id] and move the checking from the engine to here
   }
 
   /**

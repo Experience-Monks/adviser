@@ -23,11 +23,15 @@ if (isDebugEnabled) {
 process.once('uncaughtException', errorHandler.onError);
 
 if (isInitEnabled) {
+  createInitFileTemplate();
+} else {
+  process.exitCode = cli.execute(process.argv);
+}
+
+function createInitFileTemplate() {
   const sentinalInitConfigFileTemplate = require('../../core/config/data/init-config-file-template.json');
   fs.writeFile('.sentinalrc', JSON.stringify(sentinalInitConfigFileTemplate, null, 4), function(err) {
     if (err) throw err;
     logger.info('Sentinal created a configuration file called .sentinalrc');
   });
-} else {
-  process.exitCode = cli.execute(process.argv);
 }

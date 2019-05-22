@@ -1,5 +1,5 @@
 /**
- * @fileoverview Options configuration for optionator.
+ * @fileoverview Options configuration for the CLI (with optionator).
  *
  */
 
@@ -22,14 +22,6 @@ module.exports = optionator({
       alias: 'c',
       type: 'path::String',
       description: 'Use this configuration, overriding .sentinalrc.* config options if present'
-    },
-    {
-      heading: 'Handling warnings'
-    },
-    {
-      option: 'quiet',
-      type: 'Boolean',
-      description: 'Report errors only'
     },
     {
       heading: 'Output'

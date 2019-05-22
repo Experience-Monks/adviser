@@ -11,7 +11,7 @@ const Config = require('../core/config/config');
 const Engine = require('../core/engine');
 const options = require('./options');
 const logger = require('../utils/logger');
-const globalContext = require('../core/global-context');
+const packageInfo = require('../package-info');
 
 /**
  * CLI Entry point and option parser class
@@ -36,7 +36,7 @@ class CLI {
     }
 
     if (currentOptions.version) {
-      logger.info(`v${globalContext.getVersion()}`);
+      logger.info(`v${packageInfo.getVersion()}`);
     } else if (currentOptions.help) {
       logger.info(options.generateHelp());
     } else {
@@ -49,11 +49,6 @@ class CLI {
       const engine = new Engine(config, engineOptions);
 
       engine.run();
-
-      if (currentOptions.quiet) {
-        debug('Quiet mode enabled - filtering out warnings');
-        // TODO: To be build
-      }
 
       return 2;
     }

@@ -7,7 +7,8 @@
 
 const debug = require('debug')('sentinal:rules');
 
-const SentinalRule = require('../plugins/rule');
+const PluginRule = require('../plugins/rule');
+const Rule = require('../rule/rule');
 const SeverityEnum = require('./severity');
 
 const InvalidRuleError = require('../errors/exceptions/invalid-rule-error');
@@ -19,8 +20,7 @@ const InvalidRuleError = require('../errors/exceptions/invalid-rule-error');
  */
 class Rules {
   constructor() {
-    this._ruleScope = 'sentinal-plugin-';
-    this._rules = {};
+    this._rules = [];
   }
 
   /**
@@ -33,10 +33,10 @@ class Rules {
    * @memberof Rules
    * @returns {Void}
    */
-  add(ruleId, Rule, ruleSetting, pluginName) {
+  add(ruleId, pluginName, RuleCore, ruleSetting) {
     if (!ruleId) return;
 
-    if (!Rule || !(Rule.prototype instanceof SentinalRule)) {
+    if (!RuleCore || !(RuleCore.prototype instanceof PluginRule)) {
       throw new InvalidRuleError(
         'Rule definition is invalid',
         ruleId,
@@ -44,16 +44,13 @@ class Rules {
       );
     }
 
-    const normalizedRuleId = this._normalizeRuleId(ruleId);
     const normalizedSettings = this._normalizeSettings(ruleSetting);
-    this._rules[normalizedRuleId] = {
-      settings: normalizedSettings,
-      code: Rule,
-      pluginName: pluginName,
-      ruleId: ruleId
-    };
 
-    debug(`Rule ${normalizedRuleId} added`);
+    const rule = new Rule(ruleId, pluginName, RuleCore, normalizedSettings.severity, normalizedSettings.options);
+
+    this._rules.push(rule);
+
+    debug(`Rule ${ruleId} added`);
   }
 
   /**
@@ -64,8 +61,13 @@ class Rules {
    * @memberof Rules
    */
   get(ruleId) {
-    const normalizedRuleId = this._normalizeRuleId(ruleId);
-    return this._rules[normalizedRuleId];
+    const rules = this._rules.find(rule => rule.id === ruleId);
+
+    if (rules) {
+      return rules[0];
+    }
+
+    return false;
   }
 
   /**
@@ -84,22 +86,7 @@ class Rules {
    * @memberof Plugins
    */
   reset() {
-    this._rules = {};
-  }
-
-  /**
-   * Add Rule Scope if doesn't exist from the rule Id
-   *
-   * @param {String} ruleId
-   * @returns
-   * @memberof Rules
-   */
-  _normalizeRuleId(ruleId) {
-    if (ruleId.indexOf(this._ruleScope) < 0) {
-      return `${this._ruleScope}${ruleId}`.toLowerCase();
-    }
-
-    return ruleId.toLowerCase();
+    this._rules = [];
   }
 
   /**
