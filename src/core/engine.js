@@ -8,7 +8,6 @@
 const debug = require('debug')('sentinal:engine');
 const async = require('async');
 
-const logger = require('../utils/logger');
 const defaultOptions = require('./default-engine-options');
 
 const plugins = require('./config/plugins');
@@ -16,7 +15,18 @@ const rules = require('./config/rules');
 
 const InvalidRuleError = require('./errors/exceptions/invalid-rule-error');
 
+/**
+ * Sentinal core engine, it runs the loaded rules
+ *
+ * @class Engine
+ */
 class Engine {
+  /**
+   *Creates an instance of Engine.
+   * @param {Config} configInstance
+   * @param {Object} engine options
+   * @memberof Engine
+   */
   constructor(configInstance, options) {
     debug('Running engine');
 
@@ -31,26 +41,44 @@ class Engine {
     this._rawIssues = [];
   }
 
+  /**
+   * Run all the rules lifecycle
+   *
+   * @memberof Engine
+   */
   run() {
-    async.each(
-      this.rules.getAll(),
-      (rule, callback) => {
-        rule.runLifeCycle(this.options.cwd, this.report.bind(this), callback);
-      },
-      error => {
-        if (error) {
-          logger.error('Some rules has failed the run');
-        } else {
-          this.printResults();
+    return new Promise((resolve, reject) => {
+      async.each(
+        this.rules.getAll(),
+        (rule, callback) => {
+          rule.runLifeCycle(this.options.cwd, this.report.bind(this), callback);
+        },
+        error => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
         }
-      }
-    );
+      );
+    });
   }
 
+  /**
+   * Send a report to the engine
+   *
+   * @param {Object} ruleReport
+   * @memberof Engine
+   */
   report(ruleReport) {
     this._rawIssues.push({ params: ruleReport.params, ...ruleReport.context });
   }
 
+  /**
+   * Load rules from the config file and from the plugins
+   *
+   * @memberof Engine
+   */
   _loadRules() {
     this.plugins.loadAll(this.config.getPlugins(), this.options.cwd);
 
@@ -102,24 +130,14 @@ class Engine {
     return rulePluginTuple[1];
   }
 
-  getFormatter(formatName) {
-    const formatterPath = `./formatters/${formatName}`;
-
-    try {
-      return require(formatterPath);
-    } catch (ex) {
-      throw new Error(`There was a problem loading formatter: ${formatterPath}\nError: ${ex.message}`);
-    }
-  }
-
-  printResults() {
-    const formatter = this.getFormatter(this.options.outputFormat);
-
-    const output = formatter(this._rawIssues);
-
-    if (output) {
-      logger.info(output);
-    }
+  /**
+   * Get list of found issues <warning and errors>
+   *
+   * @returns
+   * @memberof Engine
+   */
+  getIssues() {
+    return this._rawIssues;
   }
 }
 

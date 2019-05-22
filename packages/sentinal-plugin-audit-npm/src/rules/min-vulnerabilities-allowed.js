@@ -26,7 +26,12 @@ class MinVulnerabilityAllowed extends Sentinal.Rule {
    * @memberof MinVulnerabilityAllowed
    */
   run(sandbox) {
-    sandbox.report({ message: 'lalalalalalal' });
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        sandbox.report({ message: 'lalalalalalal' });
+        resolve();
+      }, 3000);
+    });
   }
 
   /**
