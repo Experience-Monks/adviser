@@ -5,7 +5,6 @@
 
 'use strict';
 
-const lodash = require('lodash');
 const chalk = require('chalk');
 const stripAnsi = require('strip-ansi');
 const table = require('text-table');
@@ -18,6 +17,25 @@ const table = require('text-table');
  */
 function pluralize(word, count) {
   return count === 1 ? word : `${word}s`;
+}
+
+/**
+ * Creates an object composed of keys generated from the `key` of each element
+ * in the collection. The value is an array of elements that generated that `key`
+ * @param {traversable} traversable An array like collection
+ * @param {string} key A arraykey for the grouping
+ * @returns {string} A composed object
+ */
+function groupBy(traversable, key) {
+  let result = {};
+  Array.from(traversable).forEach(val => {
+    const elementKey = val[key];
+    if (!Object.hasOwnProperty(elementKey)) {
+      result[elementKey] = [];
+    }
+    result[elementKey].push(val);
+  });
+  return result;
 }
 
 /**
@@ -35,7 +53,7 @@ function base(results) {
     return;
   }
 
-  const resultsByPlugins = lodash.groupBy(results, 'pluginName');
+  const resultsByPlugins = groupBy(results, 'pluginName');
 
   Object.keys(resultsByPlugins).forEach(pluginName => {
     output += `${chalk.underline(pluginName)}\n`;
