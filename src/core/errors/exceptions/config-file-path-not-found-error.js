@@ -6,8 +6,14 @@
 'use strict';
 
 const ConfigFileNotFoundError = require('./config-file-not-found-error');
-const messages = require('../messages');
+const messages = require('../messages/messages-enum');
 
+/**
+ * Sentinal Configuration Filepath Not Found Exception
+ *
+ * @class ConfigFilePathNotFoundError
+ * @extends {ConfigFileNotFoundError}
+ */
 class ConfigFilePathNotFoundError extends ConfigFileNotFoundError {
   constructor(path = null) {
     super(null, path);

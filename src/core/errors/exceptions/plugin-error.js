@@ -5,8 +5,14 @@
 
 'use strict';
 
-const messages = require('../messages');
+const messages = require('../messages/messages-enum');
 
+/**
+ * Sentinal Plugin Rule Exception
+ *
+ * @class PluginError
+ * @extends {Error}
+ */
 class PluginError extends Error {
   constructor(message, pluginName, error) {
     super(message);

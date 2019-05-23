@@ -12,16 +12,15 @@ describe('Rules', () => {
   });
 
   test('Add empty rule', () => {
-    const ruleName = '';
     expect(() => {
-      rules.add(ruleName, {}, {});
-    }).not.toThrow();
+      rules.add('', '', MockSentinalRule, {});
+    }).toThrow(InvalidRuleError);
   });
 
   test('Add and get rule', () => {
     const ruleName = 'warning-min-test';
 
-    rules.add(ruleName, MockSentinalRule, {});
+    rules.add(ruleName, '', MockSentinalRule, {});
     expect(rules.get(ruleName)).toBeDefined();
   });
 
@@ -38,22 +37,10 @@ describe('Rules', () => {
 
   test('Get many rules', () => {
     for (let index = 0; index < 5; index++) {
-      rules.add(`warning-min-test-${index}`, MockSentinalRule, {});
+      rules.add(`warning-min-test-${index}`, 'plugin-name', MockSentinalRule, {});
     }
 
     expect(Object.keys(rules.getAll()).length).toBe(5);
-  });
-
-  test('Get Raw Rule ID without scope', () => {
-    const ruleName = 'warning-min-test';
-
-    expect(rules._normalizeRuleId(ruleName)).toBe(`${rules._ruleScope}${ruleName}`);
-  });
-
-  test('Get Raw Rule ID with scope', () => {
-    const ruleName = 'sentinal-plugin-warning-min-test';
-
-    expect(rules._normalizeRuleId(ruleName)).toBe(ruleName);
   });
 
   test('Severity is normalized correctly', () => {

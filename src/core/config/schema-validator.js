@@ -15,6 +15,12 @@ const Ajv = require('ajv');
  * @class SchemaValidator
  */
 class SchemaValidator {
+  /**
+   *Creates an instance of SchemaValidator.
+   * @param {JSON} schema Schema used to validate the config file
+   * @param {JSON} config Config file to test
+   * @memberof SchemaValidator
+   */
   constructor(schema, config) {
     this.config = config;
     this.schema = schema;

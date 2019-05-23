@@ -5,6 +5,11 @@
 
 'use strict';
 
+/**
+ * Rule context object for external rules
+ *
+ * @class RuleContext
+ */
 class RuleContext {
   constructor(ruleName, pluginName, dirname, filename, options, severity) {
     this.ruleName = ruleName;

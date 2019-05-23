@@ -19,7 +19,18 @@ const SchemaValidator = require('./schema-validator');
 
 const MODULE_NAME = 'sentinal';
 
+/**
+ * Class to handle the configuration files
+ *
+ * @class Config
+ */
 class Config {
+  /**
+   *Creates an instance of Config.
+   * @param {String} [filePath=null] File path of the config file
+   * @param {FileExplorer} [fileExplorer=null] By default using cosmiconfig, but can be any explorer with the same API
+   * @memberof Config
+   */
   constructor(filePath = null, fileExplorer = null) {
     this._config = null;
 

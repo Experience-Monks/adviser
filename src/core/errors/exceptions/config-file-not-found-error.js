@@ -5,10 +5,16 @@
 
 'use strict';
 
-const messages = require('../messages');
+const messages = require('../messages/messages-enum');
 
 const DEFAULT_ERROR_MESSAGE = 'No Sentinal configuration found.';
 
+/**
+ * Sentinal Configuration File Not Found Exception
+ *
+ * @class ConfigNotFoundError
+ * @extends {Error}
+ */
 class ConfigNotFoundError extends Error {
   constructor(message = DEFAULT_ERROR_MESSAGE, path = null) {
     super(message);

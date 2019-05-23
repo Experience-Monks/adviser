@@ -119,6 +119,6 @@ describe('Engine - Load Rules', () => {
 
     const engine = new Engine(config, {});
 
-    expect(engine.rules.get('test1/rule')).toBeDefined();
+    expect(engine.rules.get('rule')).toBeDefined();
   });
 });
