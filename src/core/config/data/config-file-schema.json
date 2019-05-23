@@ -1,6 +1,6 @@
 {
-  "title": "Sentinal Config File Schema",
-  "description": "Use to validate user's sentinal configuration files",
+  "title": "Adviser Config File Schema",
+  "description": "Use to validate user's adviser configuration files",
   "type": "object",
   "definitions": {
     "rule-str": {

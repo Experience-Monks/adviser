@@ -8,7 +8,7 @@
 const messages = require('../messages/messages-enum');
 
 /**
- * Sentinal Plugin Rule Exception
+ * Adviser Plugin Rule Exception
  *
  * @class PluginError
  * @extends {Error}

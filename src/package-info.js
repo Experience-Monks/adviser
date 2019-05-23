@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sentinal package info
+ * @fileoverview Adviser package info
  *
  */
 
@@ -7,7 +7,7 @@
 
 module.exports = {
   /**
-   * Get Sentinal package version
+   * Get Adviser package version
    * @returns {Number} package version
    */
   getVersion() {

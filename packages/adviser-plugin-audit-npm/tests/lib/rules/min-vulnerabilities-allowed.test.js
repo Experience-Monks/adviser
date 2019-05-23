@@ -1,4 +1,4 @@
-const Sentinal = require('sentinal');
+const Adviser = require('adviser');
 const minVulnerabilitiesAllowed = require('../../../src/rules/min-vulnerabilities-allowed');
 
 describe('Rule configuration', () => {
@@ -11,7 +11,7 @@ describe('Rule configuration', () => {
 });
 
 describe('Rule definition', () => {
-  test('Rule is extending from Sentinal Rule', () => {
-    expect(minVulnerabilitiesAllowed.prototype instanceof Sentinal.Rule).toBeTruthy();
+  test('Rule is extending from Adviser Rule', () => {
+    expect(minVulnerabilitiesAllowed.prototype instanceof Adviser.Rule).toBeTruthy();
   });
 });

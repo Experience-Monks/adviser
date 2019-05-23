@@ -8,7 +8,7 @@
 const optionator = require('optionator');
 
 module.exports = optionator({
-  prepend: 'sentinal [options] file.js [file.js] [dir]',
+  prepend: 'adviser [options] file.js [file.js] [dir]',
   defaults: {
     concatRepeatedArrays: true,
     defaults: Object
@@ -21,7 +21,7 @@ module.exports = optionator({
       option: 'config',
       alias: 'c',
       type: 'path::String',
-      description: 'Use this configuration, overriding .sentinalrc.* config options if present'
+      description: 'Use this configuration, overriding .adviserrc.* config options if present'
     },
     {
       heading: 'Output'

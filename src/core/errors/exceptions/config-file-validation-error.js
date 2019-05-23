@@ -8,7 +8,7 @@
 const messages = require('../messages/messages-enum');
 
 /**
- * Sentinal Configuration File Validation Exception
+ * Adviser Configuration File Validation Exception
  *
  * @class ConfigFileValidationError
  * @extends {Error}

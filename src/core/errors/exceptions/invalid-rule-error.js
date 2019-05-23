@@ -8,7 +8,7 @@
 const MessagesEnum = require('../messages/messages-enum');
 
 /**
- * Sentinal Invalid Rule Exception
+ * Adviser Invalid Rule Exception
  *
  * @class InvalidRuleError
  * @extends {Error}

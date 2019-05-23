@@ -1,11 +1,11 @@
 /**
- * @fileoverview Sentinal Plugins.
+ * @fileoverview Adviser Plugins.
  *
  */
 
 'use strict';
 
-const debug = require('debug')('sentinal:plugins');
+const debug = require('debug')('adviser:plugins');
 
 const PluginError = require('../errors/exceptions/plugin-error');
 
@@ -16,7 +16,7 @@ const PluginError = require('../errors/exceptions/plugin-error');
  */
 class Plugins {
   constructor() {
-    this._pluginScope = 'sentinal-plugin-';
+    this._pluginScope = 'adviser-plugin-';
     this._plugins = {};
   }
 
@@ -138,11 +138,13 @@ class Plugins {
       const pluginPath = require.resolve(pluginId, { paths: [directory] });
       return require(pluginPath);
     } catch (pluginLoadErr) {
+      debug(`Failed to retrieve the path of the plugin ${pluginId}.`, pluginLoadErr);
+
       try {
         require.resolve(pluginId);
       } catch (missingPluginErr) {
         // If the plugin can't be resolved, display the missing plugin error (usually a config or install error)
-        debug(`Failed to load plugin ${pluginId}.`);
+        debug(`Failed to load plugin ${pluginId}.`, missingPluginErr);
 
         throw new PluginError(
           `Failed to load plugin ${pluginId}`,

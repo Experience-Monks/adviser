@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * @fileoverview CLI that is run via the sentinal command.
+ * @fileoverview CLI that is run via the adviser command.
  *
  */
 
@@ -17,7 +17,7 @@ const isInitEnabled = process.argv.indexOf('--init') > -1;
 const isDebugEnabled = process.argv.indexOf('--debug') > -1;
 
 if (isDebugEnabled) {
-  require('debug').enable('sentinal:*');
+  require('debug').enable('adviser:*');
 }
 
 process.once('uncaughtException', errorHandler.onError);
@@ -35,9 +35,9 @@ if (isInitEnabled) {
  *
  */
 function createInitFileTemplate() {
-  const sentinalInitConfigFileTemplate = require('../../core/config/data/init-config-file-template.json');
-  fs.writeFile('.sentinalrc', JSON.stringify(sentinalInitConfigFileTemplate, null, 4), function(err) {
+  const adviserInitConfigFileTemplate = require('../../core/config/data/init-config-file-template.json');
+  fs.writeFile('.adviserrc', JSON.stringify(adviserInitConfigFileTemplate, null, 4), function(err) {
     if (err) throw err;
-    logger.info('Sentinal created a configuration file called .sentinalrc');
+    logger.info('Adviser created a configuration file called .adviserrc');
   });
 }

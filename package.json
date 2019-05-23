@@ -1,5 +1,5 @@
 {
-  "name": "sentinal",
+  "name": "adviser",
   "version": "0.0.1",
   "description": "Jam3 Quality advisor",
   "main": "src/index.js",
@@ -70,7 +70,6 @@
     }
   },
   "dependencies": {
-    "@sindresorhus/is": "0.17.0",
     "ajv": "6.10.0",
     "async": "3.0.0",
     "cosmiconfig": "5.2.0",

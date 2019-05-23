@@ -1,8 +1,8 @@
-Sentinal couldn't find the configuration file <%= path %>
+Adviser couldn't find the configuration file <%= path %>
 Make sure the URL has the shape [url<relative/absolute>]/[config-filename]
 
 To set up a configuration file for this project, please run:
 
-    sentinal --init
+    adviser --init
 
 If you think you already have a configuration file or if you need more help, please open an issue in the GitHub Repository

@@ -3,8 +3,8 @@
 const rules = require('../../src/core/config/rules');
 const InvalidRuleError = require('../../src/core/errors/exceptions/invalid-rule-error');
 
-const SentinalRule = require('../../src/core/plugins/rule');
-class MockSentinalRule extends SentinalRule {}
+const AdviserRule = require('../../src/core/plugins/rule');
+class MockAdviserRule extends AdviserRule {}
 
 describe('Rules', () => {
   beforeEach(() => {
@@ -13,14 +13,14 @@ describe('Rules', () => {
 
   test('Add empty rule', () => {
     expect(() => {
-      rules.add('', '', MockSentinalRule, {});
+      rules.add('', '', MockAdviserRule, {});
     }).toThrow(InvalidRuleError);
   });
 
   test('Add and get rule', () => {
     const ruleName = 'warning-min-test';
 
-    rules.add(ruleName, '', MockSentinalRule, {});
+    rules.add(ruleName, '', MockAdviserRule, {});
     expect(rules.get(ruleName)).toBeDefined();
   });
 
@@ -37,7 +37,7 @@ describe('Rules', () => {
 
   test('Get many rules', () => {
     for (let index = 0; index < 5; index++) {
-      rules.add(`warning-min-test-${index}`, 'plugin-name', MockSentinalRule, {});
+      rules.add(`warning-min-test-${index}`, 'plugin-name', MockAdviserRule, {});
     }
 
     expect(Object.keys(rules.getAll()).length).toBe(5);

@@ -5,7 +5,7 @@
 
 'use strict';
 
-const debug = require('debug')('sentinal:cli');
+const debug = require('debug')('adviser:cli');
 
 const Config = require('../core/config/config');
 const Engine = require('../core/engine');
@@ -34,7 +34,7 @@ class CLI {
       currentOptions = options.parse(args);
     } catch (error) {
       logger.error(error.message);
-      logger.info(`\nRun 'sentinal -h' to discover the available parameters`);
+      logger.info(`\nRun 'adviser -h' to discover the available parameters`);
 
       errorCode = 2;
       callback(errorCode);
@@ -46,7 +46,7 @@ class CLI {
     } else if (currentOptions.help) {
       logger.info(options.generateHelp());
     } else {
-      debug('Sentinal running the engine');
+      debug('Adviser running the engine');
 
       const engineOptions = this._prepareEngineOptions(currentOptions);
 

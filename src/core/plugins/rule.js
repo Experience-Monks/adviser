@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sentinal Rule Template.
+ * @fileoverview Adviser Rule Template.
  *
  */
 

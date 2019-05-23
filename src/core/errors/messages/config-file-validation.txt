@@ -1,4 +1,4 @@
-Sentinal couldn't parse the configuration file in <%= path %>.
+Adviser couldn't parse the configuration file in <%= path %>.
 
 The following errors were found:
 <%= errors %>

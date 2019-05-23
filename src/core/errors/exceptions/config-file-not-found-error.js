@@ -7,10 +7,10 @@
 
 const messages = require('../messages/messages-enum');
 
-const DEFAULT_ERROR_MESSAGE = 'No Sentinal configuration found.';
+const DEFAULT_ERROR_MESSAGE = 'No Adviser configuration found.';
 
 /**
- * Sentinal Configuration File Not Found Exception
+ * Adviser Configuration File Not Found Exception
  *
  * @class ConfigNotFoundError
  * @extends {Error}

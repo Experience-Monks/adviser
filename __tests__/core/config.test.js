@@ -7,7 +7,7 @@ const ConfigFileValidationError = require('../../src/core/errors/exceptions/conf
 
 describe('Config', () => {
   test('Load config with invalid schema', () => {
-    const fileExplorer = cosmiconfig('sentinal');
+    const fileExplorer = cosmiconfig('adviser');
 
     fileExplorer.loadSync = jest.fn(() => {
       return {
@@ -23,7 +23,7 @@ describe('Config', () => {
   });
 
   test('Load config with valid schema', () => {
-    const fileExplorer = cosmiconfig('sentinal');
+    const fileExplorer = cosmiconfig('adviser');
 
     fileExplorer.loadSync = jest.fn(() => {
       return {
@@ -42,7 +42,7 @@ describe('Config', () => {
   });
 
   test('Look at for config with invalid schema', () => {
-    const fileExplorer = cosmiconfig('sentinal');
+    const fileExplorer = cosmiconfig('adviser');
 
     fileExplorer.searchSync = jest.fn(() => {
       return {
@@ -58,7 +58,7 @@ describe('Config', () => {
   });
 
   test('Look at for config with valid schema', () => {
-    const fileExplorer = cosmiconfig('sentinal');
+    const fileExplorer = cosmiconfig('adviser');
 
     fileExplorer.searchSync = jest.fn(() => {
       return {
@@ -77,7 +77,7 @@ describe('Config', () => {
   });
 
   test('Get empty plugins', () => {
-    const fileExplorer = cosmiconfig('sentinal');
+    const fileExplorer = cosmiconfig('adviser');
 
     fileExplorer.loadSync = jest.fn(() => {
       return {
@@ -96,7 +96,7 @@ describe('Config', () => {
   });
 
   test('Get plugins', () => {
-    const fileExplorer = cosmiconfig('sentinal');
+    const fileExplorer = cosmiconfig('adviser');
 
     fileExplorer.loadSync = jest.fn(() => {
       return {
@@ -117,7 +117,7 @@ describe('Config', () => {
   });
 
   test('Get rules', () => {
-    const fileExplorer = cosmiconfig('sentinal');
+    const fileExplorer = cosmiconfig('adviser');
 
     fileExplorer.loadSync = jest.fn(() => {
       return {
@@ -143,7 +143,7 @@ describe('Config', () => {
 
   test('Instantiate config with file exact path', () => {
     const testFile = path.join(process.cwd(), '/__tests__/core/config.test.js');
-    const fileExplorer = cosmiconfig('sentinal');
+    const fileExplorer = cosmiconfig('adviser');
 
     fileExplorer.loadSync = jest.fn(() => {
       return {
@@ -165,7 +165,7 @@ describe('Config', () => {
 
   test('Instantiate config with file directory', () => {
     const testDirectory = process.cwd();
-    const fileExplorer = cosmiconfig('sentinal');
+    const fileExplorer = cosmiconfig('adviser');
 
     fileExplorer.searchSync = jest.fn(() => {
       return {

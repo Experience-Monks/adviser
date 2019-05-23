@@ -1,11 +1,11 @@
 /**
- * @fileoverview Sentinal Rules.
+ * @fileoverview Adviser Rules.
  *
  */
 
 'use strict';
 
-const debug = require('debug')('sentinal:rules');
+const debug = require('debug')('adviser:rules');
 
 const PluginRule = require('../plugins/rule');
 const Rule = require('../rule/rule');

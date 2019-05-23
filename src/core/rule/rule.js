@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sentinal Rules.
+ * @fileoverview Adviser Rules.
  *
  */
 

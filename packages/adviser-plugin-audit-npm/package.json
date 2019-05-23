@@ -1,11 +1,11 @@
 {
-  "name": "sentinal-plugin-audit-npm",
+  "name": "adviser-plugin-audit-npm",
   "version": "0.0.1",
   "description": "To be fill",
   "keywords": [
-    "sentinal",
-    "sentinalplugin",
-    "sentinal-plugin"
+    "adviser",
+    "adviserplugin",
+    "adviser-plugin"
   ],
   "license": "MIT",
   "main": "src/index.js",
@@ -24,7 +24,7 @@
     "jest": "^24.7.1"
   },
   "peerDependencies": {
-    "sentinal": "~0.0.1"
+    "adviser": "~0.0.1"
   },
   "jest": {
     "collectCoverage": true,

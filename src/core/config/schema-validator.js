@@ -1,11 +1,11 @@
 /**
- * @fileoverview Sentinal Config file Schema Validator.
+ * @fileoverview Adviser Config file Schema Validator.
  *
  */
 
 'use strict';
 
-const debug = require('debug')('sentinal:schema-validator');
+const debug = require('debug')('adviser:schema-validator');
 
 const Ajv = require('ajv');
 

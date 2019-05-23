@@ -1,11 +1,11 @@
 /**
- * @fileoverview Sentinal engine core
+ * @fileoverview Adviser engine core
  *
  */
 
 'use strict';
 
-const debug = require('debug')('sentinal:engine');
+const debug = require('debug')('adviser:engine');
 const async = require('async');
 
 const defaultOptions = require('./default-engine-options');
@@ -16,7 +16,7 @@ const rules = require('./config/rules');
 const InvalidRuleError = require('./errors/exceptions/invalid-rule-error');
 
 /**
- * Sentinal core engine, it runs the loaded rules
+ * Adviser core engine, it runs the loaded rules
  *
  * @class Engine
  */

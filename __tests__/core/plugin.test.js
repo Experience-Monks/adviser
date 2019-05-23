@@ -3,8 +3,8 @@
 const plugins = require('../../src/core/config/plugins');
 const PluginError = require('../../src/core/errors/exceptions/plugin-error');
 
-const SentinalRule = require('../../src/core/plugins/rule');
-class MockSentinalRule extends SentinalRule {}
+const AdviserRule = require('../../src/core/plugins/rule');
+class MockAdviserRule extends AdviserRule {}
 
 describe('Plugins', () => {
   beforeEach(() => {
@@ -40,7 +40,7 @@ describe('Plugins', () => {
   });
 
   test('Get short Rule ID with scope', () => {
-    const pluginName = 'sentinal-plugin-security-audit';
+    const pluginName = 'adviser-plugin-security-audit';
 
     expect(plugins._normalizePluginId(pluginName)).toBe(pluginName);
   });
@@ -50,7 +50,7 @@ describe('Plugins', () => {
       plugins.load(pluginName, '');
     }
 
-    const pluginName = 'sentinal-plugin-secu rity-audit';
+    const pluginName = 'adviser-plugin-secu rity-audit';
 
     expect(load).toThrow(PluginError);
     expect(load).toThrow('Invalid plugin name');
@@ -61,14 +61,14 @@ describe('Plugins', () => {
       plugins.load(pluginName, '');
     }
 
-    const pluginName = 'sentinal-plugin-security-audit';
+    const pluginName = 'adviser-plugin-security-audit';
 
     expect(load).toThrow(PluginError);
     expect(load).toThrow('Failed to load plugin');
   });
 
   test('Load plugin', () => {
-    const pluginName = 'sentinal-plugin-security-audit';
+    const pluginName = 'adviser-plugin-security-audit';
 
     plugins._loadFromDirectory = jest.fn(() => {
       return {
@@ -84,14 +84,14 @@ describe('Plugins', () => {
   });
 
   test('Get all the rules', () => {
-    const pluginNameFirst = 'sentinal-plugin-security-audit';
-    const pluginNameSecond = 'sentinal-plugin-security-audit-second';
+    const pluginNameFirst = 'adviser-plugin-security-audit';
+    const pluginNameSecond = 'adviser-plugin-security-audit-second';
 
     plugins._loadFromDirectory = jest.fn(() => {
       return {
         rules: {
-          'min-vulnerabilities-allowed': MockSentinalRule,
-          'min-vulnerabilities-allowed-1': MockSentinalRule
+          'min-vulnerabilities-allowed': MockAdviserRule,
+          'min-vulnerabilities-allowed-1': MockAdviserRule
         }
       };
     });

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sentinal Config file logic.
+ * @fileoverview Adviser Config file logic.
  *
  */
 
@@ -8,7 +8,7 @@
 const path = require('path');
 const fs = require('fs');
 const cosmiconfig = require('cosmiconfig');
-const debug = require('debug')('sentinal:config');
+const debug = require('debug')('adviser:config');
 
 const ConfigFileNotFoundError = require('../errors/exceptions/config-file-not-found-error');
 const ConfigFilePathNotFoundError = require('../errors/exceptions/config-file-path-not-found-error');
@@ -17,7 +17,7 @@ const ConfigFileValidationError = require('../errors/exceptions/config-file-vali
 const configFileSchema = require('./data/config-file-schema.json');
 const SchemaValidator = require('./schema-validator');
 
-const MODULE_NAME = 'sentinal';
+const MODULE_NAME = 'adviser';
 
 /**
  * Class to handle the configuration files
@@ -123,7 +123,7 @@ class Config {
   /**
    * Is the loaded config file valid
    *
-   * @param {Sentinal Config File} config
+   * @param {Adviser Config File} config
    * @param {Path} configFilePath
    * @memberof Config
    */
@@ -133,7 +133,7 @@ class Config {
 
     if (!schemaValidator.isValid()) {
       const schemaErrors = schemaValidator.getOutputFormattedErrors();
-      throw new ConfigFileValidationError('Invalid Sentinal Configuration file', configFilePath, schemaErrors);
+      throw new ConfigFileValidationError('Invalid Adviser Configuration file', configFilePath, schemaErrors);
     }
 
     return config;

@@ -1,10 +1,10 @@
 'use strict';
 
-const Sentinal = require('sentinal');
+const Adviser = require('adviser');
 
 const docsUrl = require('../utils/docsUrl');
 
-class MinVulnerabilityAllowed extends Sentinal.Rule {
+class MinVulnerabilityAllowed extends Adviser.Rule {
   /**
    * Action rule method called when the engine runs the rule
    *

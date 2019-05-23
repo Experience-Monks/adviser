@@ -17,7 +17,7 @@ class RuleSandbox {
   }
 
   /**
-   * Report issues back to the Sentinal engine
+   * Report issues back to the Adviser engine
    *
    * @param {Object} params
    * @memberof RuleSandbox

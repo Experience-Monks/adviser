@@ -29,10 +29,10 @@ class ErrorHandler {
         const template = templateLoader.load();
 
         logger.error('\nOops! Something went wrong! :(');
-        logger.error(`\nSentinal: v${packageVersion}\n${template(exceptionError.data || {})}`);
+        logger.error(`\nAdviser: v${packageVersion}\n${template(exceptionError.data || {})}`);
       } else {
         logger.error('\nOops! Something went wrong! :(');
-        logger.error(`\nSentinal: v${packageVersion}\nThe error template doesn't exist`);
+        logger.error(`\nAdviser: v${packageVersion}\nThe error template doesn't exist`);
       }
     } else {
       logger.error(exceptionError.stack);

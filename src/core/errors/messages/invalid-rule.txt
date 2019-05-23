@@ -1,5 +1,5 @@
-Sentinal had issues loading the rule <%= ruleName %>.
+Adviser had issues loading the rule <%= ruleName %>.
 
 <%= error %>
 
-Call sentinal with the --debug flag to see more details, If you think you need more help, please open an issue in the GitHub Repository
+Call adviser with the --debug flag to see more details, If you think you need more help, please open an issue in the GitHub Repository

@@ -2,7 +2,7 @@
 
 const cosmiconfig = require('cosmiconfig');
 
-const SentinalRule = require('../../src/core/plugins/rule');
+const AdviserRule = require('../../src/core/plugins/rule');
 
 const Config = require('../../src/core/config/config');
 const Engine = require('../../src/core/engine');
@@ -11,7 +11,7 @@ const plugins = require('../../src/core/config/plugins');
 
 const InvalidRuleError = require('../../src/core/errors/exceptions/invalid-rule-error');
 
-class MockSentinalRule extends SentinalRule {}
+class MockAdviserRule extends AdviserRule {}
 
 describe('Engine - Load Rules', () => {
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('Engine - Load Rules', () => {
 
   test('Config rule is not in defined in plugins', () => {
     // Mock the config file
-    const fileExplorer = cosmiconfig('sentinal');
+    const fileExplorer = cosmiconfig('adviser');
     fileExplorer.loadSync = jest.fn(() => {
       return {
         config: {
@@ -40,7 +40,7 @@ describe('Engine - Load Rules', () => {
     plugins._loadFromDirectory = jest.fn(() => {
       return {
         rules: {
-          'test2/rule': MockSentinalRule
+          'test2/rule': MockAdviserRule
         }
       };
     });
@@ -56,7 +56,7 @@ describe('Engine - Load Rules', () => {
 
   test('Invalid rule name - not included the plugin', () => {
     // Mock the config file
-    const fileExplorer = cosmiconfig('sentinal');
+    const fileExplorer = cosmiconfig('adviser');
     fileExplorer.loadSync = jest.fn(() => {
       return {
         config: {
@@ -76,7 +76,7 @@ describe('Engine - Load Rules', () => {
     plugins._loadFromDirectory = jest.fn(() => {
       return {
         rules: {
-          'test2/rule': MockSentinalRule
+          'test2/rule': MockAdviserRule
         }
       };
     });
@@ -92,7 +92,7 @@ describe('Engine - Load Rules', () => {
 
   test('Rules are loaded', () => {
     // Mock the config file
-    const fileExplorer = cosmiconfig('sentinal');
+    const fileExplorer = cosmiconfig('adviser');
     fileExplorer.loadSync = jest.fn(() => {
       return {
         config: {
@@ -112,7 +112,7 @@ describe('Engine - Load Rules', () => {
     plugins._loadFromDirectory = jest.fn(() => {
       return {
         rules: {
-          rule: MockSentinalRule
+          rule: MockAdviserRule
         }
       };
     });
