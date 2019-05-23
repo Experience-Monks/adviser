@@ -5,8 +5,14 @@
 
 'use strict';
 
-const messages = require('../messages');
+const messages = require('../messages/messages-enum');
 
+/**
+ * Sentinal Configuration File Validation Exception
+ *
+ * @class ConfigFileValidationError
+ * @extends {Error}
+ */
 class ConfigFileValidationError extends Error {
   constructor(message, path, errors) {
     super(message);

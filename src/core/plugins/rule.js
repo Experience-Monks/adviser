@@ -18,7 +18,6 @@ class Rule {
    */
   constructor(context) {
     this.context = context;
-    console.log('Rule::constructor', context.ruleName);
   }
 
   /**
@@ -29,7 +28,6 @@ class Rule {
    */
   run(sandbox) {
     this.sandbox = sandbox;
-    console.log('Rule::run', this.context.ruleName);
   }
 
   /**
@@ -41,7 +39,6 @@ class Rule {
    */
   ruleExecutionFailed(feedback, error) {
     this.feedback = feedback;
-    console.log('Rule::ruleExecutionFailed', this.context.ruleName);
   }
 
   /**
@@ -53,7 +50,6 @@ class Rule {
    */
   ruleExecutionEnded(feedback) {
     this.feedback = feedback;
-    console.log('Rule::ruleExecutionEnded', this.context.ruleName);
   }
 }
 

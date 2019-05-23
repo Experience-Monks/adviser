@@ -5,11 +5,23 @@
 
 'use strict';
 
+/**
+ * Rule sandbox object for external rules
+ *
+ * @class RuleSandbox
+ */
 class RuleSandbox {
   constructor(engineReportMethod, ruleContext) {
     this.engineReportMethod = engineReportMethod;
     this.ruleContext = ruleContext;
   }
+
+  /**
+   * Report issues back to the Sentinal engine
+   *
+   * @param {Object} params
+   * @memberof RuleSandbox
+   */
   report(params) {
     // TODO: Check that params is an object with the shape of a rule report
     this.engineReportMethod({

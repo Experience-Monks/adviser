@@ -9,7 +9,7 @@ const debug = require('debug')('sentinal:rules');
 
 const PluginRule = require('../plugins/rule');
 const Rule = require('../rule/rule');
-const SeverityEnum = require('./severity');
+const SeverityEnum = require('./severity-enum');
 
 const InvalidRuleError = require('../errors/exceptions/invalid-rule-error');
 
@@ -34,9 +34,7 @@ class Rules {
    * @returns {Void}
    */
   add(ruleId, pluginName, RuleCore, ruleSetting) {
-    if (!ruleId) return;
-
-    if (!RuleCore || !(RuleCore.prototype instanceof PluginRule)) {
+    if (!ruleId || !RuleCore || !(RuleCore.prototype instanceof PluginRule)) {
       throw new InvalidRuleError(
         'Rule definition is invalid',
         ruleId,
@@ -61,13 +59,7 @@ class Rules {
    * @memberof Rules
    */
   get(ruleId) {
-    const rules = this._rules.find(rule => rule.id === ruleId);
-
-    if (rules) {
-      return rules[0];
-    }
-
-    return false;
+    return this._rules.find(rule => rule.id === ruleId);
   }
 
   /**

@@ -5,15 +5,21 @@
 
 'use strict';
 
-const messages = require('../messages');
+const MessagesEnum = require('../messages/messages-enum');
 
+/**
+ * Sentinal Invalid Rule Exception
+ *
+ * @class InvalidRuleError
+ * @extends {Error}
+ */
 class InvalidRuleError extends Error {
   constructor(message, ruleName, error) {
     super(message);
     this.name = this.constructor.name;
     Error.captureStackTrace(this, InvalidRuleError);
 
-    this.messageTemplate = messages.invalidRule;
+    this.messageTemplate = MessagesEnum.invalidRule;
     this.data = { ruleName, error };
   }
 }
