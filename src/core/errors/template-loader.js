@@ -7,7 +7,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const lodash = require('lodash');
 
 /**
  * Loads predefined error templates
@@ -37,7 +36,11 @@ class TemplateLoader {
    * @returns {Function} Lodash.template parameters interpolate function
    */
   load() {
-    return lodash.template(fs.readFileSync(this._templatePath, 'utf-8'));
+    return data => {
+      return Object.keys(data).reduce((template, key) => {
+        return template.replace(new RegExp(`<%=\\s?${key}\\s?%>`, 'g'), data[key]);
+      }, fs.readFileSync(this._templatePath, 'utf-8'));
+    };
   }
 }
 
