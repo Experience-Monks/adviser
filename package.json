@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "Jam3 Quality advisor",
   "main": "src/index.js",
-  "private": true,
+  "contributors": [
+    "Iran Reyes <iran.reyes@jam3.com>",
+    "Nick Poisson <nick@jam3.com>"
+  ],
   "scripts": {
     "test": "jest --watch",
     "test-ci": "jest --ci && npm run linters && npm run audit",
