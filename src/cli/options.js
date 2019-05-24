@@ -6,63 +6,48 @@
 'use strict';
 
 const optionator = require('optionator');
+const chalk = require('chalk');
 
 module.exports = optionator({
-  prepend: 'adviser [options] file.js [file.js] [dir]',
+  prepend: `adviser ${chalk.red('[options]')}`,
   defaults: {
     concatRepeatedArrays: true,
     defaults: Object
   },
   options: [
     {
-      heading: 'Basic configuration'
+      heading: chalk.yellow('Basic configuration')
     },
     {
       option: 'config',
       alias: 'c',
-      type: 'path::String',
-      description: 'Use this configuration, overriding .adviserrc.* config options if present'
+      type: 'Path',
+      description: chalk.cyan('Specify config file path')
     },
     {
-      heading: 'Output'
-    },
-    {
-      option: 'output',
-      alias: 'o',
-      type: 'String',
-      description: 'Specify file to write report to'
-    },
-    {
-      option: 'format',
-      alias: 'f',
-      type: 'String',
-      default: 'base',
-      description: 'Use a specific output format'
-    },
-    {
-      heading: 'Miscellaneous'
+      heading: chalk.yellow('Miscellaneous')
     },
     {
       option: 'init',
       type: 'Boolean',
-      description: 'Run config initialization wizard'
+      description: chalk.cyan('Run config initialization wizard')
     },
     {
       option: 'debug',
       type: 'Boolean',
-      description: 'Output debugging information'
+      description: chalk.cyan('Output debugging information')
     },
     {
       option: 'help',
       alias: 'h',
       type: 'Boolean',
-      description: 'Show help'
+      description: chalk.cyan('Show help')
     },
     {
       option: 'version',
       alias: 'v',
       type: 'Boolean',
-      description: 'Output the version number'
+      description: chalk.cyan('Output the version number')
     }
   ]
 });
