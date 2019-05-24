@@ -7,11 +7,9 @@
 
 'use strict';
 
-const fs = require('fs');
-
 const errorHandler = require('../../core/errors/error-handler');
 const cli = require('../cli');
-const logger = require('../../utils/logger');
+const init = require('../init');
 
 const isInitEnabled = process.argv.indexOf('--init') > -1;
 const isDebugEnabled = process.argv.indexOf('--debug') > -1;
@@ -23,21 +21,9 @@ if (isDebugEnabled) {
 process.once('uncaughtException', errorHandler.onError);
 
 if (isInitEnabled) {
-  createInitFileTemplate();
+  init.createTemplate();
 } else {
   cli.execute(process.argv, exitCode => {
     process.exitCode = exitCode;
-  });
-}
-
-/**
- * Create init configuration file based on an internal template
- *
- */
-function createInitFileTemplate() {
-  const adviserInitConfigFileTemplate = require('../../core/config/data/init-config-file-template.json');
-  fs.writeFile('.adviserrc', JSON.stringify(adviserInitConfigFileTemplate, null, 4), function(err) {
-    if (err) throw err;
-    logger.info('Adviser created a configuration file called .adviserrc');
   });
 }
