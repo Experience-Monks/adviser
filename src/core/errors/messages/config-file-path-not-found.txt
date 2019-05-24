@@ -1,4 +1,4 @@
-Adviser couldn't find the configuration file <%= path %>
+Adviser couldn't find the configuration file in the path <%= path %>
 Make sure the URL has the shape [url<relative/absolute>]/[config-filename]
 
 To set up a configuration file for this project, please run:

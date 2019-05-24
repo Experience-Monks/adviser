@@ -37,11 +37,19 @@ class Config {
     this._configFileExplorer = fileExplorer || cosmiconfig(MODULE_NAME);
 
     if (filePath) {
-      const filePathInfo = fs.statSync(filePath);
+      let filePathInfo = '';
+      try {
+        filePathInfo = fs.statSync(filePath);
+      } catch (error) {
+        debug(`Found an error in the path`, error);
+        throw new ConfigFileNotFoundError(null, filePath);
+      }
 
       if (filePathInfo.isDirectory()) {
+        debug(`Looking for the configuration file in the directory ${filePath} and in the parent directories`);
         this.search(filePath);
       } else {
+        debug(`Looking for the configuration file in the path ${filePath}`);
         this.load(filePath);
       }
     }
@@ -91,7 +99,12 @@ class Config {
         targetDirectory = path.resolve(exactPath);
       }
 
+      debug(`Couldn't find the config file`, error);
       throw new ConfigFilePathNotFoundError(targetDirectory);
+    }
+
+    if (!this._config) {
+      throw new ConfigFileNotFoundError(null, exactPath);
     }
 
     return this._validateSchema(this._config.config, this._config.filepath);
@@ -114,7 +127,12 @@ class Config {
         targetDirectory = path.resolve(directory);
       }
 
+      debug(`Couldn't find the config file`, error);
       throw new ConfigFileNotFoundError(null, targetDirectory);
+    }
+
+    if (!this._config) {
+      throw new ConfigFileNotFoundError(null, directory);
     }
 
     return this._validateSchema(this._config.config, this._config.filepath);
@@ -128,7 +146,8 @@ class Config {
    * @memberof Config
    */
   _validateSchema(config, configFilePath) {
-    debug(`Config file loaded, validating schema`);
+    debug(`Config file loaded from ${configFilePath}`);
+    debug(`Validating config file schema`);
     const schemaValidator = new SchemaValidator(configFileSchema, config);
 
     if (!schemaValidator.isValid()) {

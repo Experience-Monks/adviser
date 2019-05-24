@@ -43,7 +43,7 @@ class SchemaValidator {
    */
   isValid() {
     const isValid = this.ajv.validate(this.schema, this.config);
-    debug(`Schema validation is ${!isValid && 'not'} valid`);
+    debug(`Config file schema is${isValid ? '' : ' not'} valid`);
     return isValid;
   }
 
