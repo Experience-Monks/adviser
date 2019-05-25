@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/Jam3/adviser.svg?branch=master)](https://travis-ci.org/Jam3/adviser)
 [![Known Vulnerabilities](https://snyk.io/test/github/jam3/adviser/badge.svg)](https://snyk.io/test/github/jam3/adviser)
 [![Coverage Status](https://coveralls.io/repos/github/Jam3/adviser/badge.svg?branch=master)](https://coveralls.io/github/Jam3/adviser?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c3e02561069853a74f9b/maintainability)](https://codeclimate.com/github/Jam3/adviser/maintainability)
 
 Jam3 quality advisor
 
