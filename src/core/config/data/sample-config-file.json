@@ -13,9 +13,5 @@
     "exampleFullErrorRule": ["error", {}],
     "exampleFullNumberWarnRule": [1, {}],
     "exampleFullNumberErrorRule": [2, {}]
-  },
-  "settings": {
-    "plugin1": {},
-    "plugin2": {}
   }
 }
