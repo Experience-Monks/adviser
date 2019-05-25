@@ -1,6 +1,7 @@
 # Adviser
 
 [![Build Status](https://travis-ci.org/Jam3/adviser.svg?branch=master)](https://travis-ci.org/Jam3/adviser)
+[![Known Vulnerabilities](https://snyk.io/test/github/jam3/adviser/badge.svg)](https://snyk.io/test/github/jam3/adviser)
 
 Jam3 quality advisor
 
