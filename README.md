@@ -1,6 +1,6 @@
 # Adviser
 
-[![stable](http://hughsk.github.io/stability-badges/dist/stable.svg)](http://github.com/hughsk/stability-badges)
+[![Build Status](https://travis-ci.org/Jam3/adviser.svg?branch=master)](https://travis-ci.org/Jam3/adviser)
 
 Jam3 quality advisor
 
