@@ -25,6 +25,14 @@ module.exports = optionator({
       description: chalk.cyan('Specify config file path')
     },
     {
+      heading: chalk.yellow('Output')
+    },
+    {
+      option: 'verbose',
+      type: 'Boolean',
+      description: chalk.cyan('More information on runtime')
+    },
+    {
       heading: chalk.yellow('Miscellaneous')
     },
     {

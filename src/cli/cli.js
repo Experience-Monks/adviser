@@ -67,6 +67,13 @@ class CLI {
             errorCode = 2;
           }
 
+          if (currentOptions.verbose) {
+            const processedRules = engine.getRules();
+            if (processedRules.length > 0) {
+              this.printResults('summary', processedRules);
+            }
+          }
+
           callback(errorCode);
         })
         .catch(error => {

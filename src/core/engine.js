@@ -139,6 +139,16 @@ class Engine {
   getIssues() {
     return this._rawIssues;
   }
+
+  /**
+   * Get list of processed rules
+   *
+   * @returns
+   * @memberof Engine
+   */
+  getRules() {
+    return this.rules.getAll();
+  }
 }
 
 module.exports = Engine;

@@ -5,6 +5,8 @@
 
 'use strict';
 
+const debug = require('debug')('adviser:rule');
+
 const RuleLifeCycleEnum = require('./lifecycle/rule-lifecycle-enum');
 const RuleContext = require('./lifecycle/rule-context');
 const RuleSandbox = require('./lifecycle/rule-sandbox');
@@ -25,6 +27,8 @@ class Rule {
     this.options = options;
 
     this.core = core;
+
+    this.lifeCycleStatus = RuleStatusEnum.Idle;
   }
 
   /**
@@ -59,6 +63,8 @@ class Rule {
     );
 
     try {
+      debug(`The engine started executing the lifecycle of the rule ${this.id}`);
+
       // 1. Init rules
       const DefinedRule = this.core;
       instanceRule = new DefinedRule(instanceContext);
@@ -72,10 +78,19 @@ class Rule {
       phase = RuleLifeCycleEnum.ruleExecutionEnded;
       const feedback = new RuleFeedback(RuleStatusEnum.Completed, phase);
       instanceRule.ruleExecutionEnded(feedback);
+      this.lifeCycleStatus = RuleStatusEnum.Completed;
     } catch (error) {
+      debug(`The rule ${this.id} lifecycle failed with error ${error}`);
+      this.lifeCycleStatus = RuleStatusEnum.Failed;
+
       // 4. Rule Execution Failed
       const feedback = new RuleFeedback(RuleStatusEnum.Failed, phase);
-      instanceRule.ruleExecutionFailed(feedback, error); // TODO: This function may crash too
+
+      try {
+        instanceRule.ruleExecutionFailed(feedback, error);
+      } catch (executionFailedError) {
+        debug(`The "ruleExecutionFailed" lifecycle failed with error ${executionFailedError}`);
+      }
     } finally {
       asyncCallback();
     }

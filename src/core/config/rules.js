@@ -7,7 +7,6 @@
 
 const debug = require('debug')('adviser:rules');
 
-const PluginRule = require('../plugins/rule');
 const Rule = require('../rule/rule');
 const SeverityEnum = require('./severity-enum');
 
@@ -34,7 +33,8 @@ class Rules {
    * @returns {Void}
    */
   add(ruleId, pluginName, RuleCore, ruleSetting) {
-    if (!ruleId || !RuleCore || !(RuleCore.prototype instanceof PluginRule)) {
+    if (!ruleId || !RuleCore) {
+      debug(`The rule with id ${ruleId} and core ${RuleCore} couldn't be added`);
       throw new InvalidRuleError(
         'Rule definition is invalid',
         ruleId,
