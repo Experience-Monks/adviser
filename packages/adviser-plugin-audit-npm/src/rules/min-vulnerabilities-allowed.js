@@ -2,15 +2,11 @@
 
 const Adviser = require('adviser');
 
-const docsUrl = require('../utils/docsUrl');
-
 class MinVulnerabilityAllowed extends Adviser.Rule {
-  /**
-   * Action rule method called when the engine runs the rule
-   *
-   * @param {Object} sandbox - report method, libraries abstraction
-   * @memberof MinVulnerabilityAllowed
-   */
+  constructor(context) {
+    console.log(context);
+  }
+
   run(sandbox) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -19,13 +15,21 @@ class MinVulnerabilityAllowed extends Adviser.Rule {
       }, 3000);
     });
   }
+
+  ruleExecutionFailed(feedback, error) {
+    console.log(feedback);
+  }
+
+  ruleExecutionEnded(feedback) {
+    console.log(feedback);
+  }
 }
 
 MinVulnerabilityAllowed.meta = {
   category: 'Vulnerabilities',
   description: 'To be fill',
   recommended: true,
-  docsUrl: docsUrl('min-vulnerabilities-allowed'),
+  docsUrl: 'https://github..com/jam3/',
   schema: {
     enum: ['low', 'moderate', 'high', 'critical']
   }

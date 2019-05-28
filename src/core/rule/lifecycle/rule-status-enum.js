@@ -6,9 +6,9 @@
 'use strict';
 
 const RuleStatus = {
+  Idle: 'idle',
   Failed: 'Failed',
-  Completed: 'Completed',
-  Killed: 'Killed'
+  Completed: 'Completed'
 };
 
 module.exports = RuleStatus;

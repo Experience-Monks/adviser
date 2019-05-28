@@ -44,7 +44,7 @@ function groupBy(traversable, key) {
  * @returns {String} Summary output
  */
 function base(results) {
-  let output = '\n';
+  let output = `\n  ${chalk.blue('Output')} \n\n`;
   let errorCount = 0;
   let warningCount = 0;
   let summaryColor = 'yellow';
@@ -56,7 +56,7 @@ function base(results) {
   const resultsByPlugins = groupBy(results, 'pluginName');
 
   Object.keys(resultsByPlugins).forEach(pluginName => {
-    output += `${chalk.underline(pluginName)}\n`;
+    output += `  ${chalk.underline(pluginName)}\n`;
 
     const tableData = resultsByPlugins[pluginName].map(result => {
       errorCount = result.severity === 'error' ? errorCount + 1 : errorCount;
@@ -71,7 +71,7 @@ function base(results) {
         messageType = chalk.yellow('warning');
       }
 
-      return [messageType, result.params.message.replace(/([^ ])\.$/u, '$1'), chalk.dim(result.ruleName || '')];
+      return ['', messageType, result.params.message.replace(/([^ ])\.$/u, '$1'), chalk.dim(result.ruleName || '')];
     });
 
     output += `${table(tableData, {
@@ -88,20 +88,22 @@ function base(results) {
   const total = errorCount + warningCount;
 
   if (total > 0) {
-    output += chalk[summaryColor].bold(
-      [
-        '\u2716 ',
-        total,
-        pluralize(' problem', total),
-        ' (',
-        errorCount,
-        pluralize(' error', errorCount),
-        ', ',
-        warningCount,
-        pluralize(' warning', warningCount),
-        ')\n'
-      ].join('')
-    );
+    output +=
+      '  ' +
+      chalk[summaryColor].bold(
+        [
+          '\u2716 ',
+          total,
+          pluralize(' problem', total),
+          ' (',
+          errorCount,
+          pluralize(' error', errorCount),
+          ', ',
+          warningCount,
+          pluralize(' warning', warningCount),
+          ')\n'
+        ].join('')
+      );
   }
 
   return total > 0 ? output : '';

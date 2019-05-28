@@ -28,7 +28,7 @@ describe('Rules', () => {
     const ruleName = 'warning-min-test';
 
     function add() {
-      rules.add(ruleName, { test: {} }, {});
+      rules.add(ruleName, '', null, {});
     }
 
     expect(add).toThrow(InvalidRuleError);
