@@ -28,9 +28,11 @@ function pluralize(word, count) {
  */
 function groupBy(traversable, key) {
   let result = {};
+
   Array.from(traversable).forEach(val => {
     const elementKey = val[key];
-    if (!Object.hasOwnProperty(elementKey)) {
+
+    if (!result.hasOwnProperty(elementKey)) {
       result[elementKey] = [];
     }
     result[elementKey].push(val);
