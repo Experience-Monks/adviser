@@ -24,11 +24,12 @@ class Formatter {
    * Get output from selected formatter
    *
    * @param {Array} issues
+   * @param {Array} rules
    * @returns
    * @memberof Formatter
    */
-  getOutput(issues) {
-    return this._formatter(issues);
+  getOutput(issues, rules) {
+    return this._formatter(issues, rules);
   }
 
   /**

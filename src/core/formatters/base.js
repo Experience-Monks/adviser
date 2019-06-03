@@ -8,44 +8,18 @@
 const chalk = require('chalk');
 const stripAnsi = require('strip-ansi');
 const table = require('text-table');
+const hyperlinker = require('hyperlinker');
 
-/**
- * Given a word and a count, append an s if count is not one.
- * @param {string} word A word in its singular form.
- * @param {int} count A number controlling whether word should be pluralized.
- * @returns {string} The original word with an s on the end if count is not one.
- */
-function pluralize(word, count) {
-  return count === 1 ? word : `${word}s`;
-}
-
-/**
- * Creates an object composed of keys generated from the `key` of each element
- * in the collection. The value is an array of elements that generated that `key`
- * @param {traversable} traversable An array like collection
- * @param {string} key A arraykey for the grouping
- * @returns {string} A composed object
- */
-function groupBy(traversable, key) {
-  let result = {};
-
-  Array.from(traversable).forEach(val => {
-    const elementKey = val[key];
-
-    if (!result.hasOwnProperty(elementKey)) {
-      result[elementKey] = [];
-    }
-    result[elementKey].push(val);
-  });
-  return result;
-}
+const groupBy = require('../../utils/groupBy');
+const pluralize = require('../../utils/pluralize');
 
 /**
  * Creates a result output for the terminal
  * @param {Object} results
+ * @param {Array} rules
  * @returns {String} Summary output
  */
-function base(results) {
+function base(results, rules) {
   let output = `\n  ${chalk.blue('Output')} \n\n`;
   let errorCount = 0;
   let warningCount = 0;
@@ -59,21 +33,30 @@ function base(results) {
 
   Object.keys(resultsByPlugins).forEach(pluginName => {
     output += `  ${chalk.underline(pluginName)}\n`;
+    const tableData = [];
 
-    const tableData = resultsByPlugins[pluginName].map(result => {
-      errorCount = result.severity === 'error' ? errorCount + 1 : errorCount;
-      warningCount = result.severity === 'warn' ? warningCount + 1 : warningCount;
+    resultsByPlugins[pluginName].forEach(result => {
+      const rule = rules.find(rule => rule.id === result.ruleName && rule.pluginName === pluginName);
+
+      errorCount = rule.severity === 'error' ? errorCount + 1 : errorCount;
+      warningCount = rule.severity === 'warn' ? warningCount + 1 : warningCount;
 
       let messageType;
 
-      if (result.severity === 'error') {
+      if (rule.severity === 'error') {
         messageType = chalk.red('error');
         summaryColor = 'red';
       } else {
         messageType = chalk.yellow('warning');
       }
 
-      return ['', messageType, result.params.message.replace(/([^ ])\.$/u, '$1'), chalk.dim(result.ruleName || '')];
+      tableData.push([
+        '',
+        messageType,
+        result.params.message.replace(/([^ ])\.$/u, '$1'),
+        hyperlinker(chalk.dim(result.ruleName || ''), rule.core.meta.docsUrl),
+        `${chalk.white.bgRed(rule.executionDuration + 'ms')}`
+      ]);
     });
 
     output += `${table(tableData, {

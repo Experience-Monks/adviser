@@ -61,16 +61,27 @@ class CLI {
         .run()
         .then(() => {
           const issues = engine.getIssues();
+          const processedRules = engine.getRules();
 
           if (issues.length > 0) {
-            this.printResults(engineOptions.outputFormat, issues);
+            this.printResults(issues, processedRules, {
+              format: engineOptions.outputFormat,
+              verbose: currentOptions.verbose
+            });
             errorCode = 2;
           }
 
           if (currentOptions.verbose) {
-            const processedRules = engine.getRules();
+            if (issues.length > 0) {
+              this.printResults(issues, processedRules, {
+                format: 'verbose'
+              });
+            }
+
             if (processedRules.length > 0) {
-              this.printResults('summary', processedRules);
+              this.printResults(issues, processedRules, {
+                format: 'summary'
+              });
             }
           }
 
@@ -86,14 +97,15 @@ class CLI {
   /**
    * Print results in the console
    *
-   * @param {*} format
-   * @param {*} issues
+   * @param {String} format
+   * @param {Array} issues
+   * @param {Object} options
    * @memberof CLI
    */
-  printResults(format, issues) {
-    const formatter = new Formatter(format);
+  printResults(issues, rules, options) {
+    const formatter = new Formatter(options.format);
 
-    const output = formatter.getOutput(issues);
+    const output = formatter.getOutput(issues, rules);
 
     if (output) {
       logger.info(output);
@@ -108,7 +120,8 @@ class CLI {
   _prepareEngineOptions(cliOptions) {
     const engineOptions = {
       outputFormat: 'base',
-      cwd: process.cwd()
+      cwd: process.cwd(),
+      verboseMode: cliOptions['verbose'] || false
     };
 
     cliOptions.config && (engineOptions['configFile'] = cliOptions.config);
