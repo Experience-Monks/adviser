@@ -51,12 +51,13 @@ class Engine {
       async.each(
         this.rules.getAll(),
         (rule, callback) => {
-          rule.runLifeCycle(this.options.cwd, this.report.bind(this), callback);
+          rule.runLifeCycle(this.options.cwd, this.options.verboseMode, this.report.bind(this), callback);
         },
         error => {
           if (error) {
             reject(error);
           } else {
+            debug(`Finished running all the rules lifecycle`);
             resolve();
           }
         }
@@ -71,7 +72,11 @@ class Engine {
    * @memberof Engine
    */
   report(ruleReport) {
-    this._rawIssues.push({ params: ruleReport.params, ...ruleReport.context });
+    this._rawIssues.push({
+      params: ruleReport.params,
+      ruleName: ruleReport.context.ruleName,
+      pluginName: ruleReport.context.pluginName
+    });
   }
 
   /**

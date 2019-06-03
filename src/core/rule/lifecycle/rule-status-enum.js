@@ -8,6 +8,7 @@
 const RuleStatus = {
   Idle: 'idle',
   Failed: 'Failed',
+  Skipped: 'Skipped',
   Completed: 'Completed'
 };
 
