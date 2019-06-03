@@ -28,6 +28,7 @@ npm install -g adviser
 Adviser goal is to run rules defined in a configuration file. It doesn't get involve in what the rules do; it just run them and control them.
 
 In order to use it, you need to:
+
 1. Create a configuration file
 2. Install the plugins you've like to use
 3. Set the rules we want to use
@@ -40,15 +41,17 @@ If you run adviser without any arguments it will try to find a valid configurati
 
 ### CLI Arguments
 
-`-c, --config`       Specify config file path
+`-c, --config` Specify config file path
 
-`--init`             Run config initialization wizard
+`--init` Run config initialization wizard
 
-`--debug`            Output debugging information
+`--debug` Output debugging information
 
-`-h, --help`         Show help
+`--verbose` Display extra information
 
-`-v, --version`      Output the version number
+`-h, --help` Show help
+
+`-v, --version` Output the version number
 
 ### Configuration example file
 
@@ -84,7 +87,34 @@ Steps:
 
 ## Tests
 
+### Unit Tests
+
 There is a small set of tests implemented using Jest, to run them use: `$ npm test`
+
+### Integration Tests
+
+To test `adviser` running with actual rules, we recommend you to create an empty folder (We have one under `./__tests__/integration`) with:
+
+- An example package.json with example packages
+- An `adviser` configuration file. You can create it manually following [Configuration example file](#configuration-example-file) or generate one using `$ adviser --init` (adviser must be installed globally or using `npx`)
+- Link this repo to the example project.
+  - Run `$ npm link` in the `adviser` root
+  - Run `$ npm link adviser` in the example project root
+
+#### External Plugins
+
+To use plugins and rules you can install one of the plugins created by the same team that created adviser:
+
+- [https://github.com/Jam3/adviser-plugin-dependencies](https://github.com/Jam3/adviser-plugin-audit-npm)
+- [https://github.com/Jam3/adviser-plugin-audit-npm](https://github.com/Jam3/adviser-plugin-audit-npm)
+
+#### Example Plugin
+
+You can use the example plugin and npm link it to the example project:
+
+- Run `$ npm link advisor` in `./packages/adviser-plugin-test-example`
+- Run `$ npm link` in `./packages/adviser-plugin-test-example`
+- Run `$ npm link adviser-plugin-test-example` in the example project root
 
 ## API
 

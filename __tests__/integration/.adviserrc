@@ -1,6 +1,6 @@
 {
-  "plugins": ["audit-npm"],
+  "plugins": ["test-example"],
   "rules": {
-    "audit-npm/min-vulnerabilities-allowed": ["error", { "level": "high" }]
+    "test-example/rule-one": ["error", { "opt1": "low", "opt2": 0 }]
   }
 }

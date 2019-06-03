@@ -2,13 +2,10 @@
   "name": "integration",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "main": "index.js",
   "scripts": {
-    "adviser": "node ./node_modules/adviser/src/cli/bin/adviser -c .adviserrc"
-  },
-  "dependencies": {
-    "adviser-plugin-audit-npm": "0.0.1",
-    "adviser": "0.0.1"
+    "adviser": "node ./node_modules/adviser/src/cli/bin/adviser"
   },
   "keywords": [],
   "author": "Iran Reyes <iranreyesfleitas@gmail.com> (http://www.iranreyes.com)",
