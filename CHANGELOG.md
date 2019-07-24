@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/Jam3/adviser/compare/v0.2.0...v0.2.1) (2019-07-24)
+
+
+### Bug Fixes
+
+* dependency vulnerabilities ([4b437b7](https://github.com/Jam3/adviser/commit/4b437b7))
+* load more than one plugin breaks ([8b59a55](https://github.com/Jam3/adviser/commit/8b59a55))
+
+
+
 <a name="0.2.0"></a>
 # 0.2.0 (2019-06-03)
 
