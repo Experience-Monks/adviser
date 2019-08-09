@@ -84,5 +84,13 @@
     "optionator": "0.8.2",
     "strip-ansi": "5.2.0",
     "text-table": "0.2.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jam3/adviser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jam3/adviser/issues"
+  },
+  "homepage": "https://github.com/Jam3/adviser#readme"
 }
