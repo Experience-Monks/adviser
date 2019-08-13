@@ -15,7 +15,7 @@ const chalk = require('chalk');
 function verbose(results) {
   let output = `\n  ${chalk.blue('More information from plugin rules')} \n\n`;
 
-  const verboseResults = results.filter(result => result.params.verbose !== undefined);
+  const verboseResults = results.items.filter(result => result.params.verbose !== undefined);
 
   if (verboseResults.length === 0) {
     return;
