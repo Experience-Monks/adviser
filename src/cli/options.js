@@ -33,6 +33,14 @@ module.exports = optionator({
       description: chalk.cyan('More information on runtime')
     },
     {
+      heading: chalk.yellow('Warnings')
+    },
+    {
+      option: 'quiet',
+      type: 'Boolean',
+      description: chalk.cyan('Report errors only - default: false')
+    },
+    {
       heading: chalk.yellow('Miscellaneous')
     },
     {

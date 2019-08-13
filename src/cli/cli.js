@@ -63,16 +63,21 @@ class CLI {
           const issues = engine.getIssues();
           const processedRules = engine.getRules();
 
-          if (issues.length > 0) {
+          if (issues.items.length > 0) {
             this.printResults(issues, processedRules, {
               format: engineOptions.outputFormat,
               verbose: currentOptions.verbose
             });
+
             errorCode = 2;
+
+            if (currentOptions.quiet && issues.total.errors === 0) {
+              errorCode = 0;
+            }
           }
 
           if (currentOptions.verbose) {
-            if (issues.length > 0) {
+            if (issues.items.length > 0) {
               this.printResults(issues, processedRules, {
                 format: 'verbose'
               });

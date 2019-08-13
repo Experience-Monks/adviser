@@ -21,15 +21,13 @@ const pluralize = require('../../utils/pluralize');
  */
 function base(results, rules) {
   let output = `\n  ${chalk.blue('Output')} \n\n`;
-  let errorCount = 0;
-  let warningCount = 0;
   let summaryColor = 'yellow';
 
-  if (results.length === 0) {
+  if (results.items.length === 0) {
     return;
   }
 
-  const resultsByPlugins = groupBy(results, 'pluginName');
+  const resultsByPlugins = groupBy(results.items, 'pluginName');
 
   Object.keys(resultsByPlugins).forEach(pluginName => {
     output += `  ${chalk.underline(pluginName)}\n`;
@@ -37,9 +35,6 @@ function base(results, rules) {
 
     resultsByPlugins[pluginName].forEach(result => {
       const rule = rules.find(rule => rule.id === result.ruleName && rule.pluginName === pluginName);
-
-      errorCount = rule.severity === 'error' ? errorCount + 1 : errorCount;
-      warningCount = rule.severity === 'warn' ? warningCount + 1 : warningCount;
 
       let messageType;
 
@@ -70,7 +65,7 @@ function base(results, rules) {
       .join('\n')}\n\n`;
   });
 
-  const total = errorCount + warningCount;
+  const total = results.total.errors + results.total.warnings;
 
   if (total > 0) {
     output +=
@@ -81,11 +76,11 @@ function base(results, rules) {
           total,
           pluralize(' problem', total),
           ' (',
-          errorCount,
-          pluralize(' error', errorCount),
+          results.total.errors,
+          pluralize(' error', results.total.errors),
           ', ',
-          warningCount,
-          pluralize(' warning', warningCount),
+          results.total.warnings,
+          pluralize(' warning', results.total.warnings),
           ')\n'
         ].join('')
       );
