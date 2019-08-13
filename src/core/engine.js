@@ -75,7 +75,8 @@ class Engine {
     this._rawIssues.push({
       params: ruleReport.params,
       ruleName: ruleReport.context.ruleName,
-      pluginName: ruleReport.context.pluginName
+      pluginName: ruleReport.context.pluginName,
+      severity: ruleReport.context.severity
     });
   }
 
@@ -142,7 +143,21 @@ class Engine {
    * @memberof Engine
    */
   getIssues() {
-    return this._rawIssues;
+    let warningCount = 0;
+    let errorCount = 0;
+
+    this._rawIssues.forEach(issue => {
+      errorCount = issue.severity === 'error' ? errorCount + 1 : errorCount;
+      warningCount = issue.severity === 'warn' ? warningCount + 1 : warningCount;
+    });
+
+    return {
+      items: this._rawIssues,
+      total: {
+        warnings: warningCount,
+        errors: errorCount
+      }
+    };
   }
 
   /**
