@@ -126,7 +126,7 @@ class Rule {
       performance.mark(`Finished lifecycle ${this.id}`);
       performance.measure(`${this.id}`, `Init lifecycle ${this.id}`, `Finished lifecycle ${this.id}`);
 
-      debug(`The engine finshed executing the lifecycle of the rule ${this.id}`);
+      debug(`The engine finished executing the lifecycle of the rule ${this.id}`);
       asyncCallback();
     }
   }
