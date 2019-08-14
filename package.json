@@ -78,7 +78,7 @@
     "ajv": "6.10.0",
     "async": "3.0.0",
     "chalk": "2.4.2",
-    "cosmiconfig": "5.2.0",
+    "cosmiconfig": "5.2.1",
     "debug": "4.1.1",
     "hyperlinker": "1.0.0",
     "optionator": "0.8.2",
