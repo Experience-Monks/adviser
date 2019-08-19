@@ -29,7 +29,7 @@ class Spinner {
    *
    * @param {String} stopState Text to show when the spinner stops
    * @param {String} nextState Text to show for the next spinner line
-   * @returns
+   * @returns {Void}
    * @memberof Spinner
    */
   progress(stopState, nextState = stopState) {
@@ -45,6 +45,12 @@ class Spinner {
     this.spinner.start(nextState);
   }
 
+  /**
+   * Stop the spinner
+   *
+   * @returns {Void}
+   * @memberof Spinner
+   */
   succeed() {
     if (!this.enable) return;
 
