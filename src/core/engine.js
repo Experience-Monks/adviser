@@ -5,6 +5,8 @@
 
 'use strict';
 
+const EventEmitter = require('events');
+
 const debug = require('debug')('adviser:engine');
 const async = require('async');
 
@@ -20,7 +22,7 @@ const InvalidRuleError = require('./errors/exceptions/invalid-rule-error');
  *
  * @class Engine
  */
-class Engine {
+class Engine extends EventEmitter {
   /**
    *Creates an instance of Engine.
    * @param {Config} configInstance
@@ -28,6 +30,8 @@ class Engine {
    * @memberof Engine
    */
   constructor(configInstance, options) {
+    super();
+
     debug('Running engine');
 
     this.options = Object.assign({}, defaultOptions, options);
@@ -47,6 +51,7 @@ class Engine {
    * @memberof Engine
    */
   run() {
+    this.emit('run');
     return new Promise((resolve, reject) => {
       async.each(
         this.rules.getAll(),
@@ -58,6 +63,7 @@ class Engine {
             reject(error);
           } else {
             debug(`Finished running all the rules lifecycle`);
+            this.emit('stop');
             resolve();
           }
         }
@@ -86,6 +92,8 @@ class Engine {
    * @memberof Engine
    */
   _loadRules() {
+    this.emit('loadRules');
+
     this.plugins.loadAll(this.config.getPlugins(), this.options.cwd);
 
     const configRules = this.config.getRules();
