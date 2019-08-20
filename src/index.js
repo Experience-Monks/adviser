@@ -5,11 +5,13 @@
 
 'use strict';
 
-const rule = require('./core/plugins/rule');
+const rule = require('./core/external/rule');
+const plugin = require('./core/external/plugin');
 
 module.exports = {
   /**
    * Parent class for rules defined in plugins
    */
-  Rule: rule
+  Rule: rule,
+  Plugin: plugin
 };
