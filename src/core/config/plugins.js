@@ -71,10 +71,10 @@ class Plugins {
     Object.keys(this._plugins).forEach(pluginName => {
       const plugin = this.get(pluginName);
 
-      if (plugin.rules) {
-        Object.keys(plugin.rules).forEach(ruleId => {
+      if (plugin.definedRules) {
+        Object.keys(plugin.definedRules).forEach(ruleId => {
           const qualifiedRuleId = `${pluginName}/${ruleId}`;
-          const rule = plugin.rules[ruleId];
+          const rule = plugin.definedRules[ruleId];
 
           allRules.set(qualifiedRuleId, {
             pluginName,

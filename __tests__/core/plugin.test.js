@@ -79,7 +79,8 @@ describe('Plugins', () => {
     plugins.load({ id: pluginName }, '');
 
     expect(plugins.get(pluginName)).toMatchObject({
-      plugin: 'data'
+      id: pluginName,
+      core: { plugin: 'data' }
     });
   });
 

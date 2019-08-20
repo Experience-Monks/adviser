@@ -2,7 +2,7 @@
 
 const cosmiconfig = require('cosmiconfig');
 
-const AdviserRule = require('../../src/core/plugins/rule');
+const AdviserRule = require('../../src/core/external/rule');
 
 const Config = require('../../src/core/config/config');
 const Engine = require('../../src/core/engine');
