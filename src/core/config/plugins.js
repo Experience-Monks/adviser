@@ -9,6 +9,8 @@ const debug = require('debug')('adviser:plugins');
 
 const PluginError = require('../errors/exceptions/plugin-error');
 
+const { BLACKLIST_NAMES } = require('../constants/plugins');
+
 /**
  * CRUD for the plugins
  *
@@ -105,12 +107,20 @@ class Plugins {
    * @memberof Plugins
    */
   load(pluginId, directory) {
-    const normalizePluginId = this._normalizePluginId(pluginId);
-
-    if (normalizePluginId.match(/\s+/u)) {
-      debug(`Failed to load plugin ${normalizePluginId}.`);
-      throw new PluginError('Invalid plugin name', normalizePluginId, 'Whitespace found in the plugin name');
+    if (BLACKLIST_NAMES.includes(pluginId)) {
+      throw new PluginError(
+        'Invalid plugin name',
+        pluginId,
+        `The plugin name ${pluginId} can not be used because it has a blacklisted name`
+      );
     }
+
+    if (pluginId.match(/\s+/u)) {
+      debug(`Failed to load plugin ${pluginId}.`);
+      throw new PluginError('Invalid plugin name', pluginId, 'Whitespace found in the plugin name');
+    }
+
+    const normalizePluginId = this._normalizePluginId(pluginId);
 
     if (!this._plugins[normalizePluginId]) {
       const plugin = this._loadFromDirectory(normalizePluginId, directory);
