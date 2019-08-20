@@ -3,7 +3,7 @@
 const plugins = require('../../src/core/config/plugins');
 const PluginError = require('../../src/core/errors/exceptions/plugin-error');
 
-const AdviserRule = require('../../src/core/plugins/rule');
+const AdviserRule = require('../../src/core/external/rule');
 class MockAdviserRule extends AdviserRule {}
 
 describe('Plugins', () => {
@@ -27,7 +27,7 @@ describe('Plugins', () => {
 
   test('Get many plugins', () => {
     for (let index = 0; index < 5; index++) {
-      plugins.add(`warning-min-test-${index}`, {}, {});
+      plugins.add({ id: `warning-min-test-${index}` }, {}, {});
     }
 
     expect(Object.keys(plugins.getAll()).length).toBe(5);
@@ -50,7 +50,7 @@ describe('Plugins', () => {
       plugins.load(pluginName, '');
     }
 
-    const pluginName = 'adviser-plugin-secu rity-audit';
+    const pluginName = { id: 'adviser-plugin-secu rity-audit' };
 
     expect(load).toThrow(PluginError);
     expect(load).toThrow('Invalid plugin name');
@@ -61,7 +61,7 @@ describe('Plugins', () => {
       plugins.load(pluginName, '');
     }
 
-    const pluginName = 'adviser-plugin-security-audit';
+    const pluginName = { id: 'adviser-plugin-security-audit' };
 
     expect(load).toThrow(PluginError);
     expect(load).toThrow('Failed to load plugin');
@@ -76,7 +76,7 @@ describe('Plugins', () => {
       };
     });
 
-    plugins.load(pluginName, '');
+    plugins.load({ id: pluginName }, '');
 
     expect(plugins.get(pluginName)).toMatchObject({
       plugin: 'data'
@@ -96,8 +96,8 @@ describe('Plugins', () => {
       };
     });
 
-    plugins.load(pluginNameFirst, '');
-    plugins.load(pluginNameSecond, '');
+    plugins.load({ id: pluginNameFirst }, '');
+    plugins.load({ id: pluginNameSecond }, '');
 
     const rules = plugins.getAllRules();
 
