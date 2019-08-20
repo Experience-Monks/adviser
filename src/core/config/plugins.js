@@ -7,6 +7,8 @@
 
 const debug = require('debug')('adviser:plugins');
 
+const Plugin = require('../plugin/plugin');
+
 const PluginError = require('../errors/exceptions/plugin-error');
 
 /**
@@ -27,13 +29,14 @@ class Plugins {
    * @param {Object} plugin
    * @memberof Plugins
    */
-  add(pluginId, plugin) {
-    if (!pluginId) return;
+  add(plugin, PluginSource) {
+    if (!plugin.id) return;
 
-    const normalizePluginId = this._normalizePluginId(pluginId);
-    this._plugins[normalizePluginId] = plugin;
+    const normalizePluginId = this._normalizePluginId(plugin.id);
 
-    debug(`Plugin ${normalizePluginId} added`);
+    this._plugins[normalizePluginId] = new Plugin(plugin.id, plugin.settings, PluginSource);
+
+    debug(`Plugin ${plugin.id} added`);
   }
 
   /**
@@ -91,9 +94,9 @@ class Plugins {
    * @returns {void}
    * @throws {Error} If a plugin cannot be loaded.
    */
-  loadAll(pluginIds, directory) {
-    pluginIds.forEach(pluginId => {
-      this.load(pluginId, directory);
+  loadAll(plugins, directory) {
+    plugins.forEach(plugin => {
+      this.load(plugin, directory);
     });
   }
 
@@ -104,8 +107,8 @@ class Plugins {
    * @param {Path} directory
    * @memberof Plugins
    */
-  load(pluginId, directory) {
-    const normalizePluginId = this._normalizePluginId(pluginId);
+  load(plugin, directory) {
+    const normalizePluginId = this._normalizePluginId(plugin.id);
 
     if (normalizePluginId.match(/\s+/u)) {
       debug(`Failed to load plugin ${normalizePluginId}.`);
@@ -113,8 +116,8 @@ class Plugins {
     }
 
     if (!this._plugins[normalizePluginId]) {
-      const plugin = this._loadFromDirectory(normalizePluginId, directory);
-      this.add(pluginId, plugin);
+      const pluginSource = this._loadFromDirectory(normalizePluginId, directory);
+      this.add(plugin, pluginSource);
     }
   }
 
