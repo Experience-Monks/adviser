@@ -5,10 +5,13 @@
 
 'use strict';
 
+const path = require('path');
 const debug = require('debug')('adviser:engine');
 const async = require('async');
+const requireIndex = require('requireindex');
 
 const defaultOptions = require('./default-engine-options');
+const { BUILT_IN_NAME } = require('./constants/plugins');
 
 const plugins = require('./config/plugins');
 const rules = require('./config/rules');
@@ -36,6 +39,7 @@ class Engine {
     this.plugins = plugins;
     this.rules = rules;
 
+    this._loadBuiltInRules();
     this._loadRules();
 
     this._rawIssues = [];
@@ -89,41 +93,57 @@ class Engine {
     this.plugins.loadAll(this.config.getPlugins(), this.options.cwd);
 
     const configRules = this.config.getRules();
+
     Object.keys(configRules).forEach(fullRuleName => {
-      const pluginName = this._getPluginNameFromRule(fullRuleName);
-      const ruleName = this._getRuleNameFromRule(fullRuleName);
+      const ruleSettings = configRules[fullRuleName];
 
-      const plugin = this.plugins.get(pluginName);
-
-      if (plugin && plugin.rules) {
-        const ruleCore = plugin.rules[ruleName];
-        const ruleSettings = configRules[fullRuleName];
-
-        this.rules.add(ruleName, pluginName, ruleCore, ruleSettings);
+      if (this.builtInRules[fullRuleName]) {
+        this.rules.add(fullRuleName, BUILT_IN_NAME, this.builtInRules[fullRuleName], ruleSettings);
       } else {
-        throw new InvalidRuleError(
-          'Invalid rule structure',
-          ruleName,
-          `Invalid Rule structure, seems there are issues in the rule source code, please review the plugin structure`
-        );
+        const { pluginName, ruleName } = this._parseRawRuleName(fullRuleName);
+
+        const plugin = this.plugins.get(pluginName);
+
+        if (plugin && plugin.rules) {
+          const ruleCore = plugin.rules[ruleName];
+
+          if (!ruleCore) {
+            throw new InvalidRuleError(
+              'Invalid rule definition',
+              ruleName,
+              `The rule ${ruleName} is not defined or not well defined inside the plugin ${pluginName}`
+            );
+          }
+
+          this.rules.add(ruleName, pluginName, ruleCore, ruleSettings);
+        } else {
+          throw new InvalidRuleError(
+            'Invalid rule structure',
+            ruleName,
+            `Invalid Rule structure, seems there are issues in the rule source code, please review the plugin structure`
+          );
+        }
       }
     });
   }
 
-  _getPluginNameFromRule(rule) {
-    const rulePluginTuple = rule.split('/');
-    if (rulePluginTuple.length !== 2) {
-      throw new InvalidRuleError(
-        'Invalid rule name',
-        rule,
-        'Invalid Rule name, make sure it follows the format [plugin name]/[rule name]'
-      );
-    }
-
-    return rulePluginTuple[0];
+  /**
+   * Load Adviser built-in rules
+   *
+   * @memberof Engine
+   */
+  _loadBuiltInRules() {
+    this.builtInRules = requireIndex(path.join(__dirname, '/built-in/rules'));
   }
 
-  _getRuleNameFromRule(rule) {
+  /**
+   * Parse raw rule from the configuration file
+   *
+   * @param {String} rule
+   * @returns {Object} {pluginName, ruleName}
+   * @memberof Engine
+   */
+  _parseRawRuleName(rule) {
     const rulePluginTuple = rule.split('/');
     if (rulePluginTuple.length !== 2) {
       throw new InvalidRuleError(
@@ -133,7 +153,10 @@ class Engine {
       );
     }
 
-    return rulePluginTuple[1];
+    return {
+      pluginName: rulePluginTuple[0],
+      ruleName: rulePluginTuple[1]
+    };
   }
 
   /**
