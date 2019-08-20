@@ -19,9 +19,8 @@ class Spinner {
    * @param {Boolean} enable
    * @memberof Spinner
    */
-  constructor(enable) {
-    this.enable = enable;
-    this.spinner = enable ? ora() : null;
+  constructor() {
+    this.spinner = ora();
   }
 
   /**
@@ -33,8 +32,6 @@ class Spinner {
    * @memberof Spinner
    */
   progress(stopState, nextState = stopState) {
-    if (!this.enable) return;
-
     if (stopState) {
       this.spinner.stopAndPersist({
         symbol: logSymbols.success,
@@ -51,10 +48,8 @@ class Spinner {
    * @returns {Void}
    * @memberof Spinner
    */
-  succeed() {
-    if (!this.enable) return;
-
-    this.spinner.succeed();
+  succeed(stopState) {
+    this.spinner.succeed(stopState);
   }
 }
 

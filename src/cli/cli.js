@@ -52,30 +52,32 @@ class CLI {
       debug('Retrieving CLI help');
       logger.info(options.generateHelp());
     } else {
-      const spinner = new Spinner(!currentOptions.debug);
-
       debug(`Parsing CLI arguments ${JSON.stringify(currentOptions)} for the engine`);
       const engineOptions = this._prepareEngineOptions(currentOptions);
 
       const config = new Config(engineOptions['configFile'] || engineOptions.cwd);
       const engine = new Engine(config, engineOptions);
 
+      if (!currentOptions.debug) {
+        const spinner = new Spinner();
+
+        engine
+          .on('loadRules', () => {
+            spinner.progress('Loading rules');
+          })
+          .on('run', () => {
+            spinner.progress('Rules loaded', 'The engine is executing the rules');
+          })
+          .on('stop', () => {
+            spinner.succeed('Rules executed');
+          });
+      }
+
       engine
-        .on('loadRules', () => {
-          spinner.progress('Loading rules');
-        })
-        .on('run', () => {
-          spinner.progress('Rules loaded', 'The engine is executing the rules');
-        })
-        .on('stop', () => {
-          spinner.progress('Rules executed', 'Preparing output');
-        })
         .run()
         .then(() => {
           const issues = engine.getIssues();
           const processedRules = engine.getRules();
-
-          spinner.succeed();
 
           if (issues.items.length > 0) {
             this.printResults(issues, processedRules, {
