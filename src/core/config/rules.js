@@ -75,7 +75,7 @@ class Rules {
   /**
    * Destroy all the loaded rules
    *
-   * @memberof Plugins
+   * @memberof Rules
    */
   reset() {
     this._rules = [];
