@@ -53,9 +53,19 @@ class Plugin {
       return;
     }
 
-    const context = new PluginContext(this.id, this.processedRules);
-    await this.core.preRulesExecutionHook(context);
-    asyncCallback();
+    const contextRules = this.processedRules.map(rule => {
+      return { id: rule.id, severity: rule.severity, options: rule.options };
+    });
+    const context = new PluginContext(this.id, contextRules);
+
+    try {
+      await this.core.preRulesExecutionHook(context);
+    } catch (error) {
+      debug(`The plugin ${this.id} pre-rule execution hook failed with error ${error}`);
+    } finally {
+      debug(`The engine finished executing the pre-rule execution hook of the plugin ${this.id}`);
+      asyncCallback();
+    }
   }
 
   /**
@@ -71,9 +81,24 @@ class Plugin {
       return;
     }
 
-    const summary = new PluginSummary(this.id, this.processedRules);
-    await this.core.postRulesExecutionHook(summary);
-    asyncCallback();
+    const summaryRules = this.processedRules.map(rule => {
+      return {
+        id: rule.id,
+        severity: rule.severity,
+        status: rule.lifeCycleStatus,
+        duration: rule.executionDuration
+      };
+    });
+    const summary = new PluginSummary(this.id, summaryRules);
+
+    try {
+      await this.core.postRulesExecutionHook(summary);
+    } catch (error) {
+      debug(`The plugin ${this.id} post-rule execution hook failed with error ${error}`);
+    } finally {
+      debug(`The engine finished executing the post-rule execution hook of the plugin ${this.id}`);
+      asyncCallback();
+    }
   }
 
   /**
