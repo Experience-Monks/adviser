@@ -30,7 +30,7 @@ function base(results, rules) {
   const resultsByPlugins = groupBy(results.items, 'pluginName');
 
   Object.keys(resultsByPlugins).forEach(pluginName => {
-    output += `  ${chalk.underline(pluginName)}\n`;
+    output += `  Plugin: ${chalk.underline(pluginName)}\n`;
     const tableData = [];
 
     resultsByPlugins[pluginName].forEach(result => {
