@@ -1,6 +1,7 @@
 'use strict';
 
 const Rule = require('../../plugins/rule');
+const docs = require('../../../utils/docs');
 
 class PackageJsonProperties extends Rule {
   constructor(context) {
@@ -13,5 +14,12 @@ class PackageJsonProperties extends Rule {
     sandbox.report({ message: 'hola ' });
   }
 }
+
+PackageJsonProperties.meta = {
+  category: 'Built-in',
+  description: 'Property restrictions over package.json',
+  recommended: true,
+  docsUrl: docs.getURL('package-json-properties')
+};
 
 module.exports = PackageJsonProperties;
