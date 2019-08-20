@@ -10,6 +10,7 @@ const EventEmitter = require('events');
 const debug = require('debug')('adviser:engine');
 const async = require('async');
 
+const EVENTS = require('./constants/events');
 const defaultOptions = require('./default-engine-options');
 
 const plugins = require('./config/plugins');
@@ -51,7 +52,7 @@ class Engine extends EventEmitter {
    * @memberof Engine
    */
   run() {
-    this.emit('run');
+    this.emit(EVENTS.ENGINE.RUN);
     return new Promise((resolve, reject) => {
       async.each(
         this.rules.getAll(),
@@ -63,7 +64,7 @@ class Engine extends EventEmitter {
             reject(error);
           } else {
             debug(`Finished running all the rules lifecycle`);
-            this.emit('stop');
+            this.emit(EVENTS.ENGINE.STOP);
             resolve();
           }
         }
@@ -92,7 +93,7 @@ class Engine extends EventEmitter {
    * @memberof Engine
    */
   _loadRules() {
-    this.emit('loadRules');
+    this.emit(EVENTS.ENGINE.LOAD_RULES);
 
     this.plugins.loadAll(this.config.getPlugins(), this.options.cwd);
 
