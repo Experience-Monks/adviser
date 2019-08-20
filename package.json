@@ -82,6 +82,7 @@
     "debug": "4.1.1",
     "hyperlinker": "1.0.0",
     "optionator": "0.8.2",
+    "requireindex": "1.2.0",
     "strip-ansi": "5.2.0",
     "text-table": "0.2.0"
   },
