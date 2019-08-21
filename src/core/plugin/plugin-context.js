@@ -13,6 +13,7 @@
 class PluginContext {
   constructor(pluginName, rules) {
     this.pluginName = pluginName;
+    this.shared = null;
     this.rules = rules;
   }
 }
