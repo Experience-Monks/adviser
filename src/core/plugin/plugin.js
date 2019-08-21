@@ -28,7 +28,8 @@ class Plugin {
     this.processedRules = [];
     this.id = id.toLowerCase();
     this.settings = settings;
-
+    
+    // Instantiate the plugin if using the new architecture, or fallback to object support
     if (Core.prototype instanceof PluginTemplate) {
       this.core = new Core(settings);
     } else {
