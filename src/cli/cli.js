@@ -11,6 +11,7 @@ const Config = require('../core/config/config');
 const Engine = require('../core/engine');
 const Formatter = require('../core/formatters/formatter');
 const Spinner = require('./spinner');
+const EVENTS = require('../core/constants/events');
 
 const options = require('./options');
 const logger = require('../utils/logger');
@@ -62,13 +63,13 @@ class CLI {
         const spinner = new Spinner();
 
         engine
-          .on('loadRules', () => {
+          .on(EVENTS.ENGINE.LOAD_RULES, () => {
             spinner.progress('Loading rules');
           })
-          .on('run', () => {
+          .on(EVENTS.ENGINE.RUN, () => {
             spinner.progress('Rules loaded', 'The engine is executing the rules');
           })
-          .on('stop', () => {
+          .on(EVENTS.ENGINE.STOP, () => {
             spinner.succeed('Rules executed');
           });
       }
