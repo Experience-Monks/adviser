@@ -28,7 +28,7 @@ class Plugin {
     this.processedRules = [];
     this.id = id.toLowerCase();
     this.settings = settings;
-    
+
     // Instantiate the plugin if using the new architecture, or fallback to object support
     if (Core.prototype instanceof PluginTemplate) {
       this.core = new Core(settings);
@@ -48,8 +48,8 @@ class Plugin {
    * @returns
    * @memberof Plugin
    */
-  async runPreRulesExecutionHook(asyncCallback) {
-    if (!this.core.preRulesExecutionHook) {
+  async preRunHook(asyncCallback) {
+    if (!this.core.preRun) {
       asyncCallback();
       return;
     }
@@ -60,7 +60,7 @@ class Plugin {
     const context = new PluginContext(this.id, contextRules);
 
     try {
-      await this.core.preRulesExecutionHook(context);
+      await this.core.preRun(context);
     } catch (error) {
       debug(`The plugin ${this.id} pre-rule execution hook failed with error ${error}`);
     } finally {
@@ -76,8 +76,8 @@ class Plugin {
    * @returns
    * @memberof Plugin
    */
-  async runPostRulesExecutionHook(asyncCallback) {
-    if (!this.core.postRulesExecutionHook) {
+  async postRunHook(asyncCallback) {
+    if (!this.core.postRun) {
       asyncCallback();
       return;
     }
@@ -93,7 +93,7 @@ class Plugin {
     const summary = new PluginSummary(this.id, summaryRules);
 
     try {
-      await this.core.postRulesExecutionHook(summary);
+      await this.core.postRun(summary);
     } catch (error) {
       debug(`The plugin ${this.id} post-rule execution hook failed with error ${error}`);
     } finally {

@@ -24,7 +24,7 @@ class Plugin {
    *
    * @param {Object} context - plugin name, rules id, rules severity, rules options
    */
-  preRulesExecution(context) {
+  preRun(context) {
     this.context = context;
   }
 
@@ -33,7 +33,7 @@ class Plugin {
    *
    * @param {Object} summary - plugin name, rules id, rules severity, rules execution status, rules execution duration
    */
-  postRulesExecution(summary) {
+  postRun(summary) {
     this.summary = summary;
   }
 }

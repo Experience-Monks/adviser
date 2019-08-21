@@ -64,7 +64,7 @@ class Engine {
       async.each(
         this.plugins.getAll(),
         (plugin, callback) => {
-          plugin.runPreRulesExecutionHook(callback);
+          plugin.preRunHook(callback);
         },
         error => {
           if (error) {
@@ -113,7 +113,7 @@ class Engine {
       async.each(
         this.plugins.getAll(),
         (plugin, callback) => {
-          plugin.runPostRulesExecutionHook(callback);
+          plugin.postRunHook(callback);
         },
         error => {
           if (error) {
