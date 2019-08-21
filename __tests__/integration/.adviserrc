@@ -1,5 +1,11 @@
 {
   "rules": {
-    "dependency/package-json-properties": ["error", { "opt1": "low", "opt2": 0 }]
+    "package-json-properties": [
+      "error",
+      {
+        "require-props": ["private", "name", "version", "description", "main"],
+        "not-allowed-props": ["license"]
+      }
+    ]
   }
 }
