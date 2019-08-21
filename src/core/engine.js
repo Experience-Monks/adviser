@@ -120,7 +120,7 @@ class Engine {
           throw new InvalidRuleError(
             'Invalid rule structure',
             ruleName,
-            `Invalid Rule structure, seems there are issues in the rule source code, please review the plugin structure`
+            `Invalid Rule structure, seems the rule doesn't exist or there are issues in the rule's source-code, please review the plugin structure`
           );
         }
       }
