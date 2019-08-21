@@ -63,7 +63,7 @@ class Config {
    */
   getPlugins() {
     if (this._config && this._config.config) {
-      const plugins = this._config.config.plugins.map(plugin => {
+      return this._config.config.plugins.map(plugin => {
         const extendedPlugin = { id: plugin, settings: {} };
 
         if (this._config.config.settings && this._config.config.settings[plugin]) {
@@ -72,8 +72,6 @@ class Config {
 
         return extendedPlugin;
       });
-
-      return plugins;
     }
 
     return [];
