@@ -1,6 +1,5 @@
 {
-  "plugins": ["test-example"],
   "rules": {
-    "test-example/rule-one": ["error", { "opt1": "low", "opt2": 0 }]
+    "dependency/package-json-properties": ["error", { "opt1": "low", "opt2": 0 }]
   }
 }

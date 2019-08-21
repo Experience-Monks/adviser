@@ -5,7 +5,10 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "adviser": "node ./node_modules/adviser/src/cli/bin/adviser"
+    "adviser": "adviser"
+  },
+  "dependencies": {
+    "adviser": "file:../.."
   },
   "keywords": [],
   "author": "Iran Reyes <iranreyesfleitas@gmail.com> (http://www.iranreyes.com)",
