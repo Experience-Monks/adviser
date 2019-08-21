@@ -3,8 +3,15 @@
     "package-json-properties": [
       "error",
       {
-        "require-props": ["private", "name", "version", "description", "main"],
-        "not-allowed-props": ["license"]
+        "required": ["private", "name", "version", "description", "main"],
+        "blacklist": ["license", "author"]
+      }
+    ],
+    "root-files": [
+      "error",
+      {
+        "required": [".commitlintrc.yml", ".editorconfig", ".eslintrc", ".gitignore", ".prettierrc", "README"],
+        "blacklist": ["LICENSE"]
       }
     ]
   }
