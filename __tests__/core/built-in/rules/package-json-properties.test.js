@@ -1,6 +1,6 @@
 'use strict';
 
-const PackageJsonRule = require('../../../src/core/built-in/rules/package-json-properties');
+const PackageJsonRule = require('../../../../src/core/built-in/rules/package-json-properties');
 
 describe('Built in package-json-properties rule - Validation', () => {
   test('Load rule without argument throws an error', () => {
