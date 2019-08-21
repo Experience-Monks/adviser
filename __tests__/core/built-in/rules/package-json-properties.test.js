@@ -14,10 +14,10 @@ describe('Built in package-json-properties rule - Validation', () => {
     }).toThrow();
   });
 
-  test("Load rule with require-props argument doesn't throw errors", () => {
+  test("Load rule with required argument doesn't throw errors", () => {
     const context = {
       options: {
-        'require-props': ['test']
+        required: ['test']
       }
     };
 
@@ -27,10 +27,10 @@ describe('Built in package-json-properties rule - Validation', () => {
     }).not.toThrow();
   });
 
-  test("Load rule with not-allowed-props argument doesn't throw errors", () => {
+  test("Load rule with blacklist argument doesn't throw errors", () => {
     const context = {
       options: {
-        'not-allowed-props': ['test']
+        blacklist: ['test']
       }
     };
 
@@ -40,10 +40,10 @@ describe('Built in package-json-properties rule - Validation', () => {
     }).not.toThrow();
   });
 
-  test('Invalid arguments of rule require-props throw an error', () => {
+  test('Invalid arguments of rule required throw an error', () => {
     const context = {
       options: {
-        'require-props': 'test'
+        required: 'test'
       }
     };
 
@@ -53,10 +53,10 @@ describe('Built in package-json-properties rule - Validation', () => {
     }).toThrow();
   });
 
-  test('Invalid arguments of rule not-allowed-props throw an error', () => {
+  test('Invalid arguments of rule blacklist throw an error', () => {
     const context = {
       options: {
-        'not-allowed-props': 'test'
+        blacklist: 'test'
       }
     };
 
@@ -71,8 +71,8 @@ describe('Built in package-json-properties rule - Execution', () => {
   test('No missing required properties and not including any restricted property', () => {
     const context = {
       options: {
-        'not-allowed-props': ['not-allowed'],
-        'require-props': ['required']
+        blacklist: ['not-allowed'],
+        required: ['required']
       },
       filesystem: {
         dirname: ''
@@ -84,7 +84,7 @@ describe('Built in package-json-properties rule - Execution', () => {
     };
 
     const packageJsonRule = new PackageJsonRule(context);
-    packageJsonRule.getPackageJsonPath = jest.fn(() => {
+    packageJsonRule._getPackageJsonPath = jest.fn(() => {
       return {
         required: []
       };
@@ -98,7 +98,7 @@ describe('Built in package-json-properties rule - Execution', () => {
   test('Missing required properties', () => {
     const context = {
       options: {
-        'require-props': ['required']
+        required: ['required']
       },
       filesystem: {
         dirname: ''
@@ -110,7 +110,7 @@ describe('Built in package-json-properties rule - Execution', () => {
     };
 
     const packageJsonRule = new PackageJsonRule(context);
-    packageJsonRule.getPackageJsonPath = jest.fn(() => {
+    packageJsonRule._getPackageJsonPath = jest.fn(() => {
       return {
         another: []
       };
@@ -124,7 +124,7 @@ describe('Built in package-json-properties rule - Execution', () => {
   test('Including restricted properties', () => {
     const context = {
       options: {
-        'not-allowed-props': ['not-allowed']
+        blacklist: ['not-allowed']
       },
       filesystem: {
         dirname: ''
@@ -136,7 +136,7 @@ describe('Built in package-json-properties rule - Execution', () => {
     };
 
     const packageJsonRule = new PackageJsonRule(context);
-    packageJsonRule.getPackageJsonPath = jest.fn(() => {
+    packageJsonRule._getPackageJsonPath = jest.fn(() => {
       return {
         another: [],
         'not-allowed': true

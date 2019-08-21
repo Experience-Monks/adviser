@@ -9,23 +9,23 @@ class PackageJsonProperties extends Rule {
   constructor(context) {
     super(context);
 
-    if (!this.context.options['require-props'] && !this.context.options['not-allowed-props']) {
-      throw new Error(`At least one option is required, require-props or not-allowed-props`);
+    if (!this.context.options['required'] && !this.context.options['blacklist']) {
+      throw new Error(`The rule must have at least one option, "required" or "blacklist"`);
     }
 
-    if (this.context.options['require-props'] && !Array.isArray(this.context.options['require-props'])) {
-      throw new Error(`Wrong require-props argument, an array is expected`);
+    if (this.context.options['required'] && !Array.isArray(this.context.options['required'])) {
+      throw new Error(`Wrong "required" argument, an array is expected`);
     }
 
-    if (this.context.options['not-allowed-props'] && !Array.isArray(this.context.options['not-allowed-props'])) {
-      throw new Error(`Wrong not-allowed-props argument, an array is expected`);
+    if (this.context.options['blacklist'] && !Array.isArray(this.context.options['blacklist'])) {
+      throw new Error(`Wrong "blacklist" argument, an array is expected`);
     }
   }
 
   run(sandbox) {
-    const packagejson = this.getPackageJsonPath();
+    const packagejson = this._getPackageJsonPath();
 
-    const requiredProps = this.context.options['require-props'];
+    const requiredProps = this.context.options['required'];
     if (requiredProps) {
       for (let index = 0; index < requiredProps.length; index++) {
         const property = requiredProps[index];
@@ -38,10 +38,10 @@ class PackageJsonProperties extends Rule {
       }
     }
 
-    const notAllowedProps = this.context.options['not-allowed-props'];
-    if (notAllowedProps) {
-      for (let index = 0; index < notAllowedProps.length; index++) {
-        const property = notAllowedProps[index];
+    const blacklistedProps = this.context.options['blacklist'];
+    if (blacklistedProps) {
+      for (let index = 0; index < blacklistedProps.length; index++) {
+        const property = blacklistedProps[index];
         if (packagejson[property] !== undefined) {
           sandbox.report({
             message: `package.json includes the restricted property "${property}"`
@@ -52,7 +52,7 @@ class PackageJsonProperties extends Rule {
     }
   }
 
-  getPackageJsonPath() {
+  _getPackageJsonPath() {
     let packagejson = {};
 
     try {
