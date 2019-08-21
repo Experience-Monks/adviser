@@ -1,5 +1,5 @@
 /**
- * @fileoverview Plugin metadata.
+ * @fileoverview Default plugin metadata if none is provided
  *
  */
 
