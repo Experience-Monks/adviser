@@ -10,6 +10,8 @@ const debug = require('debug')('adviser:cli');
 const Config = require('../core/config/config');
 const Engine = require('../core/engine');
 const Formatter = require('../core/formatters/formatter');
+const Spinner = require('./spinner');
+const EVENTS = require('../core/constants/events');
 
 const options = require('./options');
 const logger = require('../utils/logger');
@@ -56,6 +58,21 @@ class CLI {
 
       const config = new Config(engineOptions['configFile'] || engineOptions.cwd);
       const engine = new Engine(config, engineOptions);
+
+      if (!currentOptions.debug) {
+        const spinner = new Spinner();
+
+        engine
+          .on(EVENTS.ENGINE.LOAD_RULES, () => {
+            spinner.progress('Loading rules');
+          })
+          .on(EVENTS.ENGINE.RUN, () => {
+            spinner.progress('Rules loaded', 'The engine is executing the rules');
+          })
+          .on(EVENTS.ENGINE.STOP, () => {
+            spinner.succeed('Rules executed');
+          });
+      }
 
       engine
         .run()
