@@ -14,6 +14,8 @@ class PluginSummary {
   constructor(pluginName, rules) {
     this.pluginName = pluginName;
     this.rules = rules;
+
+    Object.freeze(this);
   }
 }
 

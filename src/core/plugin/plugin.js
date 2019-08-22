@@ -63,7 +63,7 @@ class Plugin {
       await this.core.preRun(context);
 
       this.processedRules.forEach(rule => {
-        rule.addSharedContext(context.shared);
+        rule.addSharedContext(context.getShareableData());
       });
     } catch (error) {
       debug(`The plugin ${this.id} pre-rule execution hook failed with error ${error}`);
