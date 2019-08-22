@@ -14,6 +14,8 @@ class RuleSandbox {
   constructor(engineReportMethod, ruleContext) {
     this.engineReportMethod = engineReportMethod;
     this.ruleContext = ruleContext;
+
+    Object.freeze(this);
   }
 
   /**

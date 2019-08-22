@@ -22,6 +22,10 @@ class RuleContext {
     this.severity = severity;
     this.verboseMode = verboseMode;
     this.shared = shared;
+
+    Object.freeze(this);
+    Object.freeze(this.filesystem);
+    Object.freeze(this.options);
   }
 }
 
