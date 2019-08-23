@@ -5,9 +5,12 @@
 
 'use strict';
 
+const EventEmitter = require('events');
+
 const debug = require('debug')('adviser:engine');
 const async = require('async');
 
+const EVENTS = require('./constants/events');
 const defaultOptions = require('./default-engine-options');
 
 const plugins = require('./config/plugins');
@@ -20,7 +23,7 @@ const InvalidRuleError = require('./errors/exceptions/invalid-rule-error');
  *
  * @class Engine
  */
-class Engine {
+class Engine extends EventEmitter {
   /**
    *Creates an instance of Engine.
    * @param {Config} configInstance
@@ -28,6 +31,8 @@ class Engine {
    * @memberof Engine
    */
   constructor(configInstance, options) {
+    super();
+
     debug('Running engine');
 
     this.options = Object.assign({}, defaultOptions, options);
@@ -48,9 +53,11 @@ class Engine {
    * @memberof Engine
    */
   async run() {
+    this.emit(EVENTS.ENGINE.RUN);
     await this.runPreHookPlugins();
     await this.runRules();
-    return this.runPostHookPlugins();
+    await this.runPostHookPlugins();
+    this.emit(EVENTS.ENGINE.STOP);
   }
 
   /**
@@ -157,7 +164,10 @@ class Engine {
    * @memberof Engine
    */
   _loadRules() {
+    this.emit(EVENTS.ENGINE.LOAD_RULES);
+
     const configRules = this.config.getRules();
+
     Object.keys(configRules).forEach(fullRuleName => {
       const pluginName = this._getPluginNameFromRule(fullRuleName);
       const ruleName = this._getRuleNameFromRule(fullRuleName);
