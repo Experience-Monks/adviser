@@ -3,7 +3,7 @@
 const path = require('path');
 const pluralize = require('pluralize');
 
-const Rule = require('../../plugins/rule');
+const Rule = require('../../external/rule');
 const docs = require('../../../utils/docs');
 
 class PackageJsonProperties extends Rule {

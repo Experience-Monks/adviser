@@ -7,6 +7,8 @@
 
 const debug = require('debug')('adviser:plugins');
 
+const Plugin = require('../plugin/plugin');
+
 const PluginError = require('../errors/exceptions/plugin-error');
 
 const { BLACKLIST_NAMES } = require('../constants/plugins');
@@ -29,13 +31,14 @@ class Plugins {
    * @param {Object} plugin
    * @memberof Plugins
    */
-  add(pluginId, plugin) {
-    if (!pluginId) return;
+  add(plugin, PluginSource) {
+    if (!plugin.id) return;
 
-    const normalizePluginId = this._normalizePluginId(pluginId);
-    this._plugins[normalizePluginId] = plugin;
+    const normalizePluginId = this._normalizePluginId(plugin.id);
 
-    debug(`Plugin ${normalizePluginId} added`);
+    this._plugins[normalizePluginId] = new Plugin(plugin.id, plugin.settings, PluginSource);
+
+    debug(`Plugin ${plugin.id} added`);
   }
 
   /**
@@ -70,10 +73,10 @@ class Plugins {
     Object.keys(this._plugins).forEach(pluginName => {
       const plugin = this.get(pluginName);
 
-      if (plugin.rules) {
-        Object.keys(plugin.rules).forEach(ruleId => {
+      if (plugin.definedRules) {
+        Object.keys(plugin.definedRules).forEach(ruleId => {
           const qualifiedRuleId = `${pluginName}/${ruleId}`;
-          const rule = plugin.rules[ruleId];
+          const rule = plugin.definedRules[ruleId];
 
           allRules.set(qualifiedRuleId, {
             pluginName,
@@ -93,9 +96,9 @@ class Plugins {
    * @returns {void}
    * @throws {Error} If a plugin cannot be loaded.
    */
-  loadAll(pluginIds = [], directory) {
-    pluginIds.forEach(pluginId => {
-      this.load(pluginId, directory);
+  loadAll(plugins = [], directory) {
+    plugins.forEach(plugin => {
+      this.load(plugin, directory);
     });
   }
 
@@ -106,25 +109,25 @@ class Plugins {
    * @param {Path} directory
    * @memberof Plugins
    */
-  load(pluginId, directory) {
-    if (BLACKLIST_NAMES.includes(pluginId)) {
+  load(plugin, directory) {
+    if (BLACKLIST_NAMES.includes(plugin.id)) {
       throw new PluginError(
         'Invalid plugin name',
-        pluginId,
-        `The plugin name ${pluginId} can not be used because it has a blacklisted name`
+        plugin.id,
+        `The plugin name ${plugin.id} can not be used because it has been blacklisted`
       );
     }
 
-    if (pluginId.match(/\s+/u)) {
-      debug(`Failed to load plugin ${pluginId}.`);
-      throw new PluginError('Invalid plugin name', pluginId, 'Whitespace found in the plugin name');
+    if (plugin.id.match(/\s+/u)) {
+      debug(`Failed to load plugin ${plugin.id}.`);
+      throw new PluginError('Invalid plugin name', plugin.id, 'Whitespace found in the plugin name');
     }
 
-    const normalizePluginId = this._normalizePluginId(pluginId);
+    const normalizePluginId = this._normalizePluginId(plugin.id);
 
     if (!this._plugins[normalizePluginId]) {
-      const plugin = this._loadFromDirectory(normalizePluginId, directory);
-      this.add(pluginId, plugin);
+      const pluginSource = this._loadFromDirectory(normalizePluginId, directory);
+      this.add(plugin, pluginSource);
     }
   }
 

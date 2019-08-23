@@ -4,7 +4,7 @@ const fs = require('fs');
 const { promisify } = require('util');
 const pluralize = require('pluralize');
 
-const Rule = require('../../plugins/rule');
+const Rule = require('../../external/rule');
 const docs = require('../../../utils/docs');
 
 const readDirAsync = promisify(fs.readdir);

@@ -11,7 +11,7 @@
  * @class RuleContext
  */
 class RuleContext {
-  constructor(ruleName, pluginName, dirname, filename, options, severity, verboseMode) {
+  constructor(ruleName, pluginName, dirname, filename, options, severity, verboseMode, shared) {
     this.ruleName = ruleName;
     this.pluginName = pluginName;
     this.filesystem = {
@@ -21,6 +21,11 @@ class RuleContext {
     this.options = { ...options };
     this.severity = severity;
     this.verboseMode = verboseMode;
+    this.shared = shared;
+
+    Object.freeze(this);
+    Object.freeze(this.filesystem);
+    Object.freeze(this.options);
   }
 }
 

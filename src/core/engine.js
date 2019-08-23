@@ -45,9 +45,48 @@ class Engine extends EventEmitter {
     this.rules = rules;
 
     this._loadBuiltInRules();
+    this._loadPlugins();
     this._loadRules();
 
     this._rawIssues = [];
+  }
+
+  /**
+   * Run rules lifecycles and plugins hooks
+   *
+   * @memberof Engine
+   */
+  async run() {
+    this.emit(EVENTS.ENGINE.RUN);
+    await this.runPluginsPreHook();
+    await this.runRules();
+    await this.runPluginsPostHook();
+    this.emit(EVENTS.ENGINE.STOP);
+  }
+
+  /**
+   * Run plugins pre-hooks
+   *
+   * @returns
+   * @memberof Engine
+   */
+  runPluginsPreHook() {
+    return new Promise((resolve, reject) => {
+      async.each(
+        this.plugins.getAll(),
+        (plugin, callback) => {
+          plugin.preRunHook(callback);
+        },
+        error => {
+          if (error) {
+            reject(error);
+          } else {
+            debug(`Finished running all the plugin's pre hooks`);
+            resolve();
+          }
+        }
+      );
+    });
   }
 
   /**
@@ -55,8 +94,7 @@ class Engine extends EventEmitter {
    *
    * @memberof Engine
    */
-  run() {
-    this.emit(EVENTS.ENGINE.RUN);
+  runRules() {
     return new Promise((resolve, reject) => {
       async.each(
         this.rules.getAll(),
@@ -68,7 +106,31 @@ class Engine extends EventEmitter {
             reject(error);
           } else {
             debug(`Finished running all the rules lifecycle`);
-            this.emit(EVENTS.ENGINE.STOP);
+            resolve();
+          }
+        }
+      );
+    });
+  }
+
+  /**
+   * Run plugins post-hooks
+   *
+   * @returns
+   * @memberof Engine
+   */
+  runPluginsPostHook() {
+    return new Promise((resolve, reject) => {
+      async.each(
+        this.plugins.getAll(),
+        (plugin, callback) => {
+          plugin.postRunHook(callback);
+        },
+        error => {
+          if (error) {
+            reject(error);
+          } else {
+            debug(`Finished running all the plugin's post hooks`);
             resolve();
           }
         }
@@ -92,14 +154,21 @@ class Engine extends EventEmitter {
   }
 
   /**
+   * Load plugins from the config file
+   *
+   * @memberof Engine
+   */
+  _loadPlugins() {
+    this.plugins.loadAll(this.config.getPlugins(), this.options.cwd);
+  }
+
+  /**
    * Load rules from the config file and from the plugins
    *
    * @memberof Engine
    */
   _loadRules() {
     this.emit(EVENTS.ENGINE.LOAD_RULES);
-
-    this.plugins.loadAll(this.config.getPlugins(), this.options.cwd);
 
     const configRules = this.config.getRules();
 
@@ -113,18 +182,19 @@ class Engine extends EventEmitter {
 
         const plugin = this.plugins.get(pluginName);
 
-        if (plugin && plugin.rules) {
-          const ruleCore = plugin.rules[ruleName];
+        if (plugin && plugin.definedRules) {
+          const ruleCore = plugin.definedRules[ruleName];
 
           if (!ruleCore) {
             throw new InvalidRuleError(
               'Invalid rule definition',
               ruleName,
-              `The rule ${ruleName} is not defined or not well defined inside the plugin ${pluginName}`
+              `The rule ${ruleName} is not defined or the plugin ${pluginName} is not exporting the rule correctly`
             );
           }
 
           this.rules.add(ruleName, pluginName, ruleCore, ruleSettings);
+          plugin.addProcesedRule(this.rules.get(ruleName));
         } else {
           throw new InvalidRuleError(
             'Invalid rule structure',

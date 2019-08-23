@@ -113,7 +113,7 @@ describe('Config', () => {
 
     config.load('test');
 
-    expect(config.getPlugins()).toMatchObject(['test1', 'test2', 'test3']);
+    expect(config.getPlugins()).toMatchObject([{ id: 'test1' }, { id: 'test2' }, { id: 'test3' }]);
   });
 
   test('Get rules', () => {

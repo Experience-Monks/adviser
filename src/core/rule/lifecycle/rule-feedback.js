@@ -15,6 +15,8 @@ class RuleFeedback {
     this.status = status;
     this.lifeCyclePhase = lifeCyclePhase;
     this.timing = timing;
+
+    Object.freeze(this);
   }
 }
 
