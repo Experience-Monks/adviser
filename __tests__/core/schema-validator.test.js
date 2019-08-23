@@ -24,7 +24,7 @@ describe('Schema Validator', () => {
     expect(schemaValidator.isValid()).toBe(true);
   });
 
-  test('Missing plugin property must return an error', () => {
+  test("Missing plugin property can't return an error", () => {
     const configFile = {
       rules: {
         exampleWarnRule: 'warn'
@@ -32,7 +32,7 @@ describe('Schema Validator', () => {
     };
     const schemaValidator = new SchemaValidator(configFileSchema, configFile);
 
-    expect(schemaValidator.isValid()).toBe(false);
+    expect(schemaValidator.isValid()).toBe(true);
   });
 
   test('At leats one plugin is required', () => {

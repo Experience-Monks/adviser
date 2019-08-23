@@ -62,7 +62,7 @@ class Config {
    * @memberof Config
    */
   getPlugins() {
-    if (this._config && this._config.config) {
+    if (this._config && this._config.config && this._config.config.plugins) {
       return this._config.config.plugins.map(plugin => {
         const extendedPlugin = { id: plugin, settings: {} };
 

@@ -11,6 +11,8 @@ const Plugin = require('../plugin/plugin');
 
 const PluginError = require('../errors/exceptions/plugin-error');
 
+const { BLACKLIST_NAMES } = require('../constants/plugins');
+
 /**
  * CRUD for the plugins
  *
@@ -94,7 +96,7 @@ class Plugins {
    * @returns {void}
    * @throws {Error} If a plugin cannot be loaded.
    */
-  loadAll(plugins, directory) {
+  loadAll(plugins = [], directory) {
     plugins.forEach(plugin => {
       this.load(plugin, directory);
     });
@@ -108,12 +110,20 @@ class Plugins {
    * @memberof Plugins
    */
   load(plugin, directory) {
-    const normalizePluginId = this._normalizePluginId(plugin.id);
-
-    if (normalizePluginId.match(/\s+/u)) {
-      debug(`Failed to load plugin ${normalizePluginId}.`);
-      throw new PluginError('Invalid plugin name', normalizePluginId, 'Whitespace found in the plugin name');
+    if (BLACKLIST_NAMES.includes(plugin.id)) {
+      throw new PluginError(
+        'Invalid plugin name',
+        plugin.id,
+        `The plugin name ${plugin.id} can not be used because it has been blacklisted`
+      );
     }
+
+    if (plugin.id.match(/\s+/u)) {
+      debug(`Failed to load plugin ${plugin.id}.`);
+      throw new PluginError('Invalid plugin name', plugin.id, 'Whitespace found in the plugin name');
+    }
+
+    const normalizePluginId = this._normalizePluginId(plugin.id);
 
     if (!this._plugins[normalizePluginId]) {
       const pluginSource = this._loadFromDirectory(normalizePluginId, directory);

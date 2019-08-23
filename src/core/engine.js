@@ -5,13 +5,16 @@
 
 'use strict';
 
+const path = require('path');
 const EventEmitter = require('events');
 
 const debug = require('debug')('adviser:engine');
 const async = require('async');
+const requireIndex = require('requireindex');
 
-const EVENTS = require('./constants/events');
 const defaultOptions = require('./default-engine-options');
+const EVENTS = require('./constants/events');
+const { BUILT_IN_NAME } = require('./constants/plugins');
 
 const plugins = require('./config/plugins');
 const rules = require('./config/rules');
@@ -41,6 +44,7 @@ class Engine extends EventEmitter {
     this.plugins = plugins;
     this.rules = rules;
 
+    this._loadBuiltInRules();
     this._loadPlugins();
     this._loadRules();
 
@@ -54,9 +58,9 @@ class Engine extends EventEmitter {
    */
   async run() {
     this.emit(EVENTS.ENGINE.RUN);
-    await this.runPreHookPlugins();
+    await this.runPluginsPreHook();
     await this.runRules();
-    await this.runPostHookPlugins();
+    await this.runPluginsPostHook();
     this.emit(EVENTS.ENGINE.STOP);
   }
 
@@ -66,7 +70,7 @@ class Engine extends EventEmitter {
    * @returns
    * @memberof Engine
    */
-  runPreHookPlugins() {
+  runPluginsPreHook() {
     return new Promise((resolve, reject) => {
       async.each(
         this.plugins.getAll(),
@@ -115,7 +119,7 @@ class Engine extends EventEmitter {
    * @returns
    * @memberof Engine
    */
-  runPostHookPlugins() {
+  runPluginsPostHook() {
     return new Promise((resolve, reject) => {
       async.each(
         this.plugins.getAll(),
@@ -169,41 +173,56 @@ class Engine extends EventEmitter {
     const configRules = this.config.getRules();
 
     Object.keys(configRules).forEach(fullRuleName => {
-      const pluginName = this._getPluginNameFromRule(fullRuleName);
-      const ruleName = this._getRuleNameFromRule(fullRuleName);
+      const ruleSettings = configRules[fullRuleName];
 
-      const plugin = this.plugins.get(pluginName);
-
-      if (plugin && plugin.definedRules) {
-        const ruleCore = plugin.definedRules[ruleName];
-        const ruleSettings = configRules[fullRuleName];
-
-        this.rules.add(ruleName, pluginName, ruleCore, ruleSettings);
-        plugin.addProcesedRule(this.rules.get(ruleName));
+      if (this.builtInRules[fullRuleName]) {
+        this.rules.add(fullRuleName, BUILT_IN_NAME, this.builtInRules[fullRuleName], ruleSettings);
       } else {
-        throw new InvalidRuleError(
-          'Invalid rule structure',
-          ruleName,
-          `Invalid Rule structure, seems there are issues in the rule source code, please review the plugin structure`
-        );
+        const { pluginName, ruleName } = this._parseRawRuleName(fullRuleName);
+
+        const plugin = this.plugins.get(pluginName);
+
+        if (plugin && plugin.definedRules) {
+          const ruleCore = plugin.definedRules[ruleName];
+
+          if (!ruleCore) {
+            throw new InvalidRuleError(
+              'Invalid rule definition',
+              ruleName,
+              `The rule ${ruleName} is not defined or the plugin ${pluginName} is not exporting the rule correctly`
+            );
+          }
+
+          this.rules.add(ruleName, pluginName, ruleCore, ruleSettings);
+          plugin.addProcesedRule(this.rules.get(ruleName));
+        } else {
+          throw new InvalidRuleError(
+            'Invalid rule structure',
+            ruleName,
+            `Invalid Rule structure, seems the rule doesn't exist or there are issues in the rule's source-code, please review the plugin structure`
+          );
+        }
       }
     });
   }
 
-  _getPluginNameFromRule(rule) {
-    const rulePluginTuple = rule.split('/');
-    if (rulePluginTuple.length !== 2) {
-      throw new InvalidRuleError(
-        'Invalid rule name',
-        rule,
-        'Invalid Rule name, make sure it follows the format [plugin name]/[rule name]'
-      );
-    }
-
-    return rulePluginTuple[0];
+  /**
+   * Load Adviser built-in rules
+   *
+   * @memberof Engine
+   */
+  _loadBuiltInRules() {
+    this.builtInRules = requireIndex(path.join(__dirname, '/built-in/rules'));
   }
 
-  _getRuleNameFromRule(rule) {
+  /**
+   * Parse raw rule from the configuration file
+   *
+   * @param {String} rule
+   * @returns {Object} {pluginName, ruleName}
+   * @memberof Engine
+   */
+  _parseRawRuleName(rule) {
     const rulePluginTuple = rule.split('/');
     if (rulePluginTuple.length !== 2) {
       throw new InvalidRuleError(
@@ -213,7 +232,10 @@ class Engine extends EventEmitter {
       );
     }
 
-    return rulePluginTuple[1];
+    return {
+      pluginName: rulePluginTuple[0],
+      ruleName: rulePluginTuple[1]
+    };
   }
 
   /**

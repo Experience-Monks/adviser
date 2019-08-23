@@ -25,9 +25,18 @@ class RuleSandbox {
    * @memberof RuleSandbox
    */
   report(params) {
-    // TODO: Check that params is an object with the shape of a rule report
+    if (!params || !params.message || typeof params.message !== 'string') {
+      throw new Error(`Invalid message paramater when reporting, it should be a string`);
+    }
+
+    if (params.verbose && typeof params.verbose !== 'string') {
+      throw new Error(`Invalid verbose paramater when reporting, it should be a string`);
+    }
+
+    const reportedMessage = { ...{ message: '' }, ...params };
+
     this.engineReportMethod({
-      params,
+      params: reportedMessage,
       context: this.ruleContext
     });
   }

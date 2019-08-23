@@ -51,7 +51,7 @@ describe('Engine - Load Rules', () => {
     }
 
     expect(loadEngine).toThrow(InvalidRuleError);
-    expect(loadEngine).toThrow('Rule definition is invalid');
+    expect(loadEngine).toThrow('Invalid rule definition');
   });
 
   test('Invalid rule name - not included the plugin', () => {

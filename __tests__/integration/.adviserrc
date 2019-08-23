@@ -1,6 +1,18 @@
 {
-  "plugins": ["test-example"],
   "rules": {
-    "test-example/rule-one": ["error", { "opt1": "low", "opt2": 0 }]
+    "package-json-properties": [
+      "error",
+      {
+        "required": ["private", "name", "version", "description", "main"],
+        "blacklist": ["license", "author"]
+      }
+    ],
+    "root-files": [
+      "error",
+      {
+        "required": [".commitlintrc.yml", ".editorconfig", ".eslintrc", ".gitignore", ".prettierrc", "README"],
+        "blacklist": ["LICENSE"]
+      }
+    ]
   }
 }

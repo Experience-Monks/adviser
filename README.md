@@ -9,6 +9,7 @@ Jam3 quality advisor
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Built in rules](#built-in-rules)
 - [Release](#release)
 - [Tests](#tests)
 - [API](#api)
@@ -30,7 +31,7 @@ Adviser goal is to run rules defined in a configuration file. It doesn't get inv
 In order to use it, you need to:
 
 1. Create a configuration file
-2. Install the plugins you've like to use
+2. (Optional) Install the plugins you've like to use
 3. Set the rules we want to use
 
 ### Run adviser
@@ -73,6 +74,15 @@ If you run adviser without any arguments it will try to find a valid configurati
 }
 ```
 
+## Built in rules
+
+All the rules documentation is located inside `/docs/rules`
+
+_Rules_:
+
+- package-json-properties: Includes options to restrict and blacklist properties on the package.json
+- root-files: Includes options to restrict and blacklist files on the root directory.
+
 ## Release
 
 To releasing new versions we are using [standard-version](https://github.com/conventional-changelog/standard-version).
@@ -93,13 +103,7 @@ There is a small set of tests implemented using Jest, to run them use: `$ npm te
 
 ### Integration Tests
 
-To test `adviser` running with actual rules, we recommend you to create an empty folder (We have one under `./__tests__/integration`) with:
-
-- An example package.json with example packages
-- An `adviser` configuration file. You can create it manually following [Configuration example file](#configuration-example-file) or generate one using `$ adviser --init` (adviser must be installed globally or using `npx`)
-- Link this repo to the example project.
-  - Run `$ npm link` in the `adviser` root
-  - Run `$ npm link adviser` in the example project root
+To test `adviser` running with built-in rules, run `$ npm run adviser` on the directory `__tests__/integration`
 
 #### External Plugins
 
@@ -107,14 +111,6 @@ To use plugins and rules you can install one of the plugins created by the same 
 
 - [https://github.com/Jam3/adviser-plugin-dependencies](https://github.com/Jam3/adviser-plugin-audit-npm)
 - [https://github.com/Jam3/adviser-plugin-audit-npm](https://github.com/Jam3/adviser-plugin-audit-npm)
-
-#### Example Plugin
-
-You can use the example plugin and npm link it to the example project:
-
-- Run `$ npm link advisor` in `./packages/adviser-plugin-test-example`
-- Run `$ npm link` in `./packages/adviser-plugin-test-example`
-- Run `$ npm link adviser-plugin-test-example` in the example project root
 
 ## API
 
