@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/Jam3/adviser/compare/v0.3.1...v0.4.0) (2019-08-23)
+
+
+### Bug Fixes
+
+* packages vulnerabilities ([fe49590](https://github.com/Jam3/adviser/commit/fe49590))
+
+
+### Features
+
+* add plugin hooks and global settings support for plugins ([#32](https://github.com/Jam3/adviser/issues/32)) ([c4e5dcd](https://github.com/Jam3/adviser/commit/c4e5dcd))
+
+
+
 <a name="0.3.1"></a>
 ## [0.3.1](https://github.com/Jam3/adviser/compare/v0.3.0...v0.3.1) (2019-08-23)
 
