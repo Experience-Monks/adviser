@@ -83,8 +83,9 @@
     "hyperlinker": "1.0.0",
     "log-symbols": "3.0.0",
     "optionator": "0.8.2",
-    "requireindex": "1.2.0",
     "ora": "3.4.0",
+    "pluralize": "8.0.0",
+    "requireindex": "1.2.0",
     "strip-ansi": "5.2.0",
     "text-table": "0.2.0"
   },

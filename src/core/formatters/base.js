@@ -9,9 +9,9 @@ const chalk = require('chalk');
 const stripAnsi = require('strip-ansi');
 const table = require('text-table');
 const hyperlinker = require('hyperlinker');
+const pluralize = require('pluralize');
 
 const groupBy = require('../../utils/groupBy');
-const pluralize = require('../../utils/pluralize');
 
 /**
  * Creates a result output for the terminal
