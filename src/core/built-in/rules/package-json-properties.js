@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const pluralize = require('pluralize');
 
 const Rule = require('../../plugins/rule');
 const docs = require('../../../utils/docs');
@@ -27,27 +28,29 @@ class PackageJsonProperties extends Rule {
 
     const requiredProps = this.context.options['required'];
     if (requiredProps) {
-      for (let index = 0; index < requiredProps.length; index++) {
-        const property = requiredProps[index];
-        if (!packagejson.hasOwnProperty(property)) {
-          sandbox.report({
-            message: `package.json is missing the required property "${property}"`
-          });
-          return;
-        }
+      const missingProps = requiredProps.filter(requiredProp => !packagejson.hasOwnProperty(requiredProp));
+
+      if (missingProps.length > 0) {
+        sandbox.report({
+          message: `The package.json is missing the required ${pluralize(
+            'property',
+            missingProps.length
+          )}: ${missingProps.join(', ')}`
+        });
       }
     }
 
     const blacklistedProps = this.context.options['blacklist'];
     if (blacklistedProps) {
-      for (let index = 0; index < blacklistedProps.length; index++) {
-        const property = blacklistedProps[index];
-        if (packagejson.hasOwnProperty(property)) {
-          sandbox.report({
-            message: `package.json includes the restricted property "${property}"`
-          });
-          return;
-        }
+      const notAllowedProps = blacklistedProps.filter(blacklistedProp => packagejson.hasOwnProperty(blacklistedProp));
+
+      if (notAllowedProps.length > 0) {
+        sandbox.report({
+          message: `The package.json includes the restricted ${pluralize(
+            'property',
+            notAllowedProps.length
+          )}: ${notAllowedProps.join(', ')}`
+        });
       }
     }
   }

@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const { promisify } = require('util');
+const pluralize = require('pluralize');
 
 const Rule = require('../../plugins/rule');
 const docs = require('../../../utils/docs');
@@ -26,30 +27,33 @@ class RootFiles extends Rule {
   }
 
   async run(sandbox) {
-    const requiredFiles = this.context.options['required'];
-    const blacklistedFiles = this.context.options['blacklist'];
-
     const files = await this._readRootDirectory();
 
+    const requiredFiles = this.context.options['required'];
     if (requiredFiles) {
-      for (let index = 0; index < requiredFiles.length; index++) {
-        if (!files.includes(requiredFiles[index])) {
-          sandbox.report({
-            message: `Your directory root is missing the required file ${requiredFiles[index]}`
-          });
-          return;
-        }
+      const missingFiles = requiredFiles.filter(requiredFile => !files.includes(requiredFile));
+
+      if (missingFiles.length > 0) {
+        sandbox.report({
+          message: `Your directory root is missing the required ${pluralize(
+            'file',
+            missingFiles.length
+          )}: ${missingFiles.join(', ')}`
+        });
       }
     }
 
+    const blacklistedFiles = this.context.options['blacklist'];
     if (blacklistedFiles) {
-      for (let index = 0; index < blacklistedFiles.length; index++) {
-        if (files.includes(blacklistedFiles[index])) {
-          sandbox.report({
-            message: `Your directory root is including the restricted file ${blacklistedFiles[index]}`
-          });
-          return;
-        }
+      const notAllowedFiles = blacklistedFiles.filter(blacklistedFile => files.includes(blacklistedFile));
+
+      if (notAllowedFiles.length > 0) {
+        sandbox.report({
+          message: `Your directory root is including the restricted ${pluralize(
+            'file',
+            notAllowedFiles.length
+          )}: ${notAllowedFiles.join(', ')}`
+        });
       }
     }
   }
