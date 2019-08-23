@@ -29,7 +29,7 @@ class PackageJsonProperties extends Rule {
     if (requiredProps) {
       for (let index = 0; index < requiredProps.length; index++) {
         const property = requiredProps[index];
-        if (packagejson[property] === undefined) {
+        if (!packagejson.hasOwnProperty(property)) {
           sandbox.report({
             message: `package.json is missing the required property "${property}"`
           });
@@ -42,7 +42,7 @@ class PackageJsonProperties extends Rule {
     if (blacklistedProps) {
       for (let index = 0; index < blacklistedProps.length; index++) {
         const property = blacklistedProps[index];
-        if (packagejson[property] !== undefined) {
+        if (packagejson.hasOwnProperty(property)) {
           sandbox.report({
             message: `package.json includes the restricted property "${property}"`
           });
