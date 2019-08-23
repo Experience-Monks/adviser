@@ -14,7 +14,6 @@ class Rule {
   /**
    * Called when the rule is parsed by the engine
    * @param {Object} context - dirname, filename, options, ruleId
-   * @memberof MinVulnerabilityAllowed
    */
   constructor(context) {
     this.context = context;
@@ -24,7 +23,6 @@ class Rule {
    * Action rule method called when the engine runs the rule
    *
    * @param {Object} sandbox - report method, libraries abstraction
-   * @memberof MinVulnerabilityAllowed
    */
   run(sandbox) {
     this.sandbox = sandbox;
@@ -35,7 +33,6 @@ class Rule {
    *
    * @param {Object} feedback - timing, status (failed)
    * @param {Object} error - Error Object if exists
-   * @memberof MinVulnerabilityAllowed
    */
   ruleExecutionFailed(feedback, error) {
     this.feedback = feedback;
@@ -46,7 +43,6 @@ class Rule {
    *
    * @param {Object} feedback - timing, status (completed)
    * @param {Object} error - Error Object if exists
-   * @memberof MinVulnerabilityAllowed
    */
   ruleExecutionEnded(feedback) {
     this.feedback = feedback;

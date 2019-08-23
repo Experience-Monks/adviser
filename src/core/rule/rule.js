@@ -25,6 +25,8 @@ class Rule {
     this.id = id.toLowerCase();
     this.pluginName = pluginName.toLowerCase();
 
+    this.sharedContext = null;
+
     this.severity = severity;
     this.options = options;
 
@@ -63,6 +65,16 @@ class Rule {
   }
 
   /**
+   * Add to the rule data that will be included in the context.
+   *
+   * @param {Object} sharedContext
+   * @memberof Rule
+   */
+  addSharedContext(sharedContext) {
+    this.sharedContext = sharedContext;
+  }
+
+  /**
    * Run the rule lifecycle
    *
    * @param {Path} currentDirectory
@@ -88,7 +100,8 @@ class Rule {
       null,
       this.options,
       this.severity,
-      verboseMode
+      verboseMode,
+      this.sharedContext
     );
 
     try {

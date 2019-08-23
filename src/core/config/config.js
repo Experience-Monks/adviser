@@ -63,7 +63,15 @@ class Config {
    */
   getPlugins() {
     if (this._config && this._config.config) {
-      return this._config.config.plugins;
+      return this._config.config.plugins.map(plugin => {
+        const extendedPlugin = { id: plugin, settings: {} };
+
+        if (this._config.config.settings && this._config.config.settings[plugin]) {
+          extendedPlugin['settings'] = this._config.config.settings[plugin];
+        }
+
+        return extendedPlugin;
+      });
     }
 
     return [];
@@ -78,6 +86,20 @@ class Config {
   getRules() {
     if (this._config && this._config.config) {
       return this._config.config.rules;
+    }
+
+    return {};
+  }
+
+  /**
+   * Return the settings defined in the config file
+   *
+   * @returns {Array}
+   * @memberof Config
+   */
+  getSettings() {
+    if (this._config && this._config.config) {
+      return this._config.config.settings;
     }
 
     return {};

@@ -3,7 +3,7 @@
 const rules = require('../../src/core/config/rules');
 const InvalidRuleError = require('../../src/core/errors/exceptions/invalid-rule-error');
 
-const AdviserRule = require('../../src/core/plugins/rule');
+const AdviserRule = require('../../src/core/external/rule');
 class MockAdviserRule extends AdviserRule {}
 
 describe('Rules', () => {
