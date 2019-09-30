@@ -40,7 +40,7 @@ npm install -g adviser
 
 ## Usage
 
-Adviser goal is to run rules defined in a configuration file. It doesn't get involve in what the rules do; it just run them and control them.
+Adviser's goal is to run rules defined in a configuration file. It doesn't get involve in what the rules do; it just run them and control them.
 
 In order to use it, you need to:
 
