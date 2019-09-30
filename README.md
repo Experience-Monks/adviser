@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://terminalizer.com">
-    <img src="https://res.cloudinary.com/dvttn4ece/image/upload/v1569813662/logo-adviser.png"/>
+    <img src="docs/logo.jpg"/>
   </a>
 </p>
 
