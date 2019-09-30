@@ -1,6 +1,6 @@
 {
   "name": "adviser",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Jam3 Quality advisor",
   "main": "src/index.js",
   "contributors": [
