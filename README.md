@@ -13,7 +13,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/Jam3/adviser/badge.svg?branch=master)](https://coveralls.io/github/Jam3/adviser?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c3e02561069853a74f9b/maintainability)](https://codeclimate.com/github/Jam3/adviser/maintainability)
 
-> Jam3 quality advisor, run requirements tasks in npm projects
+> Jam3 quality advisor. Modular rule's runner to ensure quality on projects.
 
 <p align="center"><img src="/docs/cli.svg"/></p>
 
