@@ -17,6 +17,8 @@
 
 <p align="center"><img src="/docs/cli.svg"/></p>
 
+> Thanks [@pedrohsbarroso](https://twitter.com/pedrohsbarroso) for the logo
+
 ---
 
 # Table of Contents
@@ -134,6 +136,8 @@ To use plugins and rules you can install one of the plugins created by the same 
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting
 pull requests.
+
+## Thanks
 
 ## License
 
