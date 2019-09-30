@@ -15,7 +15,7 @@
 
 > Jam3 quality advisor, run requirements tasks in npm projects
 
-<p align="center"><img src="/img/demo.gif?raw=true"/></p>
+<p align="center"><img src="/docs/cli.svg"/></p>
 
 ---
 
