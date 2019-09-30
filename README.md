@@ -1,11 +1,25 @@
+<p align="center">
+  <a href="https://terminalizer.com">
+    <img src="https://res.cloudinary.com/dvttn4ece/image/upload/v1569813662/logo-adviser.png"/>
+  </a>
+</p>
+
 # Adviser
 
+[![npm](https://img.shields.io/npm/v/adviser.svg)](https://www.npmjs.com/package/adviser)
+[![npm](https://img.shields.io/npm/l/adviser.svg)](https://github.com/jam3/adviser/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/Jam3/adviser.svg?branch=master)](https://travis-ci.org/Jam3/adviser)
 [![Known Vulnerabilities](https://snyk.io/test/github/jam3/adviser/badge.svg)](https://snyk.io/test/github/jam3/adviser)
 [![Coverage Status](https://coveralls.io/repos/github/Jam3/adviser/badge.svg?branch=master)](https://coveralls.io/github/Jam3/adviser?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c3e02561069853a74f9b/maintainability)](https://codeclimate.com/github/Jam3/adviser/maintainability)
 
-Jam3 quality advisor
+> Jam3 quality advisor, run requirements tasks in npm projects
+
+<p align="center"><img src="/img/demo.gif?raw=true"/></p>
+
+---
+
+# Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
