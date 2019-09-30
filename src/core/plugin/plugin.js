@@ -7,7 +7,6 @@
 
 const debug = require('debug')('adviser:plugin');
 
-const PluginTemplate = require('../external/plugin');
 const PluginContext = require('./plugin-context');
 const PluginSummary = require('./plugin-summary');
 
@@ -30,9 +29,9 @@ class Plugin {
     this.settings = settings;
 
     // Instantiate the plugin if using the new architecture, or fallback to object support
-    if (Core.prototype instanceof PluginTemplate) {
+    try {
       this.core = new Core(settings);
-    } else {
+    } catch (error) {
       this.core = Core;
     }
 
