@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Adviser Blog</title>
+        <link>https://jam3.github.io/adviser/blog</link>
+        <description>The best place to stay up-to-date with the latest Adviser news and events.</description>
+        <lastBuildDate>Fri, 11 Mar 2016 06:00:00 GMT</lastBuildDate>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <generator>Feed for Node.js</generator>
+        <image>
+            <title>Adviser Blog</title>
+            <url>https://jam3.github.io/adviser/img/favicon.ico</url>
+            <link>https://jam3.github.io/adviser/blog</link>
+        </image>
+        <copyright>Crafted with ❤️ by Jam3 in Canada. MIT license</copyright>
+        <item>
+            <title><![CDATA[Adviser gets personality]]></title>
+            <link>https://jam3.github.io/adviser/blog/2016/03/11/blog-post.html</link>
+            <guid>https://jam3.github.io/adviser/blog/2016/03/11/blog-post.html</guid>
+            <pubDate>Fri, 11 Mar 2016 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>Thanks to one of the designers at Jam3, <a href="https://twitter.com/pedrohsbarroso">Pedro Barroso</a>, Adviser now has a logo and an identity. Added we are happy to announce the first version of the documentation; the API is growing and the need to document features is here.</p> <p>Check out the new logo...</p>]]></description>
+        </item>
+    </channel>
+</rss>
