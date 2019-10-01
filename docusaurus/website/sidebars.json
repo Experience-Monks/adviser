@@ -1,0 +1,9 @@
+{
+  "docs": {
+    "Welcome": ["about"],
+    "Getting Started": ["installation", "available-arguments", "configuration", "built-in-rules", "plugins"],
+    "Development": ["create-plugins", "create-rules", "contribute-core"],
+    "API": ["api"],
+    "Testing": ["testing"]
+  }
+}

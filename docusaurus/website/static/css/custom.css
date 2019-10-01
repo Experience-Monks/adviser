@@ -1,0 +1,70 @@
+/* your custom css */
+
+.homeContainer {
+  background: #282c34;
+  color: #fff;
+}
+
+.homeContainer .homeWrapper {
+  padding: 6em;
+}
+
+.homeContainer .homeWrapper .projectLogo {
+  display: inline-block;
+  position: static;
+  padding: 0;
+}
+
+.homeContainer .homeWrapper .projectLogo img {
+  height: auto;
+  max-width: 200px;
+}
+
+@media only screen and (min-width: 1024px) {
+  .homeContainer .homeWrapper .projectLogo img {
+    max-width: 400px;
+  }
+}
+
+.homeContainer .inner .projectTitle {
+  color: white;
+}
+
+.homeContainer .inner .promoSection .button {
+  color: white;
+  border-color: white;
+}
+
+.mainContainer .imageAlignTop .blockImage {
+  max-width: 250px;
+}
+
+.mainContainer .container .features .blockContent p {
+  margin: 0 10%;
+}
+
+.mainContainer .container.landingSteps .wrapper p {
+  margin: 0 0 10px 0;
+}
+
+.copyright-heart,
+.copyright-canada {
+  padding: 0 4px;
+  position: relative;
+  top: 3px;
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+}
+
+@media only screen and (min-width: 1024px) {
+}
+
+@media only screen and (max-width: 1023px) {
+}
+
+@media only screen and (min-width: 1400px) {
+}
+
+@media only screen and (min-width: 1500px) {
+}
