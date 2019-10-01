@@ -1,11 +1,27 @@
+<p align="center">
+  <a href="https://terminalizer.com">
+    <img src="docs/logo.jpg"/>
+  </a>
+</p>
+
 # Adviser
 
+[![npm](https://img.shields.io/npm/v/adviser.svg)](https://www.npmjs.com/package/adviser)
+[![npm](https://img.shields.io/npm/l/adviser.svg)](https://github.com/jam3/adviser/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/Jam3/adviser.svg?branch=master)](https://travis-ci.org/Jam3/adviser)
 [![Known Vulnerabilities](https://snyk.io/test/github/jam3/adviser/badge.svg)](https://snyk.io/test/github/jam3/adviser)
-[![Coverage Status](https://coveralls.io/repos/github/Jam3/adviser/badge.svg?branch=master)](https://coveralls.io/github/Jam3/adviser?branch=master)
+![npm](https://img.shields.io/npm/dm/adviser)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c3e02561069853a74f9b/maintainability)](https://codeclimate.com/github/Jam3/adviser/maintainability)
 
-Jam3 quality advisor
+> Jam3 quality advisor. Modular rule's runner to ensure quality on projects.
+
+<p align="center"><img src="/docs/cli.svg"/></p>
+
+> Thanks [@pedrohsbarroso](https://twitter.com/pedrohsbarroso) for the logo
+
+---
+
+# Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -26,7 +42,7 @@ npm install -g adviser
 
 ## Usage
 
-Adviser goal is to run rules defined in a configuration file. It doesn't get involve in what the rules do; it just run them and control them.
+Adviser's goal is to run rules defined in a configuration file. It doesn't get involve in what the rules do; it just run them and control them.
 
 In order to use it, you need to:
 
@@ -120,6 +136,8 @@ To use plugins and rules you can install one of the plugins created by the same 
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting
 pull requests.
+
+## Thanks
 
 ## License
 
