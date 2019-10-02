@@ -13,7 +13,9 @@
 ![npm](https://img.shields.io/npm/dm/adviser)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c3e02561069853a74f9b/maintainability)](https://codeclimate.com/github/Jam3/adviser/maintainability)
 
-> Jam3 quality advisor. Modular rule's runner to ensure quality on projects.
+> Modular task runner with a linter fashion
+
+> https://jam3.github.io/adviser
 
 <p align="center"><img src="/docs/cli.svg"/></p>
 
@@ -128,16 +130,10 @@ To use plugins and rules you can install one of the plugins created by the same 
 - [https://github.com/Jam3/adviser-plugin-dependencies](https://github.com/Jam3/adviser-plugin-audit-npm)
 - [https://github.com/Jam3/adviser-plugin-audit-npm](https://github.com/Jam3/adviser-plugin-audit-npm)
 
-## API
-
-[Document what the public functions do, etc]
-
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting
 pull requests.
-
-## Thanks
 
 ## License
 
