@@ -47,6 +47,10 @@
   margin: 0 0 10px 0;
 }
 
+.mainContainer .container.landingSteps .wrapper pre {
+  max-width: 560px;
+}
+
 .copyright-heart,
 .copyright-canada {
   padding: 0 4px;

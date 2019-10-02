@@ -119,7 +119,7 @@ To run adviser you just need to run this command:
 \`\`\`sh
 $ adviser
 \`\`\``,
-            image: `${baseUrl}img/cli.svg`,
+            image: `${baseUrl}img/cli.gif`,
             imageAlign: 'right',
             title: 'Easy to use'
           }
@@ -138,7 +138,7 @@ There is just one base package with default rules. To install it run this comman
 \`\`\`sh
 $ npm install adviser
 \`\`\``,
-            image: `${baseUrl}img/install.svg`,
+            image: `${baseUrl}img/install.gif`,
             imageAlign: 'left',
             title: 'Easy to install'
           }
@@ -155,7 +155,7 @@ $ npm install adviser
 The configuration file follows general linter conventions where you can load plugins and specify which rules would you like to run. For every rule you specify a severity and its options if is supported.
 
 Check out a configuration file example in the **[adviser repository](https://github.com/Jam3/adviser/blob/master/__tests__/integration/.adviserrc)**.`,
-            image: `${baseUrl}img/configuration-file.svg`,
+            image: `${baseUrl}img/configuration-file.png`,
             imageAlign: 'right',
             title: 'Easy to setup'
           }
