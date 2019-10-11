@@ -6,6 +6,7 @@
 'use strict';
 
 const debug = require('debug')('adviser:cli');
+const chalk = require('chalk');
 
 const Config = require('../core/config/config');
 const Engine = require('../core/engine');
@@ -59,6 +60,8 @@ class CLI {
       const config = new Config(engineOptions['configFile'] || engineOptions.cwd);
       const engine = new Engine(config, engineOptions);
 
+      console.log(`Adviser v${packageInfo.getVersion()}\n`);
+
       if (!currentOptions.debug) {
         const spinner = new Spinner();
 
@@ -104,6 +107,14 @@ class CLI {
               this.printResults(issues, processedRules, {
                 format: 'summary'
               });
+            }
+          } else {
+            const verboseResults = issues.items.filter(result => result.params.verbose !== undefined);
+
+            if (verboseResults.length >= 1) {
+              console.log(
+                `Some rules reported a verbose result, call Adviser with ${chalk.gray('--verbose')} for more details.\n`
+              );
             }
           }
 
