@@ -17,7 +17,7 @@
 
 > https://jam3.github.io/adviser
 
-<p align="center"><img src="/docs/cli.svg"/></p>
+<p align="center"><img src="/docs/cli.svg?sanitize=true"/></p>
 
 > Thanks [@pedrohsbarroso](https://twitter.com/pedrohsbarroso) for the logo
 
