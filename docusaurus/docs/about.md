@@ -10,7 +10,7 @@ While linters have become one of the most essential tools for code quality check
 
 ## How does it work?
 
-Adviser runs tasks across plugins defined in `adviser.rc`? Each plugin defines rules for the linter to run. Rules can include mulitple options and hooks. (add more here..)
+Adviser is a CLI that can be integrated with npm, and it runs tasks across plugins defined in a configuration file. Each plugin defines rules for the linter to run and may include hooks and settings. Each rule includes a severity used to report the issues and may have options.
 
 ## Future
 
