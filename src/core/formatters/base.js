@@ -9,6 +9,7 @@ const chalk = require('chalk');
 const stripAnsi = require('strip-ansi');
 const table = require('text-table');
 const hyperlinker = require('hyperlinker');
+const supportsHyperlinks = require('supports-hyperlinks');
 const pluralize = require('pluralize');
 
 const groupBy = require('../../utils/groupBy');
@@ -36,20 +37,24 @@ function base(results, rules) {
     resultsByPlugins[pluginName].forEach(result => {
       const rule = rules.find(rule => rule.id === result.ruleName && rule.pluginName === pluginName);
 
-      let messageType;
+      let messageType = chalk.yellow('warning');
 
       if (rule.severity === 'error') {
         messageType = chalk.red('error');
         summaryColor = 'red';
-      } else {
-        messageType = chalk.yellow('warning');
+      }
+
+      let ruleDocUrl = result.ruleName;
+
+      if (supportsHyperlinks.stdout) {
+        ruleDocUrl = hyperlinker(chalk.dim(result.ruleName || ''), rule.core.meta.docsUrl);
       }
 
       tableData.push([
         '',
         messageType,
         result.params.message.replace(/([^ ])\.$/u, '$1'),
-        hyperlinker(chalk.dim(result.ruleName || ''), rule.core.meta.docsUrl),
+        ruleDocUrl,
         `${chalk.white.bgRed(rule.executionDuration + 'ms')}`
       ]);
     });
