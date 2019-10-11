@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/Jam3/adviser/compare/v0.5.1...v0.6.0) (2019-10-11)
+
+
+### Bug Fixes
+
+* issue [#37](https://github.com/Jam3/adviser/issues/37) plain text in non-link terminal ([#44](https://github.com/Jam3/adviser/issues/44)) ([96ca6b0](https://github.com/Jam3/adviser/commit/96ca6b0))
+
+
+### Features
+
+* added verbose message if there are verbose reports ([#45](https://github.com/Jam3/adviser/issues/45)) ([c874b33](https://github.com/Jam3/adviser/commit/c874b33))
+
+
+
 <a name="0.5.1"></a>
 ## [0.5.1](https://github.com/Jam3/adviser/compare/v0.5.0...v0.5.1) (2019-09-30)
 
