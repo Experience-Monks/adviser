@@ -127,7 +127,7 @@ To test `adviser` running with built-in rules, run `$ npm run adviser` on the di
 
 To use plugins and rules you can install one of the plugins created by the same team that created adviser:
 
-- [https://github.com/Jam3/adviser-plugin-dependencies](https://github.com/Jam3/adviser-plugin-audit-npm)
+- [https://github.com/Jam3/adviser-plugin-dependencies](https://github.com/Jam3/adviser-plugin-dependencies)
 - [https://github.com/Jam3/adviser-plugin-audit-npm](https://github.com/Jam3/adviser-plugin-audit-npm)
 
 ## Contributing
