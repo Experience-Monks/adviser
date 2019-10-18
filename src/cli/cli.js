@@ -58,11 +58,12 @@ class CLI {
       const engineOptions = this._prepareEngineOptions(currentOptions);
 
       const config = new Config(engineOptions['configFile'] || engineOptions.cwd);
+      debug(`Engine called with the parameters ${JSON.stringify(engineOptions)}`);
       const engine = new Engine(config, engineOptions);
 
-      console.log(`Adviser v${packageInfo.getVersion()}\n`);
-
       if (!currentOptions.debug) {
+        console.log(`Adviser v${packageInfo.getVersion()}\n`);
+
         const spinner = new Spinner();
 
         engine
@@ -158,6 +159,7 @@ class CLI {
     };
 
     cliOptions.config && (engineOptions['configFile'] = cliOptions.config);
+    cliOptions.tags && (engineOptions['tags'] = cliOptions.tags);
 
     return engineOptions;
   }
