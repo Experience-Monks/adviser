@@ -28,7 +28,20 @@
         "type": "string"
       }
     },
-    "settings": { "type": "object" },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": ["array"],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "rules": {
       "type": "object",
       "minProperties": 1,
