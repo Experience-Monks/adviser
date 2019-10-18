@@ -185,3 +185,167 @@ describe('Config', () => {
     expect(fileExplorer.searchSync.mock.calls.length).toBe(1);
   });
 });
+
+describe('Settings', () => {
+  test('Get full settings', () => {
+    const fileExplorer = cosmiconfig('adviser');
+
+    fileExplorer.loadSync = jest.fn(() => {
+      return {
+        config: {
+          rules: {
+            'test1/rule': 'warn'
+          },
+          settings: {
+            test: {},
+            another: 3
+          }
+        },
+        filePath: 'test'
+      };
+    });
+    const config = new Config(null, fileExplorer);
+
+    config.load('test');
+
+    expect(config.getSettings()).toMatchObject({
+      test: {},
+      another: 3
+    });
+  });
+
+  test('Get empty settings', () => {
+    const fileExplorer = cosmiconfig('adviser');
+
+    fileExplorer.loadSync = jest.fn(() => {
+      return {
+        config: {
+          rules: {
+            'test1/rule': 'warn'
+          }
+        },
+        filePath: 'test'
+      };
+    });
+    const config = new Config(null, fileExplorer);
+
+    config.load('test');
+
+    expect(config.getSettings()).toMatchObject({});
+  });
+
+  test('Get tags from empty settings', () => {
+    const fileExplorer = cosmiconfig('adviser');
+
+    fileExplorer.loadSync = jest.fn(() => {
+      return {
+        config: {
+          rules: {
+            'test1/rule': 'warn'
+          }
+        },
+        filePath: 'test'
+      };
+    });
+    const config = new Config(null, fileExplorer);
+
+    config.load('test');
+
+    expect(config.getTags()).toMatchObject({});
+  });
+
+  test('Get non existing tags in settings', () => {
+    const fileExplorer = cosmiconfig('adviser');
+
+    fileExplorer.loadSync = jest.fn(() => {
+      return {
+        config: {
+          rules: {
+            'test1/rule': 'warn'
+          },
+          settings: {
+            tagg: 3
+          }
+        },
+        filePath: 'test'
+      };
+    });
+    const config = new Config(null, fileExplorer);
+
+    config.load('test');
+
+    expect(config.getTags()).toMatchObject({});
+  });
+
+  test('Get invalid existing tags in settings', () => {
+    const fileExplorer = cosmiconfig('adviser');
+
+    fileExplorer.loadSync = jest.fn(() => {
+      return {
+        config: {
+          rules: {
+            'test1/rule': 'warn'
+          },
+          settings: {
+            tags: 3
+          }
+        },
+        filePath: 'test'
+      };
+    });
+
+    expect(() => {
+      const config = new Config(null, fileExplorer);
+      config.load('test');
+      config.getTags();
+    }).toThrow(ConfigFileValidationError);
+  });
+
+  test('Return valid empty tags', () => {
+    const fileExplorer = cosmiconfig('adviser');
+
+    fileExplorer.loadSync = jest.fn(() => {
+      return {
+        config: {
+          rules: {
+            'test1/rule': 'warn'
+          },
+          settings: {
+            tags: {}
+          }
+        },
+        filePath: 'test'
+      };
+    });
+    const config = new Config(null, fileExplorer);
+    config.load('test');
+
+    expect(config.getTags()).toMatchObject({});
+  });
+
+  test('Return valid tags', () => {
+    const fileExplorer = cosmiconfig('adviser');
+    const tags = {
+      quick: ['root-files'],
+      'dependencies-change': ['rule1', 'rule2']
+    };
+
+    fileExplorer.loadSync = jest.fn(() => {
+      return {
+        config: {
+          rules: {
+            'test1/rule': 'warn'
+          },
+          settings: {
+            tags
+          }
+        },
+        filePath: 'test'
+      };
+    });
+    const config = new Config(null, fileExplorer);
+    config.load('test');
+
+    expect(config.getTags()).toMatchObject(tags);
+  });
+});
