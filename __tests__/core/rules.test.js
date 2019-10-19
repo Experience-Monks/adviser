@@ -74,3 +74,172 @@ describe('Rules', () => {
     });
   });
 });
+
+describe('Rules by Tags', () => {
+  beforeEach(() => {
+    rules.reset();
+  });
+
+  test('Filter rules by Metatags', () => {
+    const rawRules = [
+      {
+        name: 'warning-min-test-1',
+        core: {
+          meta: {
+            tags: ['fast', 'perf']
+          }
+        }
+      },
+      {
+        name: 'warning-min-test-2',
+        core: {
+          meta: {
+            tags: ['slow', 'perf']
+          }
+        }
+      },
+      {
+        name: 'warning-min-test-3',
+        core: {
+          meta: {
+            tags: ['testing', 'noperf', 'slow']
+          }
+        }
+      }
+    ];
+
+    rawRules.forEach(rule => {
+      rules.add(rule.name, '', rule.core, {});
+    });
+
+    expect(rules._getRulesFilteredByMetaTags(['fast']).length).toBe(1);
+    expect(rules._getRulesFilteredByMetaTags(['noperf']).length).toBe(1);
+    expect(rules._getRulesFilteredByMetaTags(['slow']).length).toBe(2);
+    expect(rules._getRulesFilteredByMetaTags(['perf']).length).toBe(2);
+    expect(rules._getRulesFilteredByMetaTags(['fast', 'perf']).length).toBe(2);
+    expect(rules._getRulesFilteredByMetaTags(['fast', 'perf', 'none']).length).toBe(2);
+    expect(rules._getRulesFilteredByMetaTags(['slow', 'perf', 'none', 'null', 'true', 'false']).length).toBe(3);
+    expect(rules._getRulesFilteredByMetaTags(['none', 'null', 'true', 'false']).length).toBe(0);
+    expect(rules._getRulesFilteredByMetaTags([]).length).toBe(0);
+  });
+
+  test('Filter rules by Settings tags', () => {
+    const rawRules = [
+      {
+        name: 'warning-min-test-1',
+        core: {}
+      },
+      {
+        name: 'warning-min-test-2',
+        core: {}
+      },
+      {
+        name: 'warning-min-test-3',
+        core: {}
+      }
+    ];
+
+    rawRules.forEach(rule => {
+      rules.add(rule.name, '', rule.core, {});
+    });
+
+    expect(rules._getRulesFilteredBySettingTags(['fast'], { fast: ['warning-min-test-3'] }).length).toBe(1);
+    expect(rules._getRulesFilteredBySettingTags(['perf'], { fast: ['warning-min-test-3'] }).length).toBe(0);
+    expect(
+      rules._getRulesFilteredBySettingTags(['quick'], {
+        quick: ['warning-min-test-3', 'warning-min-test-2', 'warning-min-test-1']
+      }).length
+    ).toBe(3);
+    expect(
+      rules._getRulesFilteredBySettingTags(['test', 'another', 'quick'], {
+        quick: ['warning-min-test-3', 'warning-min-test-2', 'warning-min-test-1']
+      }).length
+    ).toBe(3);
+    expect(
+      rules._getRulesFilteredBySettingTags(['test', 'another', 'quick'], {
+        quick: ['warning-min-test-3', 'warning-min-test-2', 'warning-min-test-1'],
+        another: ['warning-min-test-3', 'warning-min-test-1'],
+        diff: ['warning-min-test-3', 'warning-min-test-2', 'warning-min-test-1']
+      }).length
+    ).toBe(3);
+    expect(
+      rules._getRulesFilteredBySettingTags(['diff', 'another', 'quick'], {
+        quick: ['warning-min-test-3'],
+        another: ['warning-min-test-3', 'warning-min-test-1'],
+        diff: ['warning-min-test-2', 'warning-min-test-1']
+      }).length
+    ).toBe(3);
+    expect(
+      rules._getRulesFilteredBySettingTags(['diff', 'another', 'quick'], {
+        diff: ['warning-min-test-y', 'warning-min-test-x']
+      }).length
+    ).toBe(0);
+    expect(
+      rules._getRulesFilteredBySettingTags(['diff', 'another', 'quick'], {
+        diff: []
+      }).length
+    ).toBe(0);
+    expect(rules._getRulesFilteredBySettingTags(['diff', 'another', 'quick'], {}).length).toBe(0);
+  });
+
+  test('Get by Tags', () => {
+    const rawRules = [
+      {
+        name: 'warning-min-test-1',
+        core: {
+          meta: {
+            tags: ['fast', 'perf']
+          }
+        }
+      },
+      {
+        name: 'warning-min-test-2',
+        core: {
+          meta: {
+            tags: ['slow', 'perf', 'another']
+          }
+        }
+      },
+      {
+        name: 'warning-min-test-3',
+        core: {
+          meta: {
+            tags: ['testing', 'noperf', 'slow']
+          }
+        }
+      }
+    ];
+
+    rawRules.forEach(rule => {
+      rules.add(rule.name, '', rule.core, {});
+    });
+
+    expect(rules.getByTag(['diff', 'another', 'slow'], {}).length).toBe(2);
+    expect(
+      rules.getByTag(['diff', 'another', 'slow'], { slow: ['warning-min-test-y', 'warning-min-test-x'] }).length
+    ).toBe(2);
+    expect(
+      rules.getByTag(['diff', 'another', 'slow'], { slow: ['warning-min-test-y', 'warning-min-test-3'] }).length
+    ).toBe(2);
+    expect(
+      rules.getByTag(['diff', 'another', 'slow'], { slow: ['warning-min-test-y', 'warning-min-test-1'] }).length
+    ).toBe(3);
+    expect(
+      rules.getByTag(['testing', 'another', 'null'], {
+        slow: ['warning-min-test-1', 'warning-min-test-3'],
+        null: ['warning-min-test-2'],
+        testing: ['warning-min-test-2']
+      }).length
+    ).toBe(2);
+    expect(
+      rules.getByTag(['testing'], {
+        testing: ['warning-min-test-x']
+      }).length
+    ).toBe(1);
+    expect(
+      rules.getByTag(['testing'], {
+        testing: ['warning-min-test-2']
+      }).length
+    ).toBe(2);
+  });
+});
