@@ -85,10 +85,10 @@ class Rules {
     const filteredRulesBySettings = this._getRulesFilteredBySettingTags(requestedTags, settingsTags);
 
     const filteredRules = {};
-    filteredRulesByMetaTags.forEach(rule => {
+    filteredRulesBySettings.forEach(rule => {
       filteredRules[rule.id] = rule;
     });
-    filteredRulesBySettings.forEach(rule => {
+    filteredRulesByMetaTags.forEach(rule => {
       if (!filteredRules[rule.id]) filteredRules[rule.id] = rule;
     });
 
