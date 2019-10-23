@@ -217,29 +217,58 @@ describe('Rules by Tags', () => {
     expect(rules.getByTag(['diff', 'another', 'slow'], {}).length).toBe(2);
     expect(
       rules.getByTag(['diff', 'another', 'slow'], { slow: ['warning-min-test-y', 'warning-min-test-x'] }).length
-    ).toBe(2);
+    ).toBe(1);
     expect(
       rules.getByTag(['diff', 'another', 'slow'], { slow: ['warning-min-test-y', 'warning-min-test-3'] }).length
     ).toBe(2);
     expect(
       rules.getByTag(['diff', 'another', 'slow'], { slow: ['warning-min-test-y', 'warning-min-test-1'] }).length
-    ).toBe(3);
+    ).toBe(2);
     expect(
       rules.getByTag(['testing', 'another', 'null'], {
         slow: ['warning-min-test-1', 'warning-min-test-3'],
         null: ['warning-min-test-2'],
         testing: ['warning-min-test-2']
       }).length
-    ).toBe(2);
+    ).toBe(1);
     expect(
       rules.getByTag(['testing'], {
         testing: ['warning-min-test-x']
       }).length
-    ).toBe(1);
+    ).toBe(0);
     expect(
       rules.getByTag(['testing'], {
         testing: ['warning-min-test-2']
       }).length
-    ).toBe(2);
+    ).toBe(1);
+  });
+
+  test('Override meta tags with settings', () => {
+    const rawRules = [
+      {
+        name: 'warning-min-test-1',
+        core: {
+          meta: {
+            tags: ['fast', 'perf']
+          }
+        }
+      },
+      {
+        name: 'warning-min-test-2',
+        core: {
+          meta: {
+            tags: ['slow', 'perf', 'another']
+          }
+        }
+      }
+    ];
+
+    rawRules.forEach(rule => {
+      rules.add(rule.name, '', rule.core, {});
+    });
+
+    expect(rules.getByTag(['fast'], { fast: ['warning-min-test-2'] }).length).toBe(1);
+    expect(rules.getByTag(['slow'], { fast: ['warning-min-test-2'] }).length).toBe(1);
+    expect(rules.getByTag(['nonexist'], { fast: ['warning-min-test-2'] }).length).toBe(0);
   });
 });

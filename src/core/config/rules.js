@@ -81,15 +81,17 @@ class Rules {
    * @memberof Rules
    */
   getByTag(requestedTags = [], settingsTags = {}) {
-    const filteredRulesByMetaTags = this._getRulesFilteredByMetaTags(requestedTags);
     const filteredRulesBySettings = this._getRulesFilteredBySettingTags(requestedTags, settingsTags);
+    const filteredRulesByMetaTags = this._getRulesFilteredByMetaTags(requestedTags, settingsTags);
 
     const filteredRules = {};
     filteredRulesBySettings.forEach(rule => {
       filteredRules[rule.id] = rule;
     });
     filteredRulesByMetaTags.forEach(rule => {
-      if (!filteredRules[rule.id]) filteredRules[rule.id] = rule;
+      if (!filteredRules[rule.id]) {
+        filteredRules[rule.id] = rule;
+      }
     });
 
     return Object.values(filteredRules);
@@ -99,13 +101,17 @@ class Rules {
    * Get rules filtered by tags based on the tags defined in the rule's metadata
    *
    * @param {Array} tags
+   * @param {Object} settingsTags
    * @returns {Array} rules
    * @memberof Rules
    */
-  _getRulesFilteredByMetaTags(tags) {
+  _getRulesFilteredByMetaTags(tags, settingsTags = {}) {
+    const settingsTagsList = Object.keys(settingsTags);
     return this._rules.filter(rule => {
       if (rule.core.meta.tags) {
-        const filteredTags = rule.core.meta.tags.filter(tag => tags.includes(tag));
+        // Exclude tags that are defined in settingsTags
+        const excludedTags = rule.core.meta.tags.filter(tag => !settingsTagsList.includes(tag));
+        const filteredTags = excludedTags.filter(tag => tags.includes(tag));
         if (filteredTags.length > 0) return true;
       }
     });
