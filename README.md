@@ -68,6 +68,8 @@ If you run adviser without any arguments it will try to find a valid configurati
 
 `--verbose` Display extra information
 
+`-t, --tags` Run rules that match tags
+
 `-h, --help` Show help
 
 `-v, --version` Output the version number
