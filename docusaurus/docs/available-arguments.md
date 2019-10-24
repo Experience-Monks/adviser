@@ -92,7 +92,36 @@ Tags in the adviser configuration file will look like:
 
 Note: tags in the configuration file will override the tags defined in the rule's metatag
 
-To run the rules with tags `dependencies-change` and `fs` you will run: `adviser --tags dependencies-change,fs`
+To run the rules with tags `dependencies-change` and `fs` you will run:
+
+```
+adviser --tags dependencies-change,fs
+```
+
+Note: If the rule is within a external plugin, the full rule name is used. The below example shows the case.
+
+```
+{
+  "plugins":["dependencies"],
+  "rules": {
+    "package-json-properties": [
+      "error",
+      {
+        "required": ["private"],
+        "blacklist": ["license"]
+      }
+    ],
+    "dependencies/not-allowed-packages": ["error", { "packages": ["sec"] }],
+  },
+  "settings": {
+    "tags": {
+      "quick": ["package-json-properties", "dependencies/not-allowed-packages"],
+      "fs": ["rule1", "rule2"]
+    }
+  }
+}
+
+```
 
 ### Verbose
 
