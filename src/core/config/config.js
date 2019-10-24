@@ -98,11 +98,21 @@ class Config {
    * @memberof Config
    */
   getSettings() {
-    if (this._config && this._config.config) {
+    if (this._config && this._config.config && this._config.config.settings) {
       return this._config.config.settings;
     }
 
     return {};
+  }
+
+  /**
+   * Return the tags settings defined in the config file
+   *
+   * @returns {Array}
+   * @memberof Config
+   */
+  getTags() {
+    return this.getSettings().hasOwnProperty('tags') ? this.getSettings().tags : {};
   }
 
   /**

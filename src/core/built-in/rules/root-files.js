@@ -71,7 +71,8 @@ RootFiles.meta = {
   category: 'Built-in',
   description: 'File restrictions on the directory root',
   recommended: true,
-  docsUrl: docs.getURL('root-files')
+  docsUrl: docs.getURL('root-files'),
+  tags: ['quick', 'fs']
 };
 
 module.exports = RootFiles;

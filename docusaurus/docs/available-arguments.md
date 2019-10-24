@@ -10,6 +10,7 @@ Full list of arguments:
 
 - `--init` Run config initialization wizard
 - `--config` Specify config file path
+- `--tags` Run rules that match with the tags
 - `--verbose` Display extra information
 - `--debug` Output debugging information
 - `--help` Show help
@@ -51,6 +52,47 @@ $ adviser --config custom.adviser.json
 ```
 
 [Paste here gif]
+
+### Tags
+
+Rules can be tagged in two ways, in the metadata and in the adviser configuration file.
+
+Tags in the rule's metadata will look like:
+
+```
+class RootFiles extends Rule {}
+
+RootFiles.meta = {
+  tags: ['quick', 'fs']
+};
+```
+
+Tags in the adviser configuration file will look like:
+
+```
+{
+  "rules": {
+    "package-json-properties": [
+      "error",
+      {
+        "required": ["private"],
+        "blacklist": ["license"]
+      }
+    ]
+  },
+  "settings": {
+    "tags": {
+      "dependencies-change": ["package-json-properties"],
+      "fs": ["rule1", "rule2"]
+    }
+  }
+}
+
+```
+
+Note: tags in the configuration file will override the tags defined in the rule's metatag
+
+To run the rules with tags `dependencies-change` and `fs` you will run: `adviser --tags dependencies-change,fs`
 
 ### Verbose
 

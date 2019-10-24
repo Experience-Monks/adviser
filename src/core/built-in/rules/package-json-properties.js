@@ -72,7 +72,8 @@ PackageJsonProperties.meta = {
   category: 'Built-in',
   description: 'Property restrictions over package.json',
   recommended: true,
-  docsUrl: docs.getURL('package-json-properties')
+  docsUrl: docs.getURL('package-json-properties'),
+  tags: ['quick', 'packagejson']
 };
 
 module.exports = PackageJsonProperties;

@@ -10,9 +10,16 @@
     "root-files": [
       "error",
       {
-        "required": [".commitlintrc.yml", ".editorconfig", ".eslintrc", ".gitignore", ".prettierrc", "README"],
+        "required": [".commitlintrc.yml", "README"],
         "blacklist": ["LICENSE"]
       }
     ]
+  },
+  "settings": {
+    "tags": {
+      "require-root-files": ["root-files"],
+      "dependencies-change": ["package-json-properties"],
+      "all": ["rule1", "rule2", "root-files", "package-json-properties"]
+    }
   }
 }

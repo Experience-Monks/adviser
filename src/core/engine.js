@@ -95,9 +95,18 @@ class Engine extends EventEmitter {
    * @memberof Engine
    */
   runRules() {
+    let rules;
+
+    if (this.options.tags) {
+      const settingTags = this.config.getTags();
+      rules = this.rules.getByTag(this.options.tags, settingTags);
+    } else {
+      rules = this.rules.getAll();
+    }
+
     return new Promise((resolve, reject) => {
       async.each(
-        this.rules.getAll(),
+        rules,
         (rule, callback) => {
           rule.runLifeCycle(this.options.cwd, this.options.verboseMode, this.report.bind(this), callback);
         },

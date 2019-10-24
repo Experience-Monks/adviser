@@ -38,13 +38,9 @@
     "eslint-plugin-prettier": "3.0.1",
     "eslint-plugin-promise": "4.0.1",
     "eslint-plugin-standard": "4.0.0",
-    "handlebars": "4.4.0",
     "husky": "2.1.0",
-    "install": "0.13.0",
     "jest": "24.7.1",
-    "js-yaml": "3.13.1",
     "lint-staged": "8.1.5",
-    "npm": "6.10.2",
     "prettier": "1.16.4",
     "standard-version": "4.4.0"
   },

@@ -73,6 +73,71 @@ class Rules {
   }
 
   /**
+   * Get rules filtered by tags
+   *
+   * @param {Array} [requestedTags=[]]
+   * @param {Object} [settingsTags={}]
+   * @returns {Array} rules
+   * @memberof Rules
+   */
+  getByTag(requestedTags = [], settingsTags = {}) {
+    const filteredRulesBySettings = this._getRulesFilteredBySettingTags(requestedTags, settingsTags);
+    const filteredRulesByMetaTags = this._getRulesFilteredByMetaTags(requestedTags, settingsTags);
+
+    const filteredRules = {};
+    filteredRulesBySettings.forEach(rule => {
+      filteredRules[rule.id] = rule;
+    });
+    filteredRulesByMetaTags.forEach(rule => {
+      if (!filteredRules[rule.id]) {
+        filteredRules[rule.id] = rule;
+      }
+    });
+
+    return Object.values(filteredRules);
+  }
+
+  /**
+   * Get rules filtered by tags based on the tags defined in the rule's metadata
+   *
+   * @param {Array} tags
+   * @param {Object} settingsTags
+   * @returns {Array} rules
+   * @memberof Rules
+   */
+  _getRulesFilteredByMetaTags(tags, settingsTags = {}) {
+    const settingsTagsList = Object.keys(settingsTags);
+    return this._rules.filter(rule => {
+      if (rule.core.meta.tags) {
+        // Exclude tags that are defined in settingsTags
+        const excludedTags = rule.core.meta.tags.filter(tag => !settingsTagsList.includes(tag));
+        const filteredTags = excludedTags.filter(tag => tags.includes(tag));
+        if (filteredTags.length > 0) return true;
+      }
+    });
+  }
+
+  /**
+   * Get rules filtered by tags defined in the settings property of the configuration file
+   *
+   * @param {Array} tags
+   * @param {Object} settingsTags
+   * @returns {Array} rules
+   * @memberof Rules
+   */
+  _getRulesFilteredBySettingTags(tags, settingsTags) {
+    let ruleNames = [];
+
+    tags.forEach(tag => {
+      if (settingsTags[tag]) {
+        ruleNames = ruleNames.concat(settingsTags[tag]);
+      }
+    });
+
+    return this._rules.filter(rule => ruleNames.includes(rule.id));
+  }
+
+  /**
    * Destroy all the loaded rules
    *
    * @memberof Rules

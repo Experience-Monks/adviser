@@ -41,6 +41,15 @@ module.exports = optionator({
       description: chalk.cyan('Report errors only - default: false')
     },
     {
+      heading: chalk.yellow('Funcionality')
+    },
+    {
+      option: 'tags',
+      alias: 't',
+      type: '[String]',
+      description: chalk.cyan('Specify list of tags; e.g fast,perf,pkg')
+    },
+    {
       heading: chalk.yellow('Miscellaneous')
     },
     {
