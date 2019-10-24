@@ -21,8 +21,9 @@ const SeverityEnum = require('../config/severity-enum');
  * @class Rule
  */
 class Rule {
-  constructor(id, pluginName, core, severity, options) {
+  constructor(id, fullRuleName, pluginName, core, severity, options) {
     this.id = id.toLowerCase();
+    this.fullRuleName = fullRuleName;
     this.pluginName = pluginName.toLowerCase();
 
     this.sharedContext = null;

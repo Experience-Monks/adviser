@@ -13,14 +13,14 @@ describe('Rules', () => {
 
   test('Add empty rule', () => {
     expect(() => {
-      rules.add('', '', MockAdviserRule, {});
+      rules.add('', '', '', MockAdviserRule, {});
     }).toThrow(InvalidRuleError);
   });
 
   test('Add and get rule', () => {
     const ruleName = 'warning-min-test';
 
-    rules.add(ruleName, '', MockAdviserRule, {});
+    rules.add(ruleName, ruleName, '', MockAdviserRule, {});
     expect(rules.get(ruleName)).toBeDefined();
   });
 
@@ -28,7 +28,7 @@ describe('Rules', () => {
     const ruleName = 'warning-min-test';
 
     function add() {
-      rules.add(ruleName, '', null, {});
+      rules.add(ruleName, ruleName, '', null, {});
     }
 
     expect(add).toThrow(InvalidRuleError);
@@ -37,7 +37,7 @@ describe('Rules', () => {
 
   test('Get many rules', () => {
     for (let index = 0; index < 5; index++) {
-      rules.add(`warning-min-test-${index}`, 'plugin-name', MockAdviserRule, {});
+      rules.add(`warning-min-test-${index}`, `warning-min-test-${index}`, 'plugin-name', MockAdviserRule, {});
     }
 
     expect(Object.keys(rules.getAll()).length).toBe(5);
@@ -109,7 +109,7 @@ describe('Rules by Tags', () => {
     ];
 
     rawRules.forEach(rule => {
-      rules.add(rule.name, '', rule.core, {});
+      rules.add(rule.name, rule.name, '', rule.core, {});
     });
 
     expect(rules._getRulesFilteredByMetaTags(['fast']).length).toBe(1);
@@ -140,7 +140,7 @@ describe('Rules by Tags', () => {
     ];
 
     rawRules.forEach(rule => {
-      rules.add(rule.name, '', rule.core, {});
+      rules.add(rule.name, rule.name, '', rule.core, {});
     });
 
     expect(rules._getRulesFilteredBySettingTags(['fast'], { fast: ['warning-min-test-3'] }).length).toBe(1);
@@ -211,7 +211,7 @@ describe('Rules by Tags', () => {
     ];
 
     rawRules.forEach(rule => {
-      rules.add(rule.name, '', rule.core, {});
+      rules.add(rule.name, rule.name, '', rule.core, {});
     });
 
     expect(rules.getByTag(['diff', 'another', 'slow'], {}).length).toBe(2);
@@ -264,7 +264,7 @@ describe('Rules by Tags', () => {
     ];
 
     rawRules.forEach(rule => {
-      rules.add(rule.name, '', rule.core, {});
+      rules.add(rule.name, rule.name, '', rule.core, {});
     });
 
     expect(rules.getByTag(['fast'], { fast: ['warning-min-test-2'] }).length).toBe(1);
