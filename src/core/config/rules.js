@@ -32,7 +32,7 @@ class Rules {
    * @memberof Rules
    * @returns {Void}
    */
-  add(ruleId, pluginName, RuleCore, ruleSetting) {
+  add(ruleId, ruleFullName, pluginName, RuleCore, ruleSetting) {
     if (!ruleId || !RuleCore) {
       debug(`The rule with id ${ruleId} and core ${RuleCore} couldn't be added`);
       throw new InvalidRuleError(
@@ -44,7 +44,14 @@ class Rules {
 
     const normalizedSettings = this._normalizeSettings(ruleSetting);
 
-    const rule = new Rule(ruleId, pluginName, RuleCore, normalizedSettings.severity, normalizedSettings.options);
+    const rule = new Rule(
+      ruleId,
+      ruleFullName,
+      pluginName,
+      RuleCore,
+      normalizedSettings.severity,
+      normalizedSettings.options
+    );
 
     this._rules.push(rule);
 
@@ -134,7 +141,7 @@ class Rules {
       }
     });
 
-    return this._rules.filter(rule => ruleNames.includes(rule.id));
+    return this._rules.filter(rule => ruleNames.includes(rule.fullRuleName));
   }
 
   /**

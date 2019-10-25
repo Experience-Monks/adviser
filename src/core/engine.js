@@ -185,7 +185,7 @@ class Engine extends EventEmitter {
       const ruleSettings = configRules[fullRuleName];
 
       if (this.builtInRules[fullRuleName]) {
-        this.rules.add(fullRuleName, BUILT_IN_NAME, this.builtInRules[fullRuleName], ruleSettings);
+        this.rules.add(fullRuleName, fullRuleName, BUILT_IN_NAME, this.builtInRules[fullRuleName], ruleSettings);
       } else {
         const { pluginName, ruleName } = this._parseRawRuleName(fullRuleName);
 
@@ -202,7 +202,7 @@ class Engine extends EventEmitter {
             );
           }
 
-          this.rules.add(ruleName, pluginName, ruleCore, ruleSettings);
+          this.rules.add(ruleName, fullRuleName, pluginName, ruleCore, ruleSettings);
           plugin.addProcesedRule(this.rules.get(ruleName));
         } else {
           throw new InvalidRuleError(
