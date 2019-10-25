@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.1"></a>
+## [0.7.1](https://github.com/Jam3/adviser/compare/v0.7.0...v0.7.1) (2019-10-25)
+
+
+### Bug Fixes
+
+* tag plugin rules doesn't include the plugin name ([#49](https://github.com/Jam3/adviser/issues/49)) ([6ee16b0](https://github.com/Jam3/adviser/commit/6ee16b0))
+
+
+
 <a name="0.7.0"></a>
 # [0.7.0](https://github.com/Jam3/adviser/compare/v0.6.1...v0.7.0) (2019-10-24)
 
