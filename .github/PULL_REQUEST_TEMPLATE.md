@@ -21,8 +21,8 @@ Please make sure to read the Contributing Guidelines: CONTRIBUTING.md
 
 **Did you test your solution?**
 
-- [ ] I lightly tested it in one browser
-- [ ] I deeply tested it in several browsers
+- [ ] I lightly tested it
+- [ ] I deeply tested it
 - [ ] I wrote tests around it (unit tests, integration tests, E2E tests)
 
 ## Problem Description
