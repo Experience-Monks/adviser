@@ -75,7 +75,7 @@ class Engine extends EventEmitter {
       async.each(
         this.plugins.getAll(),
         (plugin, callback) => {
-          plugin.preRunHook(callback);
+          plugin.preRunHook(this.options.cwd, callback);
         },
         error => {
           if (error) {
@@ -133,7 +133,7 @@ class Engine extends EventEmitter {
       async.each(
         this.plugins.getAll(),
         (plugin, callback) => {
-          plugin.postRunHook(callback);
+          plugin.postRunHook(this.options.cwd, callback);
         },
         error => {
           if (error) {

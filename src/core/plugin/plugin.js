@@ -33,6 +33,7 @@ class Plugin {
       this.core = new Core(settings);
     } catch (error) {
       this.core = Core;
+      debug(`Error creating plugin ${id}`, error);
     }
 
     this.definedRules = this.core.rules;
@@ -47,7 +48,7 @@ class Plugin {
    * @returns
    * @memberof Plugin
    */
-  async preRunHook(asyncCallback) {
+  async preRunHook(currentDirectory, asyncCallback) {
     if (!this.core.preRun) {
       asyncCallback();
       return;
@@ -56,7 +57,7 @@ class Plugin {
     const contextRules = this.processedRules.map(rule => {
       return { id: rule.id, severity: rule.severity, options: rule.options };
     });
-    const context = new PluginContext(this.id, contextRules);
+    const context = new PluginContext(this.id, currentDirectory, contextRules);
 
     try {
       await this.core.preRun(context);
@@ -79,7 +80,7 @@ class Plugin {
    * @returns
    * @memberof Plugin
    */
-  async postRunHook(asyncCallback) {
+  async postRunHook(currentDirectory, asyncCallback) {
     if (!this.core.postRun) {
       asyncCallback();
       return;
@@ -93,7 +94,7 @@ class Plugin {
         duration: rule.executionDuration
       };
     });
-    const summary = new PluginSummary(this.id, summaryRules);
+    const summary = new PluginSummary(this.id, currentDirectory, summaryRules);
 
     try {
       await this.core.postRun(summary);

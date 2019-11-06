@@ -11,9 +11,12 @@
  * @class RuleContext
  */
 class PluginContext {
-  constructor(pluginName, rules) {
+  constructor(pluginName, dirname, rules) {
     this.pluginName = pluginName;
     this.rules = rules;
+    this.filesystem = {
+      dirname
+    };
 
     this._shared = {
       items: {}
