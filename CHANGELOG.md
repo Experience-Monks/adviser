@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.2"></a>
+## [0.7.2](https://github.com/Jam3/adviser/compare/v0.7.1...v0.7.2) (2019-11-06)
+
+
+### Bug Fixes
+
+* plugin hooks have access about the fs like rules ([#50](https://github.com/Jam3/adviser/issues/50)) ([e965bf4](https://github.com/Jam3/adviser/commit/e965bf4))
+
+
+
 <a name="0.7.1"></a>
 ## [0.7.1](https://github.com/Jam3/adviser/compare/v0.7.0...v0.7.1) (2019-10-25)
 
