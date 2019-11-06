@@ -11,9 +11,12 @@
  * @class PluginSummary
  */
 class PluginSummary {
-  constructor(pluginName, rules) {
+  constructor(pluginName, dirname, rules) {
     this.pluginName = pluginName;
     this.rules = rules;
+    this.filesystem = {
+      dirname
+    };
 
     Object.freeze(this);
   }
