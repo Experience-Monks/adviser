@@ -1,6 +1,13 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [0.7.4](https://github.com/Jam3/adviser/compare/v0.7.3...v0.7.4) (2019-12-04)
+
+
+### Bug Fixes
+
+* bump up standard-version package ([74aae12](https://github.com/Jam3/adviser/commit/74aae1226585256c798c5180958da0c2ce8c8359))
 
 <a name="0.7.3"></a>
 ## [0.7.3](https://github.com/Jam3/adviser/compare/v0.7.2...v0.7.3) (2019-12-04)
