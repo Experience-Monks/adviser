@@ -1,4 +1,16 @@
 {
-  "plugins": [],
-  "rules": {}
+  "rules": {
+    "package-json-properties": [
+      "error",
+      {
+        "required": ["name"]
+      }
+    ],
+    "root-files": [
+      "error",
+      {
+        "required": [".gitignore", "README"]
+      }
+    ]
+  }
 }
