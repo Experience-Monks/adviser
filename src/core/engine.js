@@ -58,9 +58,34 @@ class Engine extends EventEmitter {
    */
   async run() {
     this.emit(EVENTS.ENGINE.RUN);
-    await this.runPluginsPreHook();
-    await this.runRules();
-    await this.runPluginsPostHook();
+
+    let plugins = {};
+    let rules = this.rules.getAll();
+
+    if (this.options.tags) {
+      const settingTags = this.config.getTags();
+      rules = this.rules.getByTag(this.options.tags, settingTags);
+
+      const pluginNames = Object.keys(this.plugins.getAll()).map(pluginName => {
+        return {
+          id: this.plugins.get(pluginName).id,
+          name: pluginName
+        };
+      });
+
+      rules.forEach(rule => {
+        const plugin = pluginNames.find(pluginName => pluginName.id === rule.pluginName);
+        if (plugin) {
+          plugins[plugin.name] = this.plugins.get(plugin.id);
+        }
+      });
+    } else {
+      plugins = this.plugins.getAll();
+    }
+
+    await this.runPluginsPreHook(plugins);
+    await this.runRules(rules);
+    await this.runPluginsPostHook(plugins);
     this.emit(EVENTS.ENGINE.STOP);
   }
 
@@ -70,10 +95,10 @@ class Engine extends EventEmitter {
    * @returns
    * @memberof Engine
    */
-  runPluginsPreHook() {
+  runPluginsPreHook(plugins) {
     return new Promise((resolve, reject) => {
       async.each(
-        this.plugins.getAll(),
+        plugins,
         (plugin, callback) => {
           plugin.preRunHook(this.options.cwd, callback);
         },
@@ -94,16 +119,7 @@ class Engine extends EventEmitter {
    *
    * @memberof Engine
    */
-  runRules() {
-    let rules;
-
-    if (this.options.tags) {
-      const settingTags = this.config.getTags();
-      rules = this.rules.getByTag(this.options.tags, settingTags);
-    } else {
-      rules = this.rules.getAll();
-    }
-
+  runRules(rules) {
     return new Promise((resolve, reject) => {
       async.each(
         rules,
@@ -128,10 +144,10 @@ class Engine extends EventEmitter {
    * @returns
    * @memberof Engine
    */
-  runPluginsPostHook() {
+  runPluginsPostHook(plugins) {
     return new Promise((resolve, reject) => {
       async.each(
-        this.plugins.getAll(),
+        plugins,
         (plugin, callback) => {
           plugin.postRunHook(this.options.cwd, callback);
         },
