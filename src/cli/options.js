@@ -29,6 +29,7 @@ module.exports = optionator({
     },
     {
       option: 'verbose',
+      alias: 'v',
       type: 'Boolean',
       description: chalk.cyan('More information on runtime')
     },
@@ -38,6 +39,7 @@ module.exports = optionator({
     {
       option: 'quiet',
       type: 'Boolean',
+      alias: 'q',
       description: chalk.cyan('Report errors only - default: false')
     },
     {
@@ -54,11 +56,13 @@ module.exports = optionator({
     },
     {
       option: 'init',
+      alias: 'i',
       type: 'Boolean',
       description: chalk.cyan('Run config initialization wizard')
     },
     {
       option: 'debug',
+      alias: 'd',
       type: 'Boolean',
       description: chalk.cyan('Output debugging information')
     },
@@ -70,8 +74,8 @@ module.exports = optionator({
     },
     {
       option: 'version',
-      alias: 'v',
       type: 'Boolean',
+      alias: 'r',
       description: chalk.cyan('Output the version number')
     }
   ]
