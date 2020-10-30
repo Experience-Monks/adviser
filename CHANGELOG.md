@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.5](https://github.com/Jam3/adviser/compare/v0.7.4...v0.7.5) (2020-01-07)	
+
+
+### Bug Fixes	
+
+* plugins hooks called only if the plugin will be used ([#52](https://github.com/Jam3/adviser/issues/52)) ([5ab9796](https://github.com/Jam3/adviser/commit/5ab9796c69f806dcdfb62416b66f9dd5af5fe65a))	
+
 ### [0.7.4](https://github.com/Jam3/adviser/compare/v0.7.3...v0.7.4) (2019-12-04)
 
 
