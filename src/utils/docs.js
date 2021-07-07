@@ -7,5 +7,5 @@ function getURL(ruleName) {
 }
 
 module.exports = {
-  getURL
+  getURL,
 };

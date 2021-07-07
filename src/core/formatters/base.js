@@ -30,12 +30,12 @@ function base(results, rules) {
 
   const resultsByPlugins = groupBy(results.items, 'pluginName');
 
-  Object.keys(resultsByPlugins).forEach(pluginName => {
+  Object.keys(resultsByPlugins).forEach((pluginName) => {
     output += `  Plugin: ${chalk.underline(pluginName)}\n`;
     const tableData = [];
 
-    resultsByPlugins[pluginName].forEach(result => {
-      const rule = rules.find(rule => rule.id === result.ruleName && rule.pluginName === pluginName);
+    resultsByPlugins[pluginName].forEach((result) => {
+      const rule = rules.find((rule) => rule.id === result.ruleName && rule.pluginName === pluginName);
 
       let messageType = chalk.yellow('warning');
 
@@ -55,7 +55,7 @@ function base(results, rules) {
         messageType,
         result.params.message.replace(/([^ ])\.$/u, '$1'),
         ruleDocUrl,
-        `${chalk.white.bgRed(rule.executionDuration + 'ms')}`
+        `${chalk.white.bgRed(rule.executionDuration + 'ms')}`,
       ]);
     });
 
@@ -63,10 +63,10 @@ function base(results, rules) {
       align: ['l'],
       stringLength(str) {
         return stripAnsi(str).length;
-      }
+      },
     })
       .split('\n')
-      .map(el => el.replace(/(\d+)\s+(\d+)/u, (m, p1, p2) => chalk.dim(`${p1}:${p2}`)))
+      .map((el) => el.replace(/(\d+)\s+(\d+)/u, (m, p1, p2) => chalk.dim(`${p1}:${p2}`)))
       .join('\n')}\n\n`;
   });
 
@@ -86,7 +86,7 @@ function base(results, rules) {
           ', ',
           results.total.warnings,
           pluralize(' warning', results.total.warnings),
-          ')\n'
+          ')\n',
         ].join('')
       );
   }

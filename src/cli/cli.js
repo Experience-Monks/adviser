@@ -86,7 +86,7 @@ class CLI {
           if (issues.items.length > 0) {
             this.printResults(issues, processedRules, {
               format: engineOptions.outputFormat,
-              verbose: currentOptions.verbose
+              verbose: currentOptions.verbose,
             });
 
             errorCode = 2;
@@ -99,17 +99,17 @@ class CLI {
           if (currentOptions.verbose) {
             if (issues.items.length > 0) {
               this.printResults(issues, processedRules, {
-                format: 'verbose'
+                format: 'verbose',
               });
             }
 
             if (processedRules.length > 0) {
               this.printResults(issues, processedRules, {
-                format: 'summary'
+                format: 'summary',
               });
             }
           } else {
-            const verboseResults = issues.items.filter(result => result.params.verbose !== undefined);
+            const verboseResults = issues.items.filter((result) => result.params.verbose !== undefined);
 
             if (verboseResults.length >= 1) {
               // eslint-disable-next-line
@@ -121,7 +121,7 @@ class CLI {
 
           callback(errorCode);
         })
-        .catch(error => {
+        .catch((error) => {
           logger.error('Some rules has failed the run', error);
           callback(errorCode);
         });
@@ -155,7 +155,7 @@ class CLI {
     const engineOptions = {
       outputFormat: 'base',
       cwd: process.cwd(),
-      verboseMode: cliOptions.verbose || false
+      verboseMode: cliOptions.verbose || false,
     };
 
     cliOptions.config && (engineOptions.configFile = cliOptions.config);

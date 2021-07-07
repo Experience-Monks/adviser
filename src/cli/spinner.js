@@ -35,7 +35,7 @@ class Spinner {
     if (stopState) {
       this.spinner.stopAndPersist({
         symbol: logSymbols.success,
-        text: stopState
+        text: stopState,
       });
     }
 

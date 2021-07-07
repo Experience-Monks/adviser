@@ -30,7 +30,7 @@ class PackageJsonProperties extends Rule {
     const requiredProps = this.context.options.required;
     if (requiredProps) {
       const missingProps = requiredProps.filter(
-        requiredProp => !Object.prototype.hasOwnProperty.call(packagejson, requiredProp)
+        (requiredProp) => !Object.prototype.hasOwnProperty.call(packagejson, requiredProp)
       );
 
       if (missingProps.length > 0) {
@@ -38,14 +38,14 @@ class PackageJsonProperties extends Rule {
           message: `The package.json is missing the required ${pluralize(
             'property',
             missingProps.length
-          )}: ${missingProps.join(', ')}`
+          )}: ${missingProps.join(', ')}`,
         });
       }
     }
 
     const blacklistedProps = this.context.options.blacklist;
     if (blacklistedProps) {
-      const notAllowedProps = blacklistedProps.filter(blacklistedProp =>
+      const notAllowedProps = blacklistedProps.filter((blacklistedProp) =>
         Object.prototype.hasOwnProperty.call(packagejson, blacklistedProp)
       );
 
@@ -54,7 +54,7 @@ class PackageJsonProperties extends Rule {
           message: `The package.json includes the restricted ${pluralize(
             'property',
             notAllowedProps.length
-          )}: ${notAllowedProps.join(', ')}`
+          )}: ${notAllowedProps.join(', ')}`,
         });
       }
     }
@@ -78,7 +78,7 @@ PackageJsonProperties.meta = {
   description: 'Property restrictions over package.json',
   recommended: true,
   docsUrl: docs.getURL('package-json-properties'),
-  tags: ['quick', 'packagejson']
+  tags: ['quick', 'packagejson'],
 };
 
 module.exports = PackageJsonProperties;

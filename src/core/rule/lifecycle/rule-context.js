@@ -16,7 +16,7 @@ class RuleContext {
     this.pluginName = pluginName;
     this.filesystem = {
       dirname,
-      filename
+      filename,
     };
     this.options = { ...options };
     this.severity = severity;

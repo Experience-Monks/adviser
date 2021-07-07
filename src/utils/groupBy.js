@@ -15,7 +15,7 @@
 function groupBy(traversable, key) {
   const result = {};
 
-  Array.from(traversable).forEach(val => {
+  Array.from(traversable).forEach((val) => {
     const elementKey = val[key];
 
     if (!Object.prototype.hasOwnProperty.call(result, elementKey)) {

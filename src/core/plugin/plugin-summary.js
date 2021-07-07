@@ -15,7 +15,7 @@ class PluginSummary {
     this.pluginName = pluginName;
     this.rules = rules;
     this.filesystem = {
-      dirname
+      dirname,
     };
 
     Object.freeze(this);

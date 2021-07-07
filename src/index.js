@@ -13,5 +13,5 @@ module.exports = {
    * Parent class for rules defined in plugins
    */
   Rule: rule,
-  Plugin: plugin
+  Plugin: plugin,
 };

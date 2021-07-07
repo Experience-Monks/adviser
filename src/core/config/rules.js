@@ -65,7 +65,7 @@ class Rules {
    * @memberof Rules
    */
   get(ruleId) {
-    return this._rules.find(rule => rule.id === ruleId);
+    return this._rules.find((rule) => rule.id === ruleId);
   }
 
   /**
@@ -91,10 +91,10 @@ class Rules {
     const filteredRulesByMetaTags = this._getRulesFilteredByMetaTags(requestedTags, settingsTags);
 
     const filteredRules = {};
-    filteredRulesBySettings.forEach(rule => {
+    filteredRulesBySettings.forEach((rule) => {
       filteredRules[rule.id] = rule;
     });
-    filteredRulesByMetaTags.forEach(rule => {
+    filteredRulesByMetaTags.forEach((rule) => {
       if (!filteredRules[rule.id]) {
         filteredRules[rule.id] = rule;
       }
@@ -113,11 +113,11 @@ class Rules {
    */
   _getRulesFilteredByMetaTags(tags, settingsTags = {}) {
     const settingsTagsList = Object.keys(settingsTags);
-    return this._rules.filter(rule => {
+    return this._rules.filter((rule) => {
       if (rule.core.meta.tags) {
         // Exclude tags that are defined in settingsTags
-        const excludedTags = rule.core.meta.tags.filter(tag => !settingsTagsList.includes(tag));
-        const filteredTags = excludedTags.filter(tag => tags.includes(tag));
+        const excludedTags = rule.core.meta.tags.filter((tag) => !settingsTagsList.includes(tag));
+        const filteredTags = excludedTags.filter((tag) => tags.includes(tag));
         if (filteredTags.length > 0) return true;
       }
 
@@ -136,13 +136,13 @@ class Rules {
   _getRulesFilteredBySettingTags(tags, settingsTags) {
     let ruleNames = [];
 
-    tags.forEach(tag => {
+    tags.forEach((tag) => {
       if (settingsTags[tag]) {
         ruleNames = ruleNames.concat(settingsTags[tag]);
       }
     });
 
-    return this._rules.filter(rule => ruleNames.includes(rule.fullRuleName));
+    return this._rules.filter((rule) => ruleNames.includes(rule.fullRuleName));
   }
 
   /**

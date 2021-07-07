@@ -15,11 +15,11 @@ class PluginContext {
     this.pluginName = pluginName;
     this.rules = rules;
     this.filesystem = {
-      dirname
+      dirname,
     };
 
     this._shared = {
-      items: {}
+      items: {},
     };
 
     Object.freeze(this);

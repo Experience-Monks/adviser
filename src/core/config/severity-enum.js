@@ -8,5 +8,5 @@
 module.exports = {
   Error: 'error',
   Warning: 'warn',
-  Off: 'off'
+  Off: 'off',
 };

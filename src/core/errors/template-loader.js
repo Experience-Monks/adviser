@@ -36,7 +36,7 @@ class TemplateLoader {
    * @returns {Function} Lodash.template parameters interpolate function
    */
   load() {
-    return data => {
+    return (data) => {
       return Object.keys(data).reduce((template, key) => {
         return template.replace(new RegExp(`<%=\\s?${key}\\s?%>`, 'g'), data[key]);
       }, fs.readFileSync(this._templatePath, 'utf-8'));

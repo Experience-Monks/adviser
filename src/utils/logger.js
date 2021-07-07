@@ -36,5 +36,5 @@ module.exports = {
    */
   warn(...args) {
     _log('warn', ...args);
-  }
+  },
 };

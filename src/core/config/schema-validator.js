@@ -29,7 +29,7 @@ class SchemaValidator {
       useDefaults: true,
       validateSchema: false,
       verbose: true,
-      schemaId: 'auto'
+      schemaId: 'auto',
     });
   }
 
@@ -76,7 +76,7 @@ class SchemaValidator {
     const filteredRules = [];
 
     return errors
-      .map(error => {
+      .map((error) => {
         if (error.instancePath.indexOf('.rules[') >= 0) {
           const field = error.instancePath[0] === '.' ? error.instancePath.slice(7, -1) : error.instancePath;
 
@@ -113,8 +113,8 @@ class SchemaValidator {
 
         return `"${field}" ${error.message}. Value: ${JSON.stringify(error.data)}`;
       })
-      .filter(message => message)
-      .map(message => `\t- ${message}.\n`)
+      .filter((message) => message)
+      .map((message) => `\t- ${message}.\n`)
       .join('');
   }
 }

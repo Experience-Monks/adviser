@@ -64,15 +64,15 @@ class Engine extends EventEmitter {
       const settingTags = this.config.getTags();
       rules = this.rules.getByTag(this.options.tags, settingTags);
 
-      const pluginNames = Object.keys(this.plugins.getAll()).map(pluginName => {
+      const pluginNames = Object.keys(this.plugins.getAll()).map((pluginName) => {
         return {
           id: this.plugins.get(pluginName).id,
-          name: pluginName
+          name: pluginName,
         };
       });
 
-      rules.forEach(rule => {
-        const plugin = pluginNames.find(pluginName => pluginName.id === rule.pluginName);
+      rules.forEach((rule) => {
+        const plugin = pluginNames.find((pluginName) => pluginName.id === rule.pluginName);
         if (plugin) {
           plugins[plugin.name] = this.plugins.get(plugin.id);
         }
@@ -100,7 +100,7 @@ class Engine extends EventEmitter {
         (plugin, callback) => {
           plugin.preRunHook(this.options.cwd, callback);
         },
-        error => {
+        (error) => {
           if (error) {
             reject(error);
           } else {
@@ -124,7 +124,7 @@ class Engine extends EventEmitter {
         (rule, callback) => {
           rule.runLifeCycle(this.options.cwd, this.options.verboseMode, this.report.bind(this), callback);
         },
-        error => {
+        (error) => {
           if (error) {
             reject(error);
           } else {
@@ -149,7 +149,7 @@ class Engine extends EventEmitter {
         (plugin, callback) => {
           plugin.postRunHook(this.options.cwd, callback);
         },
-        error => {
+        (error) => {
           if (error) {
             reject(error);
           } else {
@@ -172,7 +172,7 @@ class Engine extends EventEmitter {
       params: ruleReport.params,
       ruleName: ruleReport.context.ruleName,
       pluginName: ruleReport.context.pluginName,
-      severity: ruleReport.context.severity
+      severity: ruleReport.context.severity,
     });
   }
 
@@ -195,7 +195,7 @@ class Engine extends EventEmitter {
 
     const configRules = this.config.getRules();
 
-    Object.keys(configRules).forEach(fullRuleName => {
+    Object.keys(configRules).forEach((fullRuleName) => {
       const ruleSettings = configRules[fullRuleName];
 
       if (this.builtInRules[fullRuleName]) {
@@ -257,7 +257,7 @@ class Engine extends EventEmitter {
 
     return {
       pluginName: rulePluginTuple[0],
-      ruleName: rulePluginTuple[1]
+      ruleName: rulePluginTuple[1],
     };
   }
 
@@ -271,7 +271,7 @@ class Engine extends EventEmitter {
     let warningCount = 0;
     let errorCount = 0;
 
-    this._rawIssues.forEach(issue => {
+    this._rawIssues.forEach((issue) => {
       errorCount = issue.severity === 'error' ? errorCount + 1 : errorCount;
       warningCount = issue.severity === 'warn' ? warningCount + 1 : warningCount;
     });
@@ -280,8 +280,8 @@ class Engine extends EventEmitter {
       items: this._rawIssues,
       total: {
         warnings: warningCount,
-        errors: errorCount
-      }
+        errors: errorCount,
+      },
     };
   }
 

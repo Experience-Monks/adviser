@@ -23,7 +23,7 @@ process.once('uncaughtException', errorHandler.onError);
 if (isInitEnabled) {
   init.createTemplate();
 } else {
-  cli.execute(process.argv, exitCode => {
+  cli.execute(process.argv, (exitCode) => {
     process.exitCode = exitCode;
   });
 }

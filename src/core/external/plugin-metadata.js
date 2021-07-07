@@ -7,7 +7,7 @@
 
 const PluginMetadata = {
   description: '',
-  recommended: false
+  recommended: false,
 };
 
 module.exports = PluginMetadata;

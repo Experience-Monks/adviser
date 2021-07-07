@@ -45,7 +45,7 @@ class Rule {
    * @memberof Rule
    */
   _setupTiming() {
-    const obs = new PerformanceObserver(items => {
+    const obs = new PerformanceObserver((items) => {
       const performanceEntry = items.getEntriesByName(this.id);
 
       if (performanceEntry[0]) {

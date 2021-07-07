@@ -32,28 +32,28 @@ class RootFiles extends Rule {
 
     const requiredFiles = this.context.options.required;
     if (requiredFiles) {
-      const missingFiles = requiredFiles.filter(requiredFile => !files.includes(requiredFile));
+      const missingFiles = requiredFiles.filter((requiredFile) => !files.includes(requiredFile));
 
       if (missingFiles.length > 0) {
         sandbox.report({
           message: `Your directory root is missing the required ${pluralize(
             'file',
             missingFiles.length
-          )}: ${missingFiles.join(', ')}`
+          )}: ${missingFiles.join(', ')}`,
         });
       }
     }
 
     const blacklistedFiles = this.context.options.blacklist;
     if (blacklistedFiles) {
-      const notAllowedFiles = blacklistedFiles.filter(blacklistedFile => files.includes(blacklistedFile));
+      const notAllowedFiles = blacklistedFiles.filter((blacklistedFile) => files.includes(blacklistedFile));
 
       if (notAllowedFiles.length > 0) {
         sandbox.report({
           message: `Your directory root is including the restricted ${pluralize(
             'file',
             notAllowedFiles.length
-          )}: ${notAllowedFiles.join(', ')}`
+          )}: ${notAllowedFiles.join(', ')}`,
         });
       }
     }
@@ -73,7 +73,7 @@ RootFiles.meta = {
   description: 'File restrictions on the directory root',
   recommended: true,
   docsUrl: docs.getURL('root-files'),
-  tags: ['quick', 'fs']
+  tags: ['quick', 'fs'],
 };
 
 module.exports = RootFiles;

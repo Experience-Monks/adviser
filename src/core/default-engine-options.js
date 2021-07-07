@@ -8,5 +8,5 @@ module.exports = {
   configFile: null,
   outputDirectory: null,
   outputFormat: 'base',
-  cwd: process.cwd()
+  cwd: process.cwd(),
 };
