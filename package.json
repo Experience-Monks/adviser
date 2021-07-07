@@ -71,18 +71,18 @@
     }
   },
   "dependencies": {
-    "ajv": "6.10.0",
+    "ajv": "8.6.1",
     "async": "3.2.0",
     "chalk": "4.1.1",
     "cosmiconfig": "7.0.0",
     "debug": "4.3.2",
     "hyperlinker": "1.0.0",
-    "log-symbols": "5.0.0",
+    "log-symbols": "4.1.0",
     "optionator": "0.9.1",
     "ora": "5.4.1",
     "pluralize": "8.0.0",
     "requireindex": "1.2.0",
-    "strip-ansi": "7.0.0",
+    "strip-ansi": "6.0.0",
     "supports-hyperlinks": "2.2.0",
     "text-table": "0.2.0"
   },

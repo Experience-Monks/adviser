@@ -8,7 +8,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const { cosmiconfig } = require('cosmiconfig');
+const { cosmiconfigSync } = require('cosmiconfig');
 const debug = require('debug')('adviser:config');
 
 const ConfigFileNotFoundError = require('../errors/exceptions/config-file-not-found-error');
@@ -34,7 +34,7 @@ class Config {
   constructor(filePath = null, fileExplorer = null) {
     this._config = null;
 
-    this._configFileExplorer = fileExplorer || cosmiconfig(MODULE_NAME);
+    this._configFileExplorer = fileExplorer || cosmiconfigSync(MODULE_NAME);
 
     if (filePath) {
       let filePathInfo = '';
@@ -124,7 +124,7 @@ class Config {
    */
   load(exactPath) {
     try {
-      this._config = this._configFileExplorer.loadSync(exactPath);
+      this._config = this._configFileExplorer.load(exactPath);
     } catch (error) {
       let targetDirectory = error.path;
       if (!targetDirectory) {
@@ -152,7 +152,7 @@ class Config {
    */
   search(directory) {
     try {
-      this._config = this._configFileExplorer.searchSync(directory);
+      this._config = this._configFileExplorer.search(directory);
     } catch (error) {
       let targetDirectory = error.path;
       if (!targetDirectory) {
