@@ -8,9 +8,7 @@
 const debug = require('debug')('adviser:plugins');
 
 const Plugin = require('../plugin/plugin');
-
 const PluginError = require('../errors/exceptions/plugin-error');
-
 const { BLACKLIST_NAMES } = require('../constants/plugins');
 
 /**

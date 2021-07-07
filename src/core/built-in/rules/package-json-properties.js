@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+
 const pluralize = require('pluralize');
 
 const Rule = require('../../external/rule');
@@ -10,15 +11,15 @@ class PackageJsonProperties extends Rule {
   constructor(context) {
     super(context);
 
-    if (!this.context.options['required'] && !this.context.options['blacklist']) {
+    if (!this.context.options.required && !this.context.options.blacklist) {
       throw new Error(`The rule must have at least one option, "required" or "blacklist"`);
     }
 
-    if (this.context.options['required'] && !Array.isArray(this.context.options['required'])) {
+    if (this.context.options.required && !Array.isArray(this.context.options.required)) {
       throw new Error(`Wrong "required" argument, an array is expected`);
     }
 
-    if (this.context.options['blacklist'] && !Array.isArray(this.context.options['blacklist'])) {
+    if (this.context.options.blacklist && !Array.isArray(this.context.options.blacklist)) {
       throw new Error(`Wrong "blacklist" argument, an array is expected`);
     }
   }
@@ -26,9 +27,11 @@ class PackageJsonProperties extends Rule {
   run(sandbox) {
     const packagejson = this._getPackageJsonPath();
 
-    const requiredProps = this.context.options['required'];
+    const requiredProps = this.context.options.required;
     if (requiredProps) {
-      const missingProps = requiredProps.filter(requiredProp => !packagejson.hasOwnProperty(requiredProp));
+      const missingProps = requiredProps.filter(
+        requiredProp => !Object.prototype.hasOwnProperty.call(packagejson, requiredProp)
+      );
 
       if (missingProps.length > 0) {
         sandbox.report({
@@ -40,9 +43,11 @@ class PackageJsonProperties extends Rule {
       }
     }
 
-    const blacklistedProps = this.context.options['blacklist'];
+    const blacklistedProps = this.context.options.blacklist;
     if (blacklistedProps) {
-      const notAllowedProps = blacklistedProps.filter(blacklistedProp => packagejson.hasOwnProperty(blacklistedProp));
+      const notAllowedProps = blacklistedProps.filter(blacklistedProp =>
+        Object.prototype.hasOwnProperty.call(packagejson, blacklistedProp)
+      );
 
       if (notAllowedProps.length > 0) {
         sandbox.report({

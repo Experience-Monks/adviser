@@ -6,6 +6,7 @@
 'use strict';
 
 const { PerformanceObserver, performance } = require('perf_hooks');
+
 const debug = require('debug')('adviser:rule');
 
 const RuleLifeCycleEnum = require('./lifecycle/rule-lifecycle-enum');

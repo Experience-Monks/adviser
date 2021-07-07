@@ -9,7 +9,6 @@ const debug = require('debug')('adviser:rules');
 
 const Rule = require('../rule/rule');
 const SeverityEnum = require('./severity-enum');
-
 const InvalidRuleError = require('../errors/exceptions/invalid-rule-error');
 
 /**
@@ -121,6 +120,8 @@ class Rules {
         const filteredTags = excludedTags.filter(tag => tags.includes(tag));
         if (filteredTags.length > 0) return true;
       }
+
+      return false;
     });
   }
 

@@ -6,7 +6,6 @@
 'use strict';
 
 const debug = require('debug')('adviser:schema-validator');
-
 const Ajv = require('ajv');
 
 /**
@@ -83,7 +82,7 @@ class SchemaValidator {
           const field = error.dataPath[0] === '.' ? error.dataPath.slice(7, -1) : error.dataPath;
 
           if (filteredRules.includes(error.dataPath)) {
-            return;
+            return; // eslint-disable-line
           }
 
           filteredRules.push(error.dataPath);

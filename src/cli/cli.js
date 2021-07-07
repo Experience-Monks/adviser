@@ -13,7 +13,6 @@ const Engine = require('../core/engine');
 const Formatter = require('../core/formatters/formatter');
 const Spinner = require('./spinner');
 const EVENTS = require('../core/constants/events');
-
 const options = require('./options');
 const logger = require('../utils/logger');
 const packageInfo = require('../package-info');
@@ -57,12 +56,12 @@ class CLI {
       debug(`Parsing CLI arguments ${JSON.stringify(currentOptions)} for the engine`);
       const engineOptions = this._prepareEngineOptions(currentOptions);
 
-      const config = new Config(engineOptions['configFile'] || engineOptions.cwd);
+      const config = new Config(engineOptions.configFile || engineOptions.cwd);
       debug(`Engine called with the parameters ${JSON.stringify(engineOptions)}`);
       const engine = new Engine(config, engineOptions);
 
       if (!currentOptions.debug) {
-        console.log(`Adviser v${packageInfo.getVersion()}\n`);
+        console.log(`Adviser v${packageInfo.getVersion()}\n`); // eslint-disable-line
 
         const spinner = new Spinner();
 
@@ -113,6 +112,7 @@ class CLI {
             const verboseResults = issues.items.filter(result => result.params.verbose !== undefined);
 
             if (verboseResults.length >= 1) {
+              // eslint-disable-next-line
               console.log(
                 `Some rules reported a verbose result, call Adviser with ${chalk.gray('--verbose')} for more details.\n`
               );
@@ -155,11 +155,11 @@ class CLI {
     const engineOptions = {
       outputFormat: 'base',
       cwd: process.cwd(),
-      verboseMode: cliOptions['verbose'] || false
+      verboseMode: cliOptions.verbose || false
     };
 
-    cliOptions.config && (engineOptions['configFile'] = cliOptions.config);
-    cliOptions.tags && (engineOptions['tags'] = cliOptions.tags);
+    cliOptions.config && (engineOptions.configFile = cliOptions.config);
+    cliOptions.tags && (engineOptions.tags = cliOptions.tags);
 
     return engineOptions;
   }

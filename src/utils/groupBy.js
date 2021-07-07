@@ -13,14 +13,15 @@
  * @returns {string} A composed object
  */
 function groupBy(traversable, key) {
-  let result = {};
+  const result = {};
 
   Array.from(traversable).forEach(val => {
     const elementKey = val[key];
 
-    if (!result.hasOwnProperty(elementKey)) {
+    if (!Object.prototype.hasOwnProperty.call(result, elementKey)) {
       result[elementKey] = [];
     }
+
     result[elementKey].push(val);
   });
   return result;

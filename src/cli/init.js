@@ -6,6 +6,7 @@
 'use strict';
 
 const fs = require('fs');
+
 const chalk = require('chalk');
 const debug = require('debug')('adviser:cli-init');
 

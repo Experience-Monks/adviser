@@ -15,10 +15,8 @@ const requireIndex = require('requireindex');
 const defaultOptions = require('./default-engine-options');
 const EVENTS = require('./constants/events');
 const { BUILT_IN_NAME } = require('./constants/plugins');
-
 const plugins = require('./config/plugins');
 const rules = require('./config/rules');
-
 const InvalidRuleError = require('./errors/exceptions/invalid-rule-error');
 
 /**

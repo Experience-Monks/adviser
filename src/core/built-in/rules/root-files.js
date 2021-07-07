@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const { promisify } = require('util');
+
 const pluralize = require('pluralize');
 
 const Rule = require('../../external/rule');
@@ -13,15 +14,15 @@ class RootFiles extends Rule {
   constructor(context) {
     super(context);
 
-    if (!this.context.options['required'] && !this.context.options['blacklist']) {
+    if (!this.context.options.required && !this.context.options.blacklist) {
       throw new Error(`The rule must have at least one option, "required" or "blacklist"`);
     }
 
-    if (this.context.options['required'] && !Array.isArray(this.context.options['required'])) {
+    if (this.context.options.required && !Array.isArray(this.context.options.required)) {
       throw new Error(`Wrong "required" argument, an array is expected`);
     }
 
-    if (this.context.options['blacklist'] && !Array.isArray(this.context.options['blacklist'])) {
+    if (this.context.options.blacklist && !Array.isArray(this.context.options.blacklist)) {
       throw new Error(`Wrong "blacklist" argument, an array is expected`);
     }
   }
@@ -29,7 +30,7 @@ class RootFiles extends Rule {
   async run(sandbox) {
     const files = await this._readRootDirectory();
 
-    const requiredFiles = this.context.options['required'];
+    const requiredFiles = this.context.options.required;
     if (requiredFiles) {
       const missingFiles = requiredFiles.filter(requiredFile => !files.includes(requiredFile));
 
@@ -43,7 +44,7 @@ class RootFiles extends Rule {
       }
     }
 
-    const blacklistedFiles = this.context.options['blacklist'];
+    const blacklistedFiles = this.context.options.blacklist;
     if (blacklistedFiles) {
       const notAllowedFiles = blacklistedFiles.filter(blacklistedFile => files.includes(blacklistedFile));
 

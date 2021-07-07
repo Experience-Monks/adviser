@@ -7,13 +7,13 @@
 
 const path = require('path');
 const fs = require('fs');
+
 const cosmiconfig = require('cosmiconfig');
 const debug = require('debug')('adviser:config');
 
 const ConfigFileNotFoundError = require('../errors/exceptions/config-file-not-found-error');
 const ConfigFilePathNotFoundError = require('../errors/exceptions/config-file-path-not-found-error');
 const ConfigFileValidationError = require('../errors/exceptions/config-file-validation-error');
-
 const configFileSchema = require('./data/config-file-schema.json');
 const SchemaValidator = require('./schema-validator');
 
@@ -67,7 +67,7 @@ class Config {
         const extendedPlugin = { id: plugin, settings: {} };
 
         if (this._config.config.settings && this._config.config.settings[plugin]) {
-          extendedPlugin['settings'] = this._config.config.settings[plugin];
+          extendedPlugin.settings = this._config.config.settings[plugin];
         }
 
         return extendedPlugin;
@@ -112,7 +112,7 @@ class Config {
    * @memberof Config
    */
   getTags() {
-    return this.getSettings().hasOwnProperty('tags') ? this.getSettings().tags : {};
+    return Object.prototype.hasOwnProperty.call(this.getSettings(), 'tags') ? this.getSettings().tags : {};
   }
 
   /**
