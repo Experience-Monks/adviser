@@ -8,7 +8,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const cosmiconfig = require('cosmiconfig');
+const { cosmiconfig } = require('cosmiconfig');
 const debug = require('debug')('adviser:config');
 
 const ConfigFileNotFoundError = require('../errors/exceptions/config-file-not-found-error');
