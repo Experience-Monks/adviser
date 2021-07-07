@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const cosmiconfig = require('cosmiconfig');
+const { cosmiconfig } = require('cosmiconfig');
 const Config = require('../../src/core/config/config');
 const ConfigFileValidationError = require('../../src/core/errors/exceptions/config-file-validation-error');
 

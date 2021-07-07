@@ -20,7 +20,7 @@ const RuleStatusEnum = require('../rule/lifecycle/rule-status-enum');
 function skippedRulesOutput(results, rules) {
   let output = `\n  ${chalk.blue('Adviser Summary')} \n\n`;
 
-  const rulesMap = rules.map(rule => {
+  const rulesMap = rules.map((rule) => {
     return ['', rule.pluginName, rule.id, getRuleStatusColor(rule.lifeCycleStatus)];
   });
 
@@ -30,7 +30,7 @@ function skippedRulesOutput(results, rules) {
     align: ['l'],
     stringLength(str) {
       return stripAnsi(str).length;
-    }
+    },
   })}\n\n`;
 
   return output;

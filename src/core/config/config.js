@@ -7,13 +7,13 @@
 
 const path = require('path');
 const fs = require('fs');
-const cosmiconfig = require('cosmiconfig');
+
+const { cosmiconfigSync } = require('cosmiconfig');
 const debug = require('debug')('adviser:config');
 
 const ConfigFileNotFoundError = require('../errors/exceptions/config-file-not-found-error');
 const ConfigFilePathNotFoundError = require('../errors/exceptions/config-file-path-not-found-error');
 const ConfigFileValidationError = require('../errors/exceptions/config-file-validation-error');
-
 const configFileSchema = require('./data/config-file-schema.json');
 const SchemaValidator = require('./schema-validator');
 
@@ -34,7 +34,7 @@ class Config {
   constructor(filePath = null, fileExplorer = null) {
     this._config = null;
 
-    this._configFileExplorer = fileExplorer || cosmiconfig(MODULE_NAME);
+    this._configFileExplorer = fileExplorer || cosmiconfigSync(MODULE_NAME);
 
     if (filePath) {
       let filePathInfo = '';
@@ -63,11 +63,11 @@ class Config {
    */
   getPlugins() {
     if (this._config && this._config.config && this._config.config.plugins) {
-      return this._config.config.plugins.map(plugin => {
+      return this._config.config.plugins.map((plugin) => {
         const extendedPlugin = { id: plugin, settings: {} };
 
         if (this._config.config.settings && this._config.config.settings[plugin]) {
-          extendedPlugin['settings'] = this._config.config.settings[plugin];
+          extendedPlugin.settings = this._config.config.settings[plugin];
         }
 
         return extendedPlugin;
@@ -112,7 +112,7 @@ class Config {
    * @memberof Config
    */
   getTags() {
-    return this.getSettings().hasOwnProperty('tags') ? this.getSettings().tags : {};
+    return Object.prototype.hasOwnProperty.call(this.getSettings(), 'tags') ? this.getSettings().tags : {};
   }
 
   /**
@@ -124,7 +124,7 @@ class Config {
    */
   load(exactPath) {
     try {
-      this._config = this._configFileExplorer.loadSync(exactPath);
+      this._config = this._configFileExplorer.load(exactPath);
     } catch (error) {
       let targetDirectory = error.path;
       if (!targetDirectory) {
@@ -152,7 +152,7 @@ class Config {
    */
   search(directory) {
     try {
-      this._config = this._configFileExplorer.searchSync(directory);
+      this._config = this._configFileExplorer.search(directory);
     } catch (error) {
       let targetDirectory = error.path;
       if (!targetDirectory) {

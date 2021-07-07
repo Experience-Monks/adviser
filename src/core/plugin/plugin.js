@@ -54,7 +54,7 @@ class Plugin {
       return;
     }
 
-    const contextRules = this.processedRules.map(rule => {
+    const contextRules = this.processedRules.map((rule) => {
       return { id: rule.id, severity: rule.severity, options: rule.options };
     });
     const context = new PluginContext(this.id, currentDirectory, contextRules);
@@ -62,7 +62,7 @@ class Plugin {
     try {
       await this.core.preRun(context);
 
-      this.processedRules.forEach(rule => {
+      this.processedRules.forEach((rule) => {
         rule.addSharedContext(context.getShareableData());
       });
     } catch (error) {
@@ -86,12 +86,12 @@ class Plugin {
       return;
     }
 
-    const summaryRules = this.processedRules.map(rule => {
+    const summaryRules = this.processedRules.map((rule) => {
       return {
         id: rule.id,
         severity: rule.severity,
         status: rule.lifeCycleStatus,
-        duration: rule.executionDuration
+        duration: rule.executionDuration,
       };
     });
     const summary = new PluginSummary(this.id, currentDirectory, summaryRules);

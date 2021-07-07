@@ -1,6 +1,6 @@
 'use strict';
 
-const cosmiconfig = require('cosmiconfig');
+const { cosmiconfig } = require('cosmiconfig');
 
 const AdviserRule = require('../../src/core/external/rule');
 

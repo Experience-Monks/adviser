@@ -6,7 +6,6 @@
 'use strict';
 
 const debug = require('debug')('adviser:schema-validator');
-
 const Ajv = require('ajv');
 
 /**
@@ -29,9 +28,8 @@ class SchemaValidator {
       meta: false,
       useDefaults: true,
       validateSchema: false,
-      missingRefs: 'ignore',
       verbose: true,
-      schemaId: 'auto'
+      schemaId: 'auto',
     });
   }
 
@@ -78,27 +76,27 @@ class SchemaValidator {
     const filteredRules = [];
 
     return errors
-      .map(error => {
-        if (error.dataPath.indexOf('.rules[') >= 0) {
-          const field = error.dataPath[0] === '.' ? error.dataPath.slice(7, -1) : error.dataPath;
+      .map((error) => {
+        if (error.instancePath.indexOf('.rules[') >= 0) {
+          const field = error.instancePath[0] === '.' ? error.instancePath.slice(7, -1) : error.instancePath;
 
-          if (filteredRules.includes(error.dataPath)) {
-            return;
+          if (filteredRules.includes(error.instancePath)) {
+            return; // eslint-disable-line
           }
 
-          filteredRules.push(error.dataPath);
+          filteredRules.push(error.instancePath);
           return `Rule ${field} has an invalid value "${error.data}", replace it with a valid severity value`;
         }
 
         if (error.keyword === 'additionalProperties') {
-          const formattedPropertyPath = error.dataPath.length
-            ? `${error.dataPath.slice(1)}.${error.params.additionalProperty}`
+          const formattedPropertyPath = error.instancePath.length
+            ? `${error.instancePath.slice(1)}.${error.params.additionalProperty}`
             : error.params.additionalProperty;
 
           return `Unexpected top-level property "${formattedPropertyPath}"`;
         }
         if (error.keyword === 'type') {
-          const formattedField = error.dataPath.slice(1);
+          const formattedField = error.instancePath.slice(1);
           const formattedExpectedType = Array.isArray(error.schema) ? error.schema.join('/') : error.schema;
           const formattedValue = JSON.stringify(error.data);
 
@@ -106,17 +104,17 @@ class SchemaValidator {
         }
 
         if (error.keyword === 'enum') {
-          const field = error.dataPath[0] === '.' ? error.dataPath.slice(1) : error.dataPath;
+          const field = error.instancePath[0] === '.' ? error.instancePath.slice(1) : error.instancePath;
 
           return `"${field}" ${error.message} [${error.params.allowedValues}]`;
         }
 
-        const field = error.dataPath[0] === '.' ? error.dataPath.slice(1) : error.dataPath;
+        const field = error.instancePath[0] === '.' ? error.instancePath.slice(1) : error.instancePath;
 
         return `"${field}" ${error.message}. Value: ${JSON.stringify(error.data)}`;
       })
-      .filter(message => message)
-      .map(message => `\t- ${message}.\n`)
+      .filter((message) => message)
+      .map((message) => `\t- ${message}.\n`)
       .join('');
   }
 }

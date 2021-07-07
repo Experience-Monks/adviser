@@ -37,7 +37,7 @@ class RuleSandbox {
 
     this.engineReportMethod({
       params: reportedMessage,
-      context: this.ruleContext
+      context: this.ruleContext,
     });
   }
 }

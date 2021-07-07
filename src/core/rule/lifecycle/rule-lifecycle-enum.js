@@ -9,7 +9,7 @@ const RuleLifeCycle = {
   Init: 'Init',
   Run: 'Run',
   RuleExecutionKilled: 'RuleExecutionKilled',
-  ruleExecutionEnded: 'ruleExecutionEnded'
+  ruleExecutionEnded: 'ruleExecutionEnded',
 };
 
 module.exports = RuleLifeCycle;

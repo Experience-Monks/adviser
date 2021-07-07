@@ -13,5 +13,5 @@ module.exports = {
   getVersion() {
     const pkg = require('../package.json');
     return pkg.version;
-  }
+  },
 };

@@ -6,6 +6,7 @@
 'use strict';
 
 const { PerformanceObserver, performance } = require('perf_hooks');
+
 const debug = require('debug')('adviser:rule');
 
 const RuleLifeCycleEnum = require('./lifecycle/rule-lifecycle-enum');
@@ -44,7 +45,7 @@ class Rule {
    * @memberof Rule
    */
   _setupTiming() {
-    const obs = new PerformanceObserver(items => {
+    const obs = new PerformanceObserver((items) => {
       const performanceEntry = items.getEntriesByName(this.id);
 
       if (performanceEntry[0]) {

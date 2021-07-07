@@ -12,67 +12,67 @@ module.exports = optionator({
   prepend: `adviser ${chalk.red('[options]')}`,
   defaults: {
     concatRepeatedArrays: true,
-    defaults: Object
+    defaults: Object,
   },
   options: [
     {
-      heading: chalk.yellow('Basic configuration')
+      heading: chalk.yellow('Basic configuration'),
     },
     {
       option: 'config',
       alias: 'c',
       type: 'Path',
-      description: chalk.cyan('Specify config file path')
+      description: chalk.cyan('Specify config file path'),
     },
     {
-      heading: chalk.yellow('Output')
+      heading: chalk.yellow('Output'),
     },
     {
       option: 'verbose',
       type: 'Boolean',
-      description: chalk.cyan('More information on runtime')
+      description: chalk.cyan('More information on runtime'),
     },
     {
-      heading: chalk.yellow('Warnings')
+      heading: chalk.yellow('Warnings'),
     },
     {
       option: 'quiet',
       type: 'Boolean',
-      description: chalk.cyan('Report errors only - default: false')
+      description: chalk.cyan('Report errors only - default: false'),
     },
     {
-      heading: chalk.yellow('Funcionality')
+      heading: chalk.yellow('Funcionality'),
     },
     {
       option: 'tags',
       alias: 't',
       type: '[String]',
-      description: chalk.cyan('Specify list of tags; e.g fast,perf,pkg')
+      description: chalk.cyan('Specify list of tags; e.g fast,perf,pkg'),
     },
     {
-      heading: chalk.yellow('Miscellaneous')
+      heading: chalk.yellow('Miscellaneous'),
     },
     {
       option: 'init',
       type: 'Boolean',
-      description: chalk.cyan('Run config initialization wizard')
+      description: chalk.cyan('Run config initialization wizard'),
     },
     {
       option: 'debug',
       type: 'Boolean',
-      description: chalk.cyan('Output debugging information')
+      description: chalk.cyan('Output debugging information'),
     },
     {
       option: 'help',
       alias: 'h',
       type: 'Boolean',
-      description: chalk.cyan('Show help')
+      description: chalk.cyan('Show help'),
     },
     {
       option: 'version',
       alias: 'v',
       type: 'Boolean',
-      description: chalk.cyan('Output the version number')
-    }
-  ]
+      description: chalk.cyan('Output the version number'),
+    },
+  ],
 });

@@ -8,9 +8,7 @@
 const debug = require('debug')('adviser:plugins');
 
 const Plugin = require('../plugin/plugin');
-
 const PluginError = require('../errors/exceptions/plugin-error');
-
 const { BLACKLIST_NAMES } = require('../constants/plugins');
 
 /**
@@ -70,11 +68,11 @@ class Plugins {
   getAllRules() {
     const allRules = new Map();
 
-    Object.keys(this._plugins).forEach(pluginName => {
+    Object.keys(this._plugins).forEach((pluginName) => {
       const plugin = this.get(pluginName);
 
       if (plugin.definedRules) {
-        Object.keys(plugin.definedRules).forEach(ruleId => {
+        Object.keys(plugin.definedRules).forEach((ruleId) => {
           const qualifiedRuleId = `${pluginName}/${ruleId}`;
           const rule = plugin.definedRules[ruleId];
 
@@ -82,7 +80,7 @@ class Plugins {
             pluginName,
             ruleId,
             qualifiedRuleId,
-            rule
+            rule,
           });
         });
       }
@@ -97,7 +95,7 @@ class Plugins {
    * @throws {Error} If a plugin cannot be loaded.
    */
   loadAll(plugins = [], directory) {
-    plugins.forEach(plugin => {
+    plugins.forEach((plugin) => {
       this.load(plugin, directory);
     });
   }

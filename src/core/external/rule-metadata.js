@@ -10,7 +10,7 @@ const RuleMetadata = {
   description: '',
   recommended: false,
   docsUrl: '',
-  schema: {}
+  schema: {},
 };
 
 module.exports = RuleMetadata;
