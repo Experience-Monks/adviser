@@ -82,7 +82,7 @@
     "ora": "3.4.0",
     "pluralize": "8.0.0",
     "requireindex": "1.2.0",
-    "strip-ansi": "5.2.0",
+    "strip-ansi": "7.0.0",
     "supports-hyperlinks": "2.2.0",
     "text-table": "0.2.0"
   },
