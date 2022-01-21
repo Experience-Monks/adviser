@@ -101,7 +101,7 @@ All the rules documentation is located inside `/docs/rules`
 _Rules_:
 
 - package-json-properties: Includes options to restrict and blacklist properties on the package.json
-- root-files: Includes options to restrict and blacklist files on the root directory.
+- root-files: Includes options to restrict and blocklist files on the root directory.
 
 ## Release
 
