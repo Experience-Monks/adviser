@@ -1,5 +1,5 @@
 const PLUGINS = {
-  BLACKLIST_NAMES: ['adviser'],
+  BLOCKLIST_NAMES: ['adviser'],
   BUILT_IN_NAME: 'adviser'
 };
 

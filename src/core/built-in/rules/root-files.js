@@ -13,16 +13,16 @@ class RootFiles extends Rule {
   constructor(context) {
     super(context);
 
-    if (!this.context.options['required'] && !this.context.options['blacklist']) {
-      throw new Error(`The rule must have at least one option, "required" or "blacklist"`);
+    if (!this.context.options['required'] && !this.context.options['blocklist']) {
+      throw new Error(`The rule must have at least one option, "required" or "blocklist"`);
     }
 
     if (this.context.options['required'] && !Array.isArray(this.context.options['required'])) {
       throw new Error(`Wrong "required" argument, an array is expected`);
     }
 
-    if (this.context.options['blacklist'] && !Array.isArray(this.context.options['blacklist'])) {
-      throw new Error(`Wrong "blacklist" argument, an array is expected`);
+    if (this.context.options['blocklist'] && !Array.isArray(this.context.options['blocklist'])) {
+      throw new Error(`Wrong "blocklist" argument, an array is expected`);
     }
   }
 
@@ -43,9 +43,9 @@ class RootFiles extends Rule {
       }
     }
 
-    const blacklistedFiles = this.context.options['blacklist'];
-    if (blacklistedFiles) {
-      const notAllowedFiles = blacklistedFiles.filter(blacklistedFile => files.includes(blacklistedFile));
+    const blocklistedFiles = this.context.options['blocklist'];
+    if (blocklistedFiles) {
+      const notAllowedFiles = blocklistedFiles.filter(blocklistedFile => files.includes(blocklistedFile));
 
       if (notAllowedFiles.length > 0) {
         sandbox.report({

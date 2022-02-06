@@ -1,6 +1,6 @@
 # Package JSON Properties
 
-Includes options to restrict and blacklist properties on the package.json
+Includes options to restrict and blocklist properties on the package.json
 
 ## Syntax
 
@@ -9,12 +9,12 @@ Includes options to restrict and blacklist properties on the package.json
     "error",
     {
       "required": ["private", "name", "version", "description", "main"],
-      "blacklist": ["license"]
+      "blocklist": ["license"]
     }
   ]
 ```
 
-The rule `package-json-properties` receives two arguments: `required` and `blacklist`.
+The rule `package-json-properties` receives two arguments: `required` and `blocklist`.
 At least one argument must be defined
 
 ### required
@@ -23,7 +23,7 @@ Array of strings - required properties
 
 Possible values: 'private', 'version'
 
-### blacklist
+### blocklist
 
 Array of strings - Properties that are not allowed
 

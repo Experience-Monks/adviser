@@ -4,14 +4,14 @@
       "error",
       {
         "required": ["private", "name", "version", "description", "main"],
-        "blacklist": ["license", "author"]
+        "blocklist": ["license", "author"]
       }
     ],
     "root-files": [
       "error",
       {
         "required": [".commitlintrc.yml", "README"],
-        "blacklist": ["LICENSE"]
+        "blocklist": ["LICENSE"]
       }
     ]
   },
