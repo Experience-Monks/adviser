@@ -11,7 +11,7 @@ const Plugin = require('../plugin/plugin');
 
 const PluginError = require('../errors/exceptions/plugin-error');
 
-const { BLACKLIST_NAMES } = require('../constants/plugins');
+const { BLOCKLIST_NAMES } = require('../constants/plugins');
 
 /**
  * CRUD for the plugins
@@ -110,11 +110,11 @@ class Plugins {
    * @memberof Plugins
    */
   load(plugin, directory) {
-    if (BLACKLIST_NAMES.includes(plugin.id)) {
+    if (BLOCKLIST_NAMES.includes(plugin.id)) {
       throw new PluginError(
         'Invalid plugin name',
         plugin.id,
-        `The plugin name ${plugin.id} can not be used because it has been blacklisted`
+        `The plugin name ${plugin.id} can not be used because it has been blocklisted`
       );
     }
 

@@ -27,10 +27,10 @@ describe('Built in root-files rule - Validation', () => {
     }).not.toThrow();
   });
 
-  test("Load rule with blacklist argument doesn't throw errors", () => {
+  test("Load rule with blocklist argument doesn't throw errors", () => {
     const context = {
       options: {
-        blacklist: ['test']
+        blocklist: ['test']
       }
     };
 
@@ -53,10 +53,10 @@ describe('Built in root-files rule - Validation', () => {
     }).toThrow();
   });
 
-  test('Invalid arguments of rule blacklist throw an error', () => {
+  test('Invalid arguments of rule blocklist throw an error', () => {
     const context = {
       options: {
-        blacklist: 'test'
+        blocklist: 'test'
       }
     };
 
@@ -71,7 +71,7 @@ describe('Built in root-files rule - Execution', () => {
   test('No missing required files and not including any restricted files', async () => {
     const context = {
       options: {
-        blacklist: ['.hack-u'],
+        blocklist: ['.hack-u'],
         required: ['.eslintrc']
       },
       filesystem: {
@@ -118,7 +118,7 @@ describe('Built in root-files rule - Execution', () => {
   test('Including restricted properties', async () => {
     const context = {
       options: {
-        blacklist: ['not-allowed.js']
+        blocklist: ['not-allowed.js']
       },
       filesystem: {
         dirname: ''

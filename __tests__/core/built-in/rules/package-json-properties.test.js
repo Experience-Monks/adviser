@@ -27,10 +27,10 @@ describe('Built in package-json-properties rule - Validation', () => {
     }).not.toThrow();
   });
 
-  test("Load rule with blacklist argument doesn't throw errors", () => {
+  test("Load rule with blocklist argument doesn't throw errors", () => {
     const context = {
       options: {
-        blacklist: ['test']
+        blocklist: ['test']
       }
     };
 
@@ -53,10 +53,10 @@ describe('Built in package-json-properties rule - Validation', () => {
     }).toThrow();
   });
 
-  test('Invalid arguments of rule blacklist throw an error', () => {
+  test('Invalid arguments of rule blocklist throw an error', () => {
     const context = {
       options: {
-        blacklist: 'test'
+        blocklist: 'test'
       }
     };
 
@@ -71,7 +71,7 @@ describe('Built in package-json-properties rule - Execution', () => {
   test('No missing required properties and not including any restricted property', () => {
     const context = {
       options: {
-        blacklist: ['not-allowed'],
+        blocklist: ['not-allowed'],
         required: ['required']
       },
       filesystem: {
@@ -124,7 +124,7 @@ describe('Built in package-json-properties rule - Execution', () => {
   test('Including restricted properties', () => {
     const context = {
       options: {
-        blacklist: ['not-allowed']
+        blocklist: ['not-allowed']
       },
       filesystem: {
         dirname: ''

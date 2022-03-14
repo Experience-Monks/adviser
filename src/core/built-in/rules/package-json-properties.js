@@ -10,16 +10,16 @@ class PackageJsonProperties extends Rule {
   constructor(context) {
     super(context);
 
-    if (!this.context.options['required'] && !this.context.options['blacklist']) {
-      throw new Error(`The rule must have at least one option, "required" or "blacklist"`);
+    if (!this.context.options['required'] && !this.context.options['blocklist']) {
+      throw new Error(`The rule must have at least one option, "required" or "blocklist"`);
     }
 
     if (this.context.options['required'] && !Array.isArray(this.context.options['required'])) {
       throw new Error(`Wrong "required" argument, an array is expected`);
     }
 
-    if (this.context.options['blacklist'] && !Array.isArray(this.context.options['blacklist'])) {
-      throw new Error(`Wrong "blacklist" argument, an array is expected`);
+    if (this.context.options['blocklist'] && !Array.isArray(this.context.options['blocklist'])) {
+      throw new Error(`Wrong "blocklist" argument, an array is expected`);
     }
   }
 
@@ -40,9 +40,9 @@ class PackageJsonProperties extends Rule {
       }
     }
 
-    const blacklistedProps = this.context.options['blacklist'];
-    if (blacklistedProps) {
-      const notAllowedProps = blacklistedProps.filter(blacklistedProp => packagejson.hasOwnProperty(blacklistedProp));
+    const blocklistedProps = this.context.options['blocklist'];
+    if (blocklistedProps) {
+      const notAllowedProps = blocklistedProps.filter(blocklistedProp => packagejson.hasOwnProperty(blocklistedProp));
 
       if (notAllowedProps.length > 0) {
         sandbox.report({

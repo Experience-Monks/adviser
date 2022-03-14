@@ -19,14 +19,14 @@ An example of a minimal configuration file is:
       "error",
       {
         "required": ["private", "name", "version", "description", "main"],
-        "blacklist": ["engines"]
+        "blocklist": ["engines"]
       }
     ],
     "root-files": [
       "error",
       {
         "required": [".commitlintrc.yml", ".editorconfig", ".eslintrc", ".gitignore", ".prettierrc", "README"],
-        "blacklist": [".ds_store"]
+        "blocklist": [".ds_store"]
       }
     ]
   }

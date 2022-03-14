@@ -76,7 +76,7 @@ Tags in the adviser configuration file will look like:
       "error",
       {
         "required": ["private"],
-        "blacklist": ["license"]
+        "blocklist": ["license"]
       }
     ]
   },
@@ -108,7 +108,7 @@ Note: If the rule is within a external plugin, the full rule name is used. The b
       "error",
       {
         "required": ["private"],
-        "blacklist": ["license"]
+        "blocklist": ["license"]
       }
     ],
     "dependencies/not-allowed-packages": ["error", { "packages": ["sec"] }],
