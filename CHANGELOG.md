@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.7](https://github.com/Jam3/adviser/compare/v0.7.6...v0.7.7) (2022-03-14)
+
+
+### Bug Fixes
+
+* update blacklist to blocklist throughout code ([8bec2b9](https://github.com/Jam3/adviser/commit/f6ea9885f4b30f9ff1a47e310c3898c10886dd66))
+
+### [0.7.6](https://github.com/Jam3/adviser/compare/v0.7.5...v0.7.6) (2021-10-14)
+
+
+### Bug Fixes
+
+* bump version of @commitlint/cli, jest, lint-staged, standard-version to reduce vulnerabilities ([218cf9f](https://github.com/Jam3/adviser/commit/218cf9ff0c46f65e2d20321fe0609bfdb36e128c))
+
 ### [0.7.5](https://github.com/Jam3/adviser/compare/v0.7.4...v0.7.5) (2020-01-07)
 
 
