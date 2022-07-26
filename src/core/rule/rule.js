@@ -5,7 +5,6 @@
 
 'use strict';
 
-const { PerformanceObserver, performance } = require('perf_hooks');
 const debug = require('debug')('adviser:rule');
 
 const RuleLifeCycleEnum = require('./lifecycle/rule-lifecycle-enum');
@@ -34,25 +33,6 @@ class Rule {
     this.core = core;
 
     this.lifeCycleStatus = severity === SeverityEnum.Off ? RuleStatusEnum.Skipped : RuleStatusEnum.Idle;
-
-    this._setupTiming();
-  }
-
-  /**
-   * Setup execution performance timers
-   *
-   * @memberof Rule
-   */
-  _setupTiming() {
-    const obs = new PerformanceObserver(items => {
-      const performanceEntry = items.getEntriesByName(this.id);
-
-      if (performanceEntry[0]) {
-        this.executionDuration = performanceEntry[0].duration;
-      }
-      performance.clearMarks();
-    });
-    obs.observe({ entryTypes: ['measure'] });
   }
 
   /**
@@ -88,8 +68,6 @@ class Rule {
       asyncCallback();
       return;
     }
-
-    performance.mark(`Init lifecycle ${this.id}`);
 
     let instanceRule = null;
     let phase = RuleLifeCycleEnum.Init;
@@ -137,9 +115,6 @@ class Rule {
         debug(`The "ruleExecutionFailed" lifecycle failed with error ${executionFailedError}`);
       }
     } finally {
-      performance.mark(`Finished lifecycle ${this.id}`);
-      performance.measure(`${this.id}`, `Init lifecycle ${this.id}`, `Finished lifecycle ${this.id}`);
-
       debug(`The engine finished executing the lifecycle of the rule ${this.id}`);
       asyncCallback();
     }
