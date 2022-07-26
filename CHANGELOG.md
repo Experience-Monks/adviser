@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.8](https://github.com/Jam3/adviser/compare/v0.7.5...v0.7.8) (2022-07-26)
+
+
+### Bug Fixes
+
+* remove temporally timing in rules ([#107](https://github.com/Jam3/adviser/issues/107)) ([24f0ada](https://github.com/Jam3/adviser/commit/24f0adae53067fd15c06be51fd10caa964a96b3b))
+
 ### [0.7.7](https://github.com/Jam3/adviser/compare/v0.7.6...v0.7.7) (2022-03-14)
 
 
