@@ -29,7 +29,7 @@ module.exports = optionator({
     },
     {
       option: 'verbose',
-      alias: 'v',
+      alias: 'vb',
       type: 'Boolean',
       description: chalk.cyan('More information on runtime')
     },
@@ -75,7 +75,7 @@ module.exports = optionator({
     {
       option: 'version',
       type: 'Boolean',
-      alias: 'r',
+      alias: 'v',
       description: chalk.cyan('Output the version number')
     }
   ]

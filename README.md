@@ -66,13 +66,13 @@ If you run adviser without any arguments it will try to find a valid configurati
 
 `-d, --debug` Output debugging information
 
-`-v, --verbose` Display extra information
+`-vb, --verbose` Display extra information
 
 `-t, --tags` Run rules that match tags
 
 `-h, --help` Show help
 
-`-r, --version` Output the version number
+`-v, --version` Output the version number
 
 ### Configuration example file
 
