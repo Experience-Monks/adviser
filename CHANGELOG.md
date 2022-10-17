@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.9](https://github.com/Jam3/adviser/compare/v0.7.8...v0.7.9) (2022-10-14)
+
+
+### Features
+
+* add shorthand commands ([5924bca](https://github.com/Jam3/adviser/commit/5924bca5f60a44f9f14a8f62b536841703fb3545))
+* add shorthand commands ([96abae8](https://github.com/Jam3/adviser/commit/96abae82334657910dde446741add6cbfc90d656))
+
+
+### Bug Fixes
+
+* update shorthand values and readme file ([8c5157a](https://github.com/Jam3/adviser/commit/8c5157ada026523687f41392ee77eef76e3844ce))
+* updated vulnerable packages and fix branch conflicts ([1196522](https://github.com/Jam3/adviser/commit/1196522106a72d5ba5c0b94afeb7a9b9b116a53f))
+
 ### [0.7.8](https://github.com/Jam3/adviser/compare/v0.7.5...v0.7.8) (2022-07-26)
 
 

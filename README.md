@@ -62,11 +62,11 @@ If you run adviser without any arguments it will try to find a valid configurati
 
 `-c, --config` Specify config file path
 
-`--init` Run config initialization wizard
+`-i, --init` Run config initialization wizard
 
-`--debug` Output debugging information
+`-d, --debug` Output debugging information
 
-`--verbose` Display extra information
+`-V, --verbose` Display extra information
 
 `-t, --tags` Run rules that match tags
 

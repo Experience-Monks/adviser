@@ -12,7 +12,7 @@ const cli = require('../cli');
 const init = require('../init');
 
 const isInitEnabled = process.argv.indexOf('--init') > -1;
-const isDebugEnabled = process.argv.indexOf('--debug') > -1;
+const isDebugEnabled = process.argv.indexOf('--debug') > -1 || process.argv.indexOf('-d') > -1;
 
 if (isDebugEnabled) {
   require('debug').enable('adviser:*');
