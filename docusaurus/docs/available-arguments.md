@@ -8,13 +8,13 @@ sidebar_label: Arguments
 
 Full list of arguments:
 
-- `--init` Run config initialization wizard
-- `--config` Specify config file path
-- `--tags` Run rules that match with the tags
-- `--verbose` Display extra information
-- `--debug` Output debugging information
-- `--help` Show help
-- `--version` Output the version number
+- `-i, --init` Run config initialization wizard
+- `-c, --config` Specify config file path
+- `-t, --tags` Run rules that match with the tags
+- `-V, --verbose` Display extra information
+- `-d, --debug` Output debugging information
+- `-h, --help` Show help
+- `-v, --version` Output the version number
 
 ### Create a basic configuration file
 
